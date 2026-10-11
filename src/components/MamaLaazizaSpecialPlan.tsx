@@ -14,9 +14,11 @@ import {
   AlertCircle,
   Coffee,
   Clock,
-  Salad
+  Salad,
+  Radio
 } from 'lucide-react';
 import { Language, UserProfile } from '../types';
+import { MamaQuranRadio } from './MamaQuranRadio';
 
 interface Props {
   profile: UserProfile;
@@ -276,6 +278,9 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
           </div>
         </div>
       </div>
+
+      {/* Button & Live Player: Radio Mohammed VI du Saint Coran en Arabe */}
+      <MamaQuranRadio lang={lang} />
 
       {/* Top Two Pillar Metric Cards: Stable Weight & Walk Management */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

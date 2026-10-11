@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dumbbell, CalendarDays, Target, TrendingUp, Users, Database, Globe, Shield, Scale } from 'lucide-react';
+import { Dumbbell, CalendarDays, Target, TrendingUp, Users, Database, Globe, Shield, Scale, Radio } from 'lucide-react';
 import { UserProfile, Language, WorkoutDuration, ProgressLogEntry } from './types';
 import { PROFILES } from './data/profiles';
 import { EXERCISES } from './data/exercises';
@@ -126,9 +126,9 @@ export default function App() {
           {/* Zone 1: Brand Wordmark (single line, no subtitle) with custom professional logo */}
           <div className="flex items-center gap-2 sm:gap-2.5 whitespace-nowrap shrink-0">
             <img
-              src="/icon.svg"
+              src="/logo.png"
               alt="FitMaghrib Logo"
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl shadow-md ring-1 ring-emerald-500/20 object-contain bg-emerald-950 shrink-0"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl shadow-md ring-1 ring-emerald-500/20 object-cover shrink-0"
             />
             <span className="text-lg sm:text-xl font-black tracking-tight text-slate-900 font-mono flex items-center gap-1">
               <span>FitMaghrib</span>
@@ -261,6 +261,16 @@ export default function App() {
           </div>
 
           <div className="flex items-center gap-2 self-start sm:self-auto">
+            {activeProfile.id === 'femme_65' && (
+              <button
+                onClick={() => setActiveTab('workout')}
+                className="text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 px-3 py-1.5 rounded-lg border border-amber-300 transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
+              >
+                <Radio className="w-3.5 h-3.5 text-amber-700 animate-pulse" />
+                <span>{lang === 'darija' || lang === 'ar' ? '📻 راديو محمد السادس (القرآن)' : '📻 Radio Mohammed VI (Coran)'}</span>
+              </button>
+            )}
+
             <button
               onClick={() => setActiveTab('profiles')}
               className="text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg border border-emerald-200 transition-colors"
@@ -426,8 +436,16 @@ export default function App() {
               activeTab === 'workout' ? 'text-emerald-700 font-bold' : 'text-slate-500'
             }`}
           >
-            <Dumbbell className="w-4 h-4 shrink-0" />
-            <span className="text-[8.5px] mt-0.5 truncate max-w-full">{lang === 'darija' ? 'حركات' : 'Sport'}</span>
+            {activeProfile.id === 'femme_65' ? (
+              <Radio className="w-4 h-4 shrink-0 text-amber-600" />
+            ) : (
+              <Dumbbell className="w-4 h-4 shrink-0" />
+            )}
+            <span className="text-[8.5px] mt-0.5 truncate max-w-full">
+              {activeProfile.id === 'femme_65' 
+                ? (lang === 'darija' || lang === 'ar' ? 'الراديو' : 'Radio')
+                : (lang === 'darija' ? 'حركات' : 'Sport')}
+            </span>
           </button>
 
           <button

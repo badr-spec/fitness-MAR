@@ -2,6 +2,7 @@ import React from 'react';
 import { User, Activity, AlertCircle, Heart, ShieldCheck, Check } from 'lucide-react';
 import { UserProfile, Language } from '../types';
 import { TRANSLATIONS } from '../utils/translations';
+import { MamaQuranRadio } from './MamaQuranRadio';
 
 interface Props {
   profiles: UserProfile[];
@@ -211,6 +212,13 @@ export const ProfileSelector: React.FC<Props> = ({ profiles, activeProfile, onSe
             </p>
           </div>
         </div>
+
+        {/* Special Radio Mohammed VI du Saint Coran for Mama Aziza (femme_65) */}
+        {activeProfile.id === 'femme_65' && (
+          <div className="mt-6 pt-6 border-t border-slate-700/60">
+            <MamaQuranRadio lang={lang} />
+          </div>
+        )}
       </div>
     </div>
   );
