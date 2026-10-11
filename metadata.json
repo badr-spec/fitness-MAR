@@ -1,0 +1,6 @@
+{
+  "name": "FitMaghrib - Perte de Poids & Sport à Domicile",
+  "description": "Programme personnalisé de perte de poids avec choix de temps (15/30/45 min), animations GIF, musique d'entraînement, repas marocains équilibrés sur 2 semaines et suivi pour 3 profils.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

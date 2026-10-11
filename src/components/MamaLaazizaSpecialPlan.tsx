@@ -1,0 +1,526 @@
+import React, { useState } from 'react';
+import { 
+  Heart, 
+  Footprints, 
+  Apple, 
+  Utensils, 
+  Sun, 
+  ShieldCheck, 
+  Scale, 
+  Calendar, 
+  Sparkles, 
+  CheckCircle2, 
+  Droplets, 
+  AlertCircle,
+  Coffee,
+  Clock,
+  Salad
+} from 'lucide-react';
+import { Language, UserProfile } from '../types';
+
+interface Props {
+  profile: UserProfile;
+  lang: Language;
+}
+
+export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
+  const [activeTab, setActiveTab] = useState<'stabilisation' | 'marche' | 'menu' | 'recommandations'>('stabilisation');
+
+  const content = {
+    darija: {
+      heroBadge: 'برنامج خاص وحصري لماما لعزيزة (الوزن الحالي: 64 كلغ)',
+      heroTitle: 'تثبيت الوزن المثالي (64 kg) · بدون حركات رياضية شاقة',
+      heroSubtitle: 'خطة غذائية متكاملة مصممة خصيصاً لتثبيت الوزن بدون حركات أو تمارين مجهدة، مع تسيير ذكي لحصص المشي (1h30 مرتين فالسيمانة)، حمية بدون ملح وبدون سكر، وحماية الكوليسترول والعظام.',
+      weightCardTitle: 'الوزن المستهدف للتثبيت',
+      currentWeight: '64 كلغ (الوزن المثالي المستقر)',
+      weightSub: 'الهدف: الحفاظ على 64kg بدون زيادة وبدون نزول حاد، مع توازن الكتلة العضلية والمائية.',
+      walkCardTitle: 'تسيير حصص المشي المنظم',
+      walkSub: '1h30 دقيقة مشي مريح في الهواء الطلق (2 مرات في الأسبوع)',
+      walkNote: 'المشي كافي 100% لتنشيط الدورة الدموية وحرق السعرات اليومية وتفادي تيبس المفاصل.',
+      
+      tabStabilisation: '🎯 تثبيت الوزن',
+      tabMarche: '🚶‍♀️ تنظيم المشي 1h30',
+      tabMenu: '🍲 ماكلة خاصة للتثبيت',
+      tabRecommandations: '🩺 نصائح صحية (سكر/ملح/عظام)',
+
+      // Tab 1: Stabilisation
+      stabTitle: 'خطة تثبيت الوزن عند 64 كلغ بالضبط:',
+      stabP1: 'تثبيت الوزن في 64 كلغ (Stabilisation) أهم بكثير من النزول الحاد، للحفاظ على قوة العظام وكثافتها وتفادي هشاشة العظام (Ostéoporose) أو فقدان العضلات.',
+      stabStep1Title: '1. ميزان الطاقة المتوازن (1450 سعرة حرارية/يوم):',
+      stabStep1Desc: 'السعرات الحرارية التي تتناولها ماما لعزيزة تساوي تماماً ما تحرقه عبر الأنشطة اليومية وحصص المشي، وبالتالي يبقى الميزان ثابتاً في 64 كلغ أسبوعاً بعد أسبوع.',
+      stabStep2Title: '2. تفادي تقلبات الوزن والماء:',
+      stabStep2Desc: 'الابتعاد الكامل عن الملح يمنع احتباس السوائل (Rétention d\'eau)، مما يحافظ على خفة القدمين واستقرار ضغط الدم دون انتفاخ.',
+      stabStep3Title: '3. تثبيت الكولسترول والسكر التراكمي:',
+      stabStep3Desc: 'استبدال الدهون المشبعة بالأوميغا 3 (السردين وزيت الزيتون) يحمي الشرايين ويبقي مؤشرات الدم ممتازة عند الطبيب.',
+
+      // Tab 2: Marche
+      marcheTitle: 'دليل تسيير حصص المشي (1h30 مرتين في الأسبوع):',
+      marcheTiming: 'أفضل الأيام: الثلاثاء والجمعة أو الأربعاء والسبت (يوم مشي متبوع بيومين راحة)',
+      marcheRule1Title: 'قبل الخروج للمشي (30 دقيقة قبل):',
+      marcheRule1Desc: 'شرب كأس ماء معتدل الحرارة، وتناول 3 حبات لوز أو نصف موزة لتفادي هبوط السكر المفاجئ أثناء المشي.',
+      marcheRule2Title: 'خلال حصة 1h30 دقيقة:',
+      marcheRule2Desc: 'مشي بوتيرة متوسطة هادئة ومستمرة في حديقة أو كورنيش مستوٍ، مع ارتداء حذاء مريح ذو قاعدة طبية لامتصاص الصدمات.',
+      marcheRule3Title: 'الاستفادة من أشعة الشمس وفيتامين (D):',
+      marcheRule3Desc: 'المشي في الصباح بين 09:30 و 11:00 للاستفادة من أشعة الشمس الطبيعية لتثبيت الكالسيوم في العظام.',
+      marcheRule4Title: 'بعد العودة للمنزل:',
+      marcheRule4Desc: 'شرب كأسين من الماء الدافئ تدريجياً، ورفع الرجلين على وسادة لمدة 10 دقائق لراحة الدورة الدموية.',
+
+      // Tab 3: Menu Stabilisation
+      menuTitle: 'برنامج الأكل اليومي المخصص لتثبيت 64 كلغ:',
+      menuFtour: 'الفطور (08:30):',
+      menuFtourDesc: 'زلافة حسوة الشعير (بلبولة بلدي) بزيت العود النافع وحبة حلاوة (بدون ملح) + كاس حليب معقم خالي الدسم + شاي أعشاب باللويزة بدون سكر.',
+      menuGhda: 'الغداء (13:30):',
+      menuGhdaDesc: 'طاجين الخضر الموسمية (قرعة سلاوية وخضراء، جلبانة، خيزو) مع سمك السردين الطازج في الفرن بالكمون والثوم والليمون الحامض + ربع خبز شعير كامل.',
+      menuKskrout: 'كاسكروط / اللمجة (17:00):',
+      menuKskroutDesc: 'تفاحة أو إجاصة طازجة + 5 حبات جوز (كركاع) بلدي غني بالأوميغا 3 المفيد للدماغ والقلب + مغلي البابونج أو اللويزة.',
+      menuAcha: 'العشاء (19:30):',
+      menuAchaDesc: 'شوربة خفيفة بالقرع الأحمر والكرفس واللفت بزيت الزيتون البكر ورشة كمون (بدون ملح) أو ياغورت طبيعي بدون سكر.',
+
+      // Tab 4: Health guidelines
+      healthTitle: 'القواعد الذهبية لصحة ماما لعزيزة:',
+      h1: 'قطع الملح 100%: استبدال الملح بعصير الليمون الحامض، الكمون، الزعتر، واليازير لتبنين الأكل بصحة.',
+      h2: 'قطع السكر الأبيض والحلويات: لحماية الشرايين والوقاية من السكري وتجنب تقلبات المزاج والطاقة.',
+      h3: 'محاربة نقص فيتامين D: تناول السردين والبيض البلدي بانتظام، مع التعرض لأشعة الشمس أثناء المشي.',
+      h4: 'مراقبة الكوليسترول: ممنوع الزبدة الرومية، المقليات، اللحوم الشحيمة، والاعتماد فقط على زيت الزيتون البكر النقي.',
+      h5: 'شرب 1.5 لتر ماء يومياً: موزع على مدار اليوم لتنقية الكلى وترطيب المفاصل.',
+    },
+    ar: {
+      heroBadge: 'برنامج خاص وحصري لماما لعزيزة (الوزن الحالي: 64 كغ)',
+      heroTitle: 'تثبيت الوزن المثالي (64 كغ) · بدون حركات رياضية شاقة',
+      heroSubtitle: 'خطة غذائية متكاملة مصممة خصيصاً لتثبيت الوزن بدون حركات أو تمارين مجهدة، مع تسيير ذكي لحصص المشي (1h30 مرتين أسبوعياً)، حمية بدون ملح وبدون سكر، وحماية الكوليسترول والعظام.',
+      weightCardTitle: 'الوزن المستهدف للتثبيت',
+      currentWeight: '64 كغ (الوزن المثالي المستقر)',
+      weightSub: 'الهدف: الحفاظ على 64 كغ بدون زيادة وبدون نزول حاد، مع توازن الكتلة العضلية والمائية.',
+      walkCardTitle: 'تنظيم حصص المشي الخارجي',
+      walkSub: 'ساعة ونصف (1h30) مشي مريح في الهواء الطلق (مرتين في الأسبوع)',
+      walkNote: 'المشي كافٍ تماماً لتنشيط الدورة الدموية وحرق السعرات اليومية وتفادي تيبس المفاصل.',
+      
+      tabStabilisation: '🎯 تثبيت الوزن',
+      tabMarche: '🚶‍♀️ تنظيم المشي 1h30',
+      tabMenu: '🍲 وجبات التثبيت',
+      tabRecommandations: '🩺 نصائح صحية (سكر/ملح/عظام)',
+
+      stabTitle: 'خطة تثبيت الوزن عند 64 كغ بالضبط:',
+      stabP1: 'تثبيت الوزن عند 64 كغ أهم بكثير من النزول الحاد، للحفاظ على قوة العظام وكثافتها وتفادي هشاشة العظام أو فقدان الكتلة العضلية.',
+      stabStep1Title: '1. ميزان الطاقة المتوازن (1450 سعرة حرارية/يوم):',
+      stabStep1Desc: 'السعرات الحرارية اليومية تعادل تماماً الاحتياج الحقيقي مع المشي، فيبقى الوزن ثابتاً في 64 كغ دائماً.',
+      stabStep2Title: '2. تفادي احتباس السوائل:',
+      stabStep2Desc: 'الامتناع الكامل عن الملح يمنع احتباس الماء ويحافظ على خفة القدمين واستقرار ضغط الدم.',
+      stabStep3Title: '3. حماية الكوليسترول والشرايين:',
+      stabStep3Desc: 'الاعتماد على دهون الأوميغا 3 الطبيعية (السردين وزيت الزيتون) يحمي صحة القلب والأوعية الدموية.',
+
+      marcheTitle: 'دليل تنظيم المشي (1h30 مرتين أسبوعياً):',
+      marcheTiming: 'الأيام المثالية: الثلاثاء والجمعة أو الأربعاء والسبت',
+      marcheRule1Title: 'قبل الخروج للمشي (بـ 30 دقيقة):',
+      marcheRule1Desc: 'شرب كأس ماء وتناول 3 حبات لوز لتفادي هبوط الطاقة.',
+      marcheRule2Title: 'أثناء حصة المشي (1h30):',
+      marcheRule2Desc: 'المشي بوتيرة مريحة ومنتظمة في حديقة مستوية مع ارتداء حذاء مريح ممتص للصدمات.',
+      marcheRule3Title: 'الاستفادة من فيتامين د الطبيعي:',
+      marcheRule3Desc: 'المشي صباحاً تحت أشعة الشمس المعتدلة بين 09:30 و 11:00 لتثبيت الكالسيوم في العظام.',
+      marcheRule4Title: 'بعد العودة إلى المنزل:',
+      marcheRule4Desc: 'شرب كأسين من الماء تدريجياً وإراحة القدمين على وسادة لمدة 10 دقائق.',
+
+      menuTitle: 'البرنامج الغذائي اليومي لتثبيت الوزن (64 كغ):',
+      menuFtour: 'الفطور (08:30):',
+      menuFtourDesc: 'حساء شعير بلدي (بلبولة) بزيت الزيتون واليانسون (بدون ملح) + كأس حليب خالي الدسم + شاي لويزة بدون سكر.',
+      menuGhda: 'الغداء (13:30):',
+      menuGhdaDesc: 'طاجين خضار موسمية بدون دهون مهدرجة مع سمك سردين مشوي بالفرن بالليمون والكمون + ربع رغيف شعير كامل.',
+      menuKskrout: 'لمجة المساء (17:00):',
+      menuKskroutDesc: 'تفاحة أو إجاصة طازجة + 5 حبات جوز غني بالأوميغا 3 + شاي بابونج مهدئ بدون سكر.',
+      menuAcha: 'العشاء (19:30):',
+      menuAchaDesc: 'شوربة قرع أحمر وكرفس دافئة بزيت الزيتون البكر ورشة كمون (بدون ملح) أو زبادي طبيعي غير محلى.',
+
+      healthTitle: 'القواعد الذهبية لصحة ماما لعزيزة:',
+      h1: 'منع الملح نهائياً: استبداله بعصير الليمون والكمون والزعتر للتبيل الصحي.',
+      h2: 'منع السكر الأبيض والحلويات تماماً لحماية الشرايين والوقاية من السكري.',
+      h3: 'علاج نقص فيتامين د بتناول السردين والتعرض لأشعة الشمس الصباحية.',
+      h4: 'مراقبة الكوليسترول وتجنب المقليات والدهون الحيوانية المشبعة.',
+      h5: 'شرب لتر ونصف من الماء يومياً لترطيب المفاصل ودعم الكلى.',
+    },
+    fr: {
+      heroBadge: 'Programme Sur-Mesure pour Mama Laaziza (Poids Actuel : 64 kg)',
+      heroTitle: 'Stabilisation du Poids Idéal (64 kg) · Sans Exercices Éprouvants',
+      heroSubtitle: 'Plan nutritionnel exclusif axé sur le maintien parfait du poids à 64 kg sans mouvements fatigants, avec gestion de la marche (1h30 2x/semaine), régime strict sans sel/sucre et protection osseuse & cardiovasculaire.',
+      weightCardTitle: 'Poids Idéal à Stabiliser',
+      currentWeight: '64 kg (Poids Stable et Idéal)',
+      weightSub: 'Objectif : Maintenir 64 kg sans fluctuation, préserver la masse osseuse et le tonus vital.',
+      walkCardTitle: 'Gestion des Sorties Marche',
+      walkSub: '1h30 de marche agréable en extérieur (2 fois par semaine)',
+      walkNote: 'La marche suffit amplement pour la dépense calorique quotidienne et la santé des articulations.',
+      
+      tabStabilisation: '🎯 Stabilisation',
+      tabMarche: '🚶‍♀️ Marche 1h30',
+      tabMenu: '🍲 Menu Dédié',
+      tabRecommandations: '🩺 Santé & Équilibre',
+
+      stabTitle: 'Plan de Stabilisation à 64 kg :',
+      stabP1: 'La stabilisation à 64 kg est la priorité absolue : elle préserve le capital osseux et évite la fonte musculaire tout en maintenant une forme olympique.',
+      stabStep1Title: '1. Équilibre calorique neutre (1450 kcal/jour) :',
+      stabStep1Desc: 'L\'apport correspond exactement à la dépense avec les 2 sorties de marche, assurant un poids parfaitement fixe à 64 kg.',
+      stabStep2Title: '2. Élimination de la rétention d\'eau :',
+      stabStep2Desc: 'Le zéro sel prévient tout œdème des chevilles et stabilise la tension artérielle.',
+      stabStep3Title: '3. Protection cardiaque et cholestérol :',
+      stabStep3Desc: 'Riche en acides gras oméga-3 (sardines, huile d\'olive vierge) pour maintenir un bilan sanguin irréprochable.',
+
+      marcheTitle: 'Guide de Gestion de la Marche (1h30 2x/semaine) :',
+      marcheTiming: 'Jours conseillés : Mardi & Vendredi ou Mercredi & Samedi',
+      marcheRule1Title: 'Avant de partir (30 min avant) :',
+      marcheRule1Desc: 'Boire un verre d\'eau et prendre 3 amandes pour stabiliser la glycémie.',
+      marcheRule2Title: 'Pendant la sortie de 1h30 :',
+      marcheRule2Desc: 'Allure modérée et régulière, baskets amortissantes sur terrain plat sans dénivelé abrupt.',
+      marcheRule3Title: 'Bénéfice Vitamine D & Soleil :',
+      marcheRule3Desc: 'Marche le matin entre 09h30 et 11h00 sous le soleil doux pour fixer le calcium dans les os.',
+      marcheRule4Title: 'Après la sortie :',
+      marcheRule4Desc: 'Hydratation progressive avec 2 verres d\'eau tiède et surélévation des jambes 10 minutes.',
+
+      menuTitle: 'Menu Quotidien Spécifique de Stabilisation :',
+      menuFtour: 'Petit-déjeuner (08h30) :',
+      menuFtourDesc: 'Soupe d\'orge (Belboula) à l\'huile d\'olive et anis (sans sel) + lait écrémé + infusion de verveine sans sucre.',
+      menuGhda: 'Déjeuner (13h30) :',
+      menuGhdaDesc: 'Tajine de légumes de saison sans friture avec sardines fraîches au four au citron et cumin + 40g pain d\'orge.',
+      menuKskrout: 'Goûter (17h00) :',
+      menuKskroutDesc: '1 pomme ou poire fraîche + 5 cerneaux de noix (oméga-3) + infusion douce sans sucre.',
+      menuAcha: 'Dîner (19h30) :',
+      menuAchaDesc: 'Velouté doux de courge, carotte et céleri à l\'huile d\'olive vierge (zéro sel) ou yaourt nature.',
+
+      healthTitle: 'Règles d\'or pour Mama Laaziza :',
+      h1: 'Zéro sel : Remplacer par jus de citron frais, cumin, thym et origan pour assaisonner sainement.',
+      h2: 'Zéro sucre raffiné pour protéger les artères et éviter les pics d\'insuline.',
+      h3: 'Vitamine D naturelle : Sardines régulières et exposition au soleil matinal.',
+      h4: 'Contrôle du cholestérol : Éviter les fritures et les graisses saturées.',
+      h5: '1,5 L d\'eau par jour pour la fonction rénale et la souplesse articulaire.',
+    },
+  }[lang] || {
+    heroBadge: 'Mama Laaziza',
+    heroTitle: 'Stabilisation 64kg',
+    heroSubtitle: 'Régime adapté et gestion de la marche',
+    weightCardTitle: 'Poids stable',
+    currentWeight: '64 kg',
+    weightSub: 'Maintien du poids idéal',
+    walkCardTitle: 'Sorties marche',
+    walkSub: '1h30 2x/semaine',
+    walkNote: 'Activité suffisante',
+    tabStabilisation: 'Stabilisation',
+    tabMarche: 'Marche 1h30',
+    tabMenu: 'Menu',
+    tabRecommandations: 'Santé',
+    stabTitle: 'Stabilisation',
+    stabP1: 'Maintien du poids à 64 kg.',
+    stabStep1Title: 'Calories adaptées',
+    stabStep1Desc: '1450 kcal',
+    stabStep2Title: 'Zéro sel',
+    stabStep2Desc: 'Pas de rétention d\'eau',
+    stabStep3Title: 'Cholestérol',
+    stabStep3Desc: 'Oméga 3 et sardines',
+    marcheTitle: 'Marche 1h30',
+    marcheTiming: '2x par semaine',
+    marcheRule1Title: 'Avant',
+    marcheRule1Desc: 'Eau et amandes',
+    marcheRule2Title: 'Sortie',
+    marcheRule2Desc: 'Terrain plat',
+    marcheRule3Title: 'Soleil',
+    marcheRule3Desc: 'Vitamine D',
+    marcheRule4Title: 'Après',
+    marcheRule4Desc: 'Repos jambes',
+    menuTitle: 'Menu',
+    menuFtour: 'Ftour',
+    menuFtourDesc: 'Belboula',
+    menuGhda: 'Ghdha',
+    menuGhdaDesc: 'Tajine sardines',
+    menuKskrout: 'Goûter',
+    menuKskroutDesc: 'Fruits et noix',
+    menuAcha: 'Dîner',
+    menuAchaDesc: 'Soupe légumes',
+    healthTitle: 'Santé',
+    h1: 'Sans sel',
+    h2: 'Sans sucre',
+    h3: 'Vitamine D',
+    h4: 'Cholestérol',
+    h5: 'Hydratation',
+  };
+
+  return (
+    <div className="space-y-6 animate-in fade-in duration-300">
+      {/* Hero Banner with Golden Amber & Emerald Elegance */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-900 via-teal-900 to-slate-950 text-white p-6 sm:p-8 border border-amber-400/30 shadow-xl">
+        <div className="absolute top-0 right-0 -mt-8 -mr-8 w-64 h-64 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 -mb-8 -ml-8 w-64 h-64 bg-emerald-400/15 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 max-w-3xl space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-black uppercase tracking-wider border border-amber-400/30">
+            <Heart className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+            <span>{content.heroBadge}</span>
+          </div>
+
+          <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+            {content.heroTitle}
+          </h2>
+
+          <p className="text-sm text-emerald-100/90 leading-relaxed">
+            {content.heroSubtitle}
+          </p>
+
+          <div className="pt-2 flex flex-wrap items-center gap-3 text-xs font-semibold text-amber-200">
+            <span className="bg-black/30 px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <span>ممنوع الحركات المجهدة (Zéro Mouvements Bruts)</span>
+            </span>
+            <span className="bg-black/30 px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-1.5">
+              <Footprints className="w-4 h-4 text-amber-400" />
+              <span>المشي فقط 1h30 مرتين فالسيمانة</span>
+            </span>
+            <span className="bg-black/30 px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-1.5">
+              <Utensils className="w-4 h-4 text-emerald-300" />
+              <span>ريجيم بدون ملح وبدون سكر</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Top Two Pillar Metric Cards: Stable Weight & Walk Management */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {/* Card 1: Stable Weight Focus */}
+        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-start gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0 shadow-inner">
+            <Scale className="w-6 h-6 text-emerald-700" />
+          </div>
+          <div className="space-y-1">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
+              {content.weightCardTitle}
+            </span>
+            <h4 className="text-xl font-black text-slate-900">
+              {content.currentWeight}
+            </h4>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              {content.weightSub}
+            </p>
+          </div>
+        </div>
+
+        {/* Card 2: Walk Management */}
+        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-start gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0 shadow-inner">
+            <Footprints className="w-6 h-6 text-amber-700" />
+          </div>
+          <div className="space-y-1">
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
+              {content.walkCardTitle}
+            </span>
+            <h4 className="text-lg font-black text-slate-900">
+              {content.walkSub}
+            </h4>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              {content.walkNote}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Interactive Tabs Navigation */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar border-b border-slate-200 w-full max-w-full min-w-0">
+        <button
+          onClick={() => setActiveTab('stabilisation')}
+          className={`px-4 py-2.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 ${
+            activeTab === 'stabilisation'
+              ? 'bg-emerald-700 text-white shadow-sm'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          {content.tabStabilisation}
+        </button>
+
+        <button
+          onClick={() => setActiveTab('marche')}
+          className={`px-4 py-2.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 ${
+            activeTab === 'marche'
+              ? 'bg-emerald-700 text-white shadow-sm'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          {content.tabMarche}
+        </button>
+
+        <button
+          onClick={() => setActiveTab('menu')}
+          className={`px-4 py-2.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 ${
+            activeTab === 'menu'
+              ? 'bg-emerald-700 text-white shadow-sm'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          {content.tabMenu}
+        </button>
+
+        <button
+          onClick={() => setActiveTab('recommandations')}
+          className={`px-4 py-2.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 ${
+            activeTab === 'recommandations'
+              ? 'bg-emerald-700 text-white shadow-sm'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          {content.tabRecommandations}
+        </button>
+      </div>
+
+      {/* Tab Panels */}
+      {/* 1. Stabilisation Plan */}
+      {activeTab === 'stabilisation' && (
+        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-5 animate-in fade-in duration-200">
+          <div className="flex items-center gap-2.5 text-emerald-800">
+            <Scale className="w-5 h-5" />
+            <h3 className="text-base font-extrabold">{content.stabTitle}</h3>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed bg-emerald-50/50 p-3.5 rounded-2xl border border-emerald-100">
+            {content.stabP1}
+          </p>
+
+          <div className="grid gap-4">
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1">
+              <h4 className="text-xs font-bold text-slate-900">{content.stabStep1Title}</h4>
+              <p className="text-xs text-slate-600 leading-relaxed">{content.stabStep1Desc}</p>
+            </div>
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1">
+              <h4 className="text-xs font-bold text-slate-900">{content.stabStep2Title}</h4>
+              <p className="text-xs text-slate-600 leading-relaxed">{content.stabStep2Desc}</p>
+            </div>
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1">
+              <h4 className="text-xs font-bold text-slate-900">{content.stabStep3Title}</h4>
+              <p className="text-xs text-slate-600 leading-relaxed">{content.stabStep3Desc}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 2. Marche Management */}
+      {activeTab === 'marche' && (
+        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-5 animate-in fade-in duration-200">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+            <div className="flex items-center gap-2.5 text-slate-900">
+              <Footprints className="w-5 h-5 text-amber-600" />
+              <h3 className="text-base font-extrabold">{content.marcheTitle}</h3>
+            </div>
+            <span className="text-xs font-bold bg-amber-50 text-amber-800 px-3 py-1 rounded-xl border border-amber-200 self-start sm:self-auto">
+              {content.marcheTiming}
+            </span>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+              <div className="flex items-center gap-2 text-slate-900 font-bold text-xs">
+                <Clock className="w-4 h-4 text-emerald-600" />
+                <span>{content.marcheRule1Title}</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">{content.marcheRule1Desc}</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+              <div className="flex items-center gap-2 text-slate-900 font-bold text-xs">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <span>{content.marcheRule2Title}</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">{content.marcheRule2Desc}</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+              <div className="flex items-center gap-2 text-slate-900 font-bold text-xs">
+                <Sun className="w-4 h-4 text-amber-500" />
+                <span>{content.marcheRule3Title}</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">{content.marcheRule3Desc}</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+              <div className="flex items-center gap-2 text-slate-900 font-bold text-xs">
+                <Heart className="w-4 h-4 text-rose-500" />
+                <span>{content.marcheRule4Title}</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">{content.marcheRule4Desc}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 3. Special Menu for Stabilisation */}
+      {activeTab === 'menu' && (
+        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-5 animate-in fade-in duration-200">
+          <div className="flex items-center gap-2.5 text-slate-900">
+            <Utensils className="w-5 h-5 text-emerald-600" />
+            <h3 className="text-base font-extrabold">{content.menuTitle}</h3>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            {/* Breakfast */}
+            <div className="p-4 rounded-2xl bg-amber-50/50 border border-amber-200/70 space-y-1.5">
+              <div className="flex items-center gap-2 text-amber-900 font-bold text-xs">
+                <Coffee className="w-4 h-4 text-amber-600" />
+                <span>{content.menuFtour}</span>
+              </div>
+              <p className="text-xs text-slate-700 leading-relaxed">{content.menuFtourDesc}</p>
+            </div>
+
+            {/* Lunch */}
+            <div className="p-4 rounded-2xl bg-emerald-50/50 border border-emerald-200/70 space-y-1.5">
+              <div className="flex items-center gap-2 text-emerald-900 font-bold text-xs">
+                <Salad className="w-4 h-4 text-emerald-600" />
+                <span>{content.menuGhda}</span>
+              </div>
+              <p className="text-xs text-slate-700 leading-relaxed">{content.menuGhdaDesc}</p>
+            </div>
+
+            {/* Snack */}
+            <div className="p-4 rounded-2xl bg-amber-50/50 border border-amber-200/70 space-y-1.5">
+              <div className="flex items-center gap-2 text-amber-900 font-bold text-xs">
+                <Apple className="w-4 h-4 text-amber-600" />
+                <span>{content.menuKskrout}</span>
+              </div>
+              <p className="text-xs text-slate-700 leading-relaxed">{content.menuKskroutDesc}</p>
+            </div>
+
+            {/* Dinner */}
+            <div className="p-4 rounded-2xl bg-teal-50/50 border border-teal-200/70 space-y-1.5">
+              <div className="flex items-center gap-2 text-teal-900 font-bold text-xs">
+                <Utensils className="w-4 h-4 text-teal-600" />
+                <span>{content.menuAcha}</span>
+              </div>
+              <p className="text-xs text-slate-700 leading-relaxed">{content.menuAchaDesc}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 4. Health & Medical Recommendations */}
+      {activeTab === 'recommandations' && (
+        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-5 animate-in fade-in duration-200">
+          <div className="flex items-center gap-2.5 text-slate-900">
+            <ShieldCheck className="w-5 h-5 text-emerald-600" />
+            <h3 className="text-base font-extrabold">{content.healthTitle}</h3>
+          </div>
+
+          <div className="grid gap-3">
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+              <span>{content.h1}</span>
+            </div>
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+              <span>{content.h2}</span>
+            </div>
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+              <span>{content.h3}</span>
+            </div>
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+              <span>{content.h4}</span>
+            </div>
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
+              <Droplets className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+              <span>{content.h5}</span>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};

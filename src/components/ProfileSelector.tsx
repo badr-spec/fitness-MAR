@@ -1,0 +1,217 @@
+import React from 'react';
+import { User, Activity, AlertCircle, Heart, ShieldCheck, Check } from 'lucide-react';
+import { UserProfile, Language } from '../types';
+import { TRANSLATIONS } from '../utils/translations';
+
+interface Props {
+  profiles: UserProfile[];
+  activeProfile: UserProfile;
+  onSelectProfile: (profile: UserProfile) => void;
+  lang: Language;
+}
+
+export const ProfileSelector: React.FC<Props> = ({ profiles, activeProfile, onSelectProfile, lang }) => {
+  const t = TRANSLATIONS[lang];
+
+  const getProfileTitle = (id: string) => {
+    if (id === 'homme_44') return t.profile_1_title;
+    if (id === 'femme_65') return t.profile_2_title;
+    return t.profile_3_title;
+  };
+
+  const getProfileDesc = (id: string) => {
+    if (id === 'homme_44') return t.profile_1_desc;
+    if (id === 'femme_65') return t.profile_2_desc;
+    return t.profile_3_desc;
+  };
+
+  const calculateBmi = (weight: number, heightCm: number) => {
+    const h = heightCm / 100;
+    return (weight / (h * h)).toFixed(1);
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* 3 Profile Selection Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {profiles.map((p) => {
+          const isSelected = p.id === activeProfile.id;
+          const bmi = calculateBmi(p.weight, p.height);
+
+          return (
+            <div
+              key={p.id}
+              onClick={() => onSelectProfile(p)}
+              className={`cursor-pointer rounded-2xl p-5 border transition-all text-left relative flex flex-col justify-between ${
+                isSelected
+                  ? 'bg-white border-emerald-500 shadow-md ring-2 ring-emerald-500/20'
+                  : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
+              }`}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2.5">
+                    <div
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm ${
+                        isSelected ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-700'
+                      }`}
+                    >
+                      {p.gender === 'male' ? 'H' : 'F'}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <h4 className="font-bold text-slate-900 text-sm truncate">{getProfileTitle(p.id)}</h4>
+                      <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md inline-flex flex-wrap items-center gap-1 mt-1">
+                        <span>{lang === 'darija' || lang === 'ar' ? 'الوزن الحالي :' : 'Poids actuel :'}</span>
+                        <span className="font-mono font-bold text-slate-900">{p.weight} {t.kg}</span>
+                        <span className="text-slate-400 font-normal">·</span>
+                        <span className="text-slate-600 font-normal">{p.height} {t.cm}</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  {isSelected && (
+                    <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center">
+                      <Check className="w-3.5 h-3.5 stroke-[3]" />
+                    </div>
+                  )}
+                </div>
+
+                <p className="text-xs text-slate-600 leading-relaxed mb-4">
+                  {getProfileDesc(p.id)}
+                </p>
+              </div>
+
+              {/* Badges / Specific Constraints */}
+              <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center gap-1.5 text-[11px]">
+                <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-mono">
+                  IMC {bmi}
+                </span>
+
+                {p.id === 'homme_44' && (
+                  <span className="px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-medium">
+                    {lang === 'darija' ? 'بدون مشي' : 'Sédentaire'}
+                  </span>
+                )}
+
+                {p.id === 'femme_65' && (
+                  <>
+                    <span className="px-2 py-0.5 rounded bg-rose-50 text-rose-700 font-medium">
+                      {lang === 'darija' ? 'بلا سكر وبلا ملحة' : 'Sans sel/sucre'}
+                    </span>
+                    <span className="px-2 py-0.5 rounded bg-sky-50 text-sky-700 font-medium">
+                      {lang === 'darija' ? 'فيتامين د' : 'Vitamine D'}
+                    </span>
+                  </>
+                )}
+
+                {p.id === 'femme_36' && (
+                  <span className="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-medium flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3" />
+                    {lang === 'darija' ? 'حماية الركابي' : 'Zéro impact genoux'}
+                  </span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Active Profile Detailed Dashboard Panel */}
+      <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-3xl p-6 md:p-8 shadow-lg">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-700/60">
+          <div>
+            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400 block mb-1">
+              {t.active_profile}
+            </span>
+            <h3 className="text-2xl md:text-3xl font-extrabold text-white">
+              {getProfileTitle(activeProfile.id)}
+            </h3>
+            <p className="text-xs text-slate-300 mt-1 max-w-2xl">
+              {getProfileDesc(activeProfile.id)}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 self-start md:self-auto">
+            <div className="bg-emerald-500/20 border border-emerald-400/30 backdrop-blur-md px-3 sm:px-4 py-2 rounded-xl text-center shadow-inner">
+              <span className="text-[10px] text-emerald-300 font-semibold block">
+                {lang === 'darija' || lang === 'ar' ? 'الوزن الحالي' : 'Poids Actuel'}
+              </span>
+              <span className="text-base sm:text-lg font-black font-mono text-emerald-300">
+                {activeProfile.weight} {t.kg}
+              </span>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-md px-3 sm:px-4 py-2 rounded-xl text-center">
+              <span className="text-[10px] text-slate-300 block">{t.bmi}</span>
+              <span className="text-base sm:text-lg font-bold font-mono text-emerald-400">
+                {calculateBmi(activeProfile.weight, activeProfile.height)}
+              </span>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-md px-3 sm:px-4 py-2 rounded-xl text-center">
+              <span className="text-[10px] text-slate-300 block">Objectif 3M</span>
+              <span className="text-base sm:text-lg font-bold font-mono text-white">
+                {activeProfile.targetWeight3Months} kg
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* 4 Diagnostic Pillars */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6 text-xs">
+          <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
+            <div className="flex items-center gap-2 text-slate-400 mb-2">
+              <Activity className="w-4 h-4 text-emerald-400" />
+              <span className="font-semibold text-slate-300">{t.walking_habits}</span>
+            </div>
+            <p className="text-slate-200 font-medium">
+              {activeProfile.id === 'homme_44' && (lang === 'darija' ? 'ماكايتمشاش كاع، كيبدا من الصفر فالدار' : 'Aucune marche préalable, reprise progressive.')}
+              {activeProfile.id === 'femme_65' && (lang === 'darija' ? 'المشي ساعة ونصف مرتين فالسيمانة' : 'Marche 1h30 deux fois par semaine.')}
+              {activeProfile.id === 'femme_36' && (lang === 'darija' ? 'المشي 30 دقيقة يومياً' : 'Marche quotidienne de 30 minutes.')}
+            </p>
+          </div>
+
+          <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
+            <div className="flex items-center gap-2 text-slate-400 mb-2">
+              <Heart className="w-4 h-4 text-rose-400" />
+              <span className="font-semibold text-slate-300">
+                {lang === 'darija' ? 'الريجيم الطبي' : 'Spécificités Nutrition'}
+              </span>
+            </div>
+            <p className="text-slate-200 font-medium">
+              {activeProfile.id === 'homme_44' && (lang === 'darija' ? 'شبع عالي ببروتينات نقية وخضار للحد من الشهية' : 'Protéines maigres & volume de légumes pour la satiété.')}
+              {activeProfile.id === 'femme_65' && (lang === 'darija' ? 'ناقص سكر وملحة، غني بالسردين لفيتامين د' : 'Hypoglicémique & hyposodé, sardines & Vit D.')}
+              {activeProfile.id === 'femme_36' && (lang === 'darija' ? 'أغذية مضادة لالتهاب المفاصل (كركم، أوميغا 3)' : 'Aliments anti-inflammatoires (curcuma, oméga 3).')}
+            </p>
+          </div>
+
+          <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
+            <div className="flex items-center gap-2 text-slate-400 mb-2">
+              <ShieldCheck className="w-4 h-4 text-sky-400" />
+              <span className="font-semibold text-slate-300">
+                {lang === 'darija' ? 'سلامة المفاصل والركابي' : 'Précautions Articulaires'}
+              </span>
+            </div>
+            <p className="text-slate-200 font-medium">
+              {activeProfile.id === 'homme_44' && (lang === 'darija' ? 'حركات بدون قفز لتفادي الضغط على الكواحل' : 'Low impact, protection chevilles et dos.')}
+              {activeProfile.id === 'femme_65' && (lang === 'darija' ? 'تقوية لطيفة للعظام والتوازن والحوض' : 'Maintien de la densité osseuse et de l\'équilibre.')}
+              {activeProfile.id === 'femme_36' && (lang === 'darija' ? 'ممنوع السكوات الغارق، تمارين جالسة ومستلقية' : 'Zéro flexion profonde, exercices assis ou au sol.')}
+            </p>
+          </div>
+
+          <div className="bg-white/5 rounded-2xl p-4 border border-white/5">
+            <div className="flex items-center gap-2 text-slate-400 mb-2">
+              <AlertCircle className="w-4 h-4 text-amber-400" />
+              <span className="font-semibold text-slate-300">
+                {lang === 'darija' ? 'الحصة المنصوح بها' : 'Durée Quotidienne'}
+              </span>
+            </div>
+            <p className="text-emerald-400 font-bold text-sm">
+              {activeProfile.recommendedDuration} minutes / jour
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
