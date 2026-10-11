@@ -285,36 +285,36 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
       {/* Top Two Pillar Metric Cards: Stable Weight & Walk Management */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Card 1: Stable Weight Focus */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-start gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0 shadow-inner">
-            <Scale className="w-6 h-6 text-emerald-700" />
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex items-start gap-4 transition-colors">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 flex items-center justify-center shrink-0 shadow-inner">
+            <Scale className="w-6 h-6 text-emerald-700 dark:text-emerald-400" />
           </div>
           <div className="space-y-1">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
               {content.weightCardTitle}
             </span>
-            <h4 className="text-xl font-black text-slate-900">
+            <h4 className="text-xl font-black text-slate-900 dark:text-white">
               {content.currentWeight}
             </h4>
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
               {content.weightSub}
             </p>
           </div>
         </div>
 
         {/* Card 2: Walk Management */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-start gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0 shadow-inner">
-            <Footprints className="w-6 h-6 text-amber-700" />
+        <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex items-start gap-4 transition-colors">
+          <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 flex items-center justify-center shrink-0 shadow-inner">
+            <Footprints className="w-6 h-6 text-amber-700 dark:text-amber-400" />
           </div>
           <div className="space-y-1">
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block">
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
               {content.walkCardTitle}
             </span>
-            <h4 className="text-lg font-black text-slate-900">
+            <h4 className="text-lg font-black text-slate-900 dark:text-white">
               {content.walkSub}
             </h4>
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
               {content.walkNote}
             </p>
           </div>
@@ -322,13 +322,13 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
       </div>
 
       {/* Interactive Tabs Navigation */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar border-b border-slate-200 w-full max-w-full min-w-0">
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar border-b border-slate-200 dark:border-slate-800 w-full max-w-full min-w-0">
         <button
           onClick={() => setActiveTab('stabilisation')}
           className={`px-4 py-2.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 ${
             activeTab === 'stabilisation'
               ? 'bg-emerald-700 text-white shadow-sm'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >
           {content.tabStabilisation}
@@ -339,7 +339,7 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
           className={`px-4 py-2.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 ${
             activeTab === 'marche'
               ? 'bg-emerald-700 text-white shadow-sm'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >
           {content.tabMarche}
@@ -350,7 +350,7 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
           className={`px-4 py-2.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 ${
             activeTab === 'menu'
               ? 'bg-emerald-700 text-white shadow-sm'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >
           {content.tabMenu}
@@ -361,7 +361,7 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
           className={`px-4 py-2.5 text-xs font-bold rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 ${
             activeTab === 'recommandations'
               ? 'bg-emerald-700 text-white shadow-sm'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >
           {content.tabRecommandations}
@@ -371,27 +371,27 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
       {/* Tab Panels */}
       {/* 1. Stabilisation Plan */}
       {activeTab === 'stabilisation' && (
-        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-5 animate-in fade-in duration-200">
-          <div className="flex items-center gap-2.5 text-emerald-800">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5 animate-in fade-in duration-200 transition-colors">
+          <div className="flex items-center gap-2.5 text-emerald-800 dark:text-emerald-400">
             <Scale className="w-5 h-5" />
-            <h3 className="text-base font-extrabold">{content.stabTitle}</h3>
+            <h3 className="text-base font-extrabold text-slate-900 dark:text-white">{content.stabTitle}</h3>
           </div>
-          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed bg-emerald-50/50 p-3.5 rounded-2xl border border-emerald-100">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-emerald-200/90 leading-relaxed bg-emerald-50/50 dark:bg-emerald-950/40 p-3.5 rounded-2xl border border-emerald-100 dark:border-emerald-800/60">
             {content.stabP1}
           </p>
 
           <div className="grid gap-4">
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1">
-              <h4 className="text-xs font-bold text-slate-900">{content.stabStep1Title}</h4>
-              <p className="text-xs text-slate-600 leading-relaxed">{content.stabStep1Desc}</p>
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white">{content.stabStep1Title}</h4>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.stabStep1Desc}</p>
             </div>
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1">
-              <h4 className="text-xs font-bold text-slate-900">{content.stabStep2Title}</h4>
-              <p className="text-xs text-slate-600 leading-relaxed">{content.stabStep2Desc}</p>
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white">{content.stabStep2Title}</h4>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.stabStep2Desc}</p>
             </div>
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1">
-              <h4 className="text-xs font-bold text-slate-900">{content.stabStep3Title}</h4>
-              <p className="text-xs text-slate-600 leading-relaxed">{content.stabStep3Desc}</p>
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white">{content.stabStep3Title}</h4>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.stabStep3Desc}</p>
             </div>
           </div>
         </div>
@@ -399,48 +399,48 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
 
       {/* 2. Marche Management */}
       {activeTab === 'marche' && (
-        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-5 animate-in fade-in duration-200">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
-            <div className="flex items-center gap-2.5 text-slate-900">
-              <Footprints className="w-5 h-5 text-amber-600" />
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5 animate-in fade-in duration-200 transition-colors">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+            <div className="flex items-center gap-2.5 text-slate-900 dark:text-white">
+              <Footprints className="w-5 h-5 text-amber-600 dark:text-amber-400" />
               <h3 className="text-base font-extrabold">{content.marcheTitle}</h3>
             </div>
-            <span className="text-xs font-bold bg-amber-50 text-amber-800 px-3 py-1 rounded-xl border border-amber-200 self-start sm:self-auto">
+            <span className="text-xs font-bold bg-amber-50 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 px-3 py-1 rounded-xl border border-amber-200 dark:border-amber-800/60 self-start sm:self-auto">
               {content.marcheTiming}
             </span>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
-              <div className="flex items-center gap-2 text-slate-900 font-bold text-xs">
-                <Clock className="w-4 h-4 text-emerald-600" />
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 space-y-1.5">
+              <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-xs">
+                <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span>{content.marcheRule1Title}</span>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">{content.marcheRule1Desc}</p>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.marcheRule1Desc}</p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
-              <div className="flex items-center gap-2 text-slate-900 font-bold text-xs">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 space-y-1.5">
+              <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-xs">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span>{content.marcheRule2Title}</span>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">{content.marcheRule2Desc}</p>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.marcheRule2Desc}</p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
-              <div className="flex items-center gap-2 text-slate-900 font-bold text-xs">
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 space-y-1.5">
+              <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-xs">
                 <Sun className="w-4 h-4 text-amber-500" />
                 <span>{content.marcheRule3Title}</span>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">{content.marcheRule3Desc}</p>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.marcheRule3Desc}</p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1.5">
-              <div className="flex items-center gap-2 text-slate-900 font-bold text-xs">
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 space-y-1.5">
+              <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-xs">
                 <Heart className="w-4 h-4 text-rose-500" />
                 <span>{content.marcheRule4Title}</span>
               </div>
-              <p className="text-xs text-slate-600 leading-relaxed">{content.marcheRule4Desc}</p>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.marcheRule4Desc}</p>
             </div>
           </div>
         </div>
@@ -448,47 +448,47 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
 
       {/* 3. Special Menu for Stabilisation */}
       {activeTab === 'menu' && (
-        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-5 animate-in fade-in duration-200">
-          <div className="flex items-center gap-2.5 text-slate-900">
-            <Utensils className="w-5 h-5 text-emerald-600" />
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5 animate-in fade-in duration-200 transition-colors">
+          <div className="flex items-center gap-2.5 text-slate-900 dark:text-white">
+            <Utensils className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
             <h3 className="text-base font-extrabold">{content.menuTitle}</h3>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">
             {/* Breakfast */}
-            <div className="p-4 rounded-2xl bg-amber-50/50 border border-amber-200/70 space-y-1.5">
-              <div className="flex items-center gap-2 text-amber-900 font-bold text-xs">
-                <Coffee className="w-4 h-4 text-amber-600" />
+            <div className="p-4 rounded-2xl bg-amber-50/50 dark:bg-amber-950/30 border border-amber-200/70 dark:border-amber-800/60 space-y-1.5">
+              <div className="flex items-center gap-2 text-amber-900 dark:text-amber-300 font-bold text-xs">
+                <Coffee className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                 <span>{content.menuFtour}</span>
               </div>
-              <p className="text-xs text-slate-700 leading-relaxed">{content.menuFtourDesc}</p>
+              <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">{content.menuFtourDesc}</p>
             </div>
 
             {/* Lunch */}
-            <div className="p-4 rounded-2xl bg-emerald-50/50 border border-emerald-200/70 space-y-1.5">
-              <div className="flex items-center gap-2 text-emerald-900 font-bold text-xs">
-                <Salad className="w-4 h-4 text-emerald-600" />
+            <div className="p-4 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-200/70 dark:border-emerald-800/60 space-y-1.5">
+              <div className="flex items-center gap-2 text-emerald-900 dark:text-emerald-300 font-bold text-xs">
+                <Salad className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span>{content.menuGhda}</span>
               </div>
-              <p className="text-xs text-slate-700 leading-relaxed">{content.menuGhdaDesc}</p>
+              <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">{content.menuGhdaDesc}</p>
             </div>
 
             {/* Snack */}
-            <div className="p-4 rounded-2xl bg-amber-50/50 border border-amber-200/70 space-y-1.5">
-              <div className="flex items-center gap-2 text-amber-900 font-bold text-xs">
-                <Apple className="w-4 h-4 text-amber-600" />
+            <div className="p-4 rounded-2xl bg-amber-50/50 dark:bg-amber-950/30 border border-amber-200/70 dark:border-amber-800/60 space-y-1.5">
+              <div className="flex items-center gap-2 text-amber-900 dark:text-amber-300 font-bold text-xs">
+                <Apple className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                 <span>{content.menuKskrout}</span>
               </div>
-              <p className="text-xs text-slate-700 leading-relaxed">{content.menuKskroutDesc}</p>
+              <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">{content.menuKskroutDesc}</p>
             </div>
 
             {/* Dinner */}
-            <div className="p-4 rounded-2xl bg-teal-50/50 border border-teal-200/70 space-y-1.5">
-              <div className="flex items-center gap-2 text-teal-900 font-bold text-xs">
-                <Utensils className="w-4 h-4 text-teal-600" />
+            <div className="p-4 rounded-2xl bg-teal-50/50 dark:bg-teal-950/30 border border-teal-200/70 dark:border-teal-800/60 space-y-1.5">
+              <div className="flex items-center gap-2 text-teal-900 dark:text-teal-300 font-bold text-xs">
+                <Utensils className="w-4 h-4 text-teal-600 dark:text-teal-400" />
                 <span>{content.menuAcha}</span>
               </div>
-              <p className="text-xs text-slate-700 leading-relaxed">{content.menuAchaDesc}</p>
+              <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">{content.menuAchaDesc}</p>
             </div>
           </div>
         </div>
@@ -496,31 +496,31 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
 
       {/* 4. Health & Medical Recommendations */}
       {activeTab === 'recommandations' && (
-        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm space-y-5 animate-in fade-in duration-200">
-          <div className="flex items-center gap-2.5 text-slate-900">
-            <ShieldCheck className="w-5 h-5 text-emerald-600" />
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5 animate-in fade-in duration-200 transition-colors">
+          <div className="flex items-center gap-2.5 text-slate-900 dark:text-white">
+            <ShieldCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
             <h3 className="text-base font-extrabold">{content.healthTitle}</h3>
           </div>
 
           <div className="grid gap-3">
-            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-200">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <span>{content.h1}</span>
             </div>
-            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-200">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <span>{content.h2}</span>
             </div>
-            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-200">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <span>{content.h3}</span>
             </div>
-            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-200">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
               <span>{content.h4}</span>
             </div>
-            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700">
-              <Droplets className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-200">
+              <Droplets className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0 mt-0.5" />
               <span>{content.h5}</span>
             </div>
           </div>

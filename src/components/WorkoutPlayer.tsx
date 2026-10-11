@@ -142,17 +142,17 @@ export const WorkoutPlayer: React.FC<Props> = ({ exercises, lang, selectedDurati
   return (
     <div className="space-y-6">
       {/* Exercise Header & Metadata */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
           <div>
-            <div className="flex items-center gap-2 text-xs text-slate-500 mb-1">
+            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-1">
               <span>{t.sets}: {currentSet} / {currentExercise.sets}</span>
               <span>·</span>
               <span>{currentExercise.repsText[lang]}</span>
               <span>·</span>
               <span className="capitalize">{currentExercise.category}</span>
             </div>
-            <h3 className="text-xl md:text-2xl font-bold text-slate-900">
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">
               {currentExercise.title[lang]}
             </h3>
           </div>
@@ -372,13 +372,15 @@ export const WorkoutPlayer: React.FC<Props> = ({ exercises, lang, selectedDurati
           <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
             {/* Interactive Stopwatch Display */}
             <div className={`p-6 rounded-2xl border text-center transition-colors ${
-              isResting ? 'bg-amber-50/50 border-amber-200' : 'bg-slate-50 border-slate-200'
+              isResting 
+                ? 'bg-amber-50/50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800/60' 
+                : 'bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700/60'
             }`}>
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 {isResting ? t.rest_time : t.work_time}
               </span>
 
-              <div className="my-3 font-mono text-5xl md:text-6xl font-black tabular-nums text-slate-900">
+              <div className="my-3 font-mono text-5xl md:text-6xl font-black tabular-nums text-slate-900 dark:text-white">
                 {String(Math.floor(timeLeft / 60)).padStart(2, '0')}:{String(timeLeft % 60).padStart(2, '0')}
               </div>
 
@@ -397,7 +399,7 @@ export const WorkoutPlayer: React.FC<Props> = ({ exercises, lang, selectedDurati
 
                 <button
                   onClick={handleReset}
-                  className="p-3 rounded-xl bg-white text-slate-600 hover:text-slate-900 border border-slate-200 hover:bg-slate-100 transition-colors"
+                  className="p-3 rounded-xl bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                   title={t.reset_workout}
                 >
                   <RotateCcw className="w-4 h-4" />
@@ -406,14 +408,14 @@ export const WorkoutPlayer: React.FC<Props> = ({ exercises, lang, selectedDurati
             </div>
 
             {/* Exercise Instructions */}
-            <div className="space-y-3 bg-white p-4 rounded-xl border border-slate-100">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <div className="space-y-3 bg-white dark:bg-slate-800/60 p-4 rounded-xl border border-slate-100 dark:border-slate-700/60 transition-colors">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 {lang === 'darija' ? 'طريقة الحركة بالتفصيل :' : lang === 'ar' ? 'طريقة أداء التمرين :' : 'Instructions pas à pas :'}
               </h4>
-              <ul className="space-y-2 text-sm text-slate-700">
+              <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-200">
                 {currentExercise.instructions[lang].map((step, idx) => (
                   <li key={idx} className="flex items-start gap-2">
-                    <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-xs font-semibold flex items-center justify-center shrink-0 mt-0.5">
                       {idx + 1}
                     </span>
                     <span>{step}</span>
@@ -422,7 +424,7 @@ export const WorkoutPlayer: React.FC<Props> = ({ exercises, lang, selectedDurati
               </ul>
 
               {currentExercise.precautions[lang] && (
-                <div className="p-3 bg-rose-50 border border-rose-100 rounded-lg text-xs text-rose-800 mt-2">
+                <div className="p-3 bg-rose-50 dark:bg-rose-950/50 border border-rose-100 dark:border-rose-900/60 rounded-lg text-xs text-rose-800 dark:text-rose-200 mt-2">
                   <span className="font-semibold">{lang === 'darija' ? 'رد بالك :' : lang === 'ar' ? 'تنبيه :' : 'Attention :'} </span>
                   {currentExercise.precautions[lang]}
                 </div>
@@ -434,7 +436,7 @@ export const WorkoutPlayer: React.FC<Props> = ({ exercises, lang, selectedDurati
               <button
                 disabled={currentIndex === 0}
                 onClick={() => setCurrentIndex((i) => Math.max(0, i - 1))}
-                className="px-3 py-2 text-xs font-medium text-slate-600 disabled:opacity-30 hover:bg-slate-100 rounded-lg flex items-center gap-1 transition-colors"
+                className="px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 disabled:opacity-30 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg flex items-center gap-1 transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
                 {lang === 'darija' ? 'السابق' : lang === 'ar' ? 'السابق' : 'Précédent'}
@@ -446,7 +448,7 @@ export const WorkoutPlayer: React.FC<Props> = ({ exercises, lang, selectedDurati
                     key={i}
                     onClick={() => setCurrentIndex(i)}
                     className={`w-2.5 h-2.5 rounded-full transition-all ${
-                      i === currentIndex ? 'bg-emerald-600 w-6' : 'bg-slate-200 hover:bg-slate-300'
+                      i === currentIndex ? 'bg-emerald-600 w-6' : 'bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600'
                     }`}
                   />
                 ))}
@@ -455,7 +457,7 @@ export const WorkoutPlayer: React.FC<Props> = ({ exercises, lang, selectedDurati
               <button
                 disabled={currentIndex === exercises.length - 1}
                 onClick={() => setCurrentIndex((i) => Math.min(exercises.length - 1, i + 1))}
-                className="px-3 py-2 text-xs font-medium text-slate-600 disabled:opacity-30 hover:bg-slate-100 rounded-lg flex items-center gap-1 transition-colors"
+                className="px-3 py-2 text-xs font-medium text-slate-600 dark:text-slate-400 disabled:opacity-30 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg flex items-center gap-1 transition-colors"
               >
                 {lang === 'darija' ? 'التالي' : lang === 'ar' ? 'التالي' : 'Suivant'}
                 <ChevronRight className="w-4 h-4" />

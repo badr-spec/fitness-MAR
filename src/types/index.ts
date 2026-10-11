@@ -116,10 +116,3 @@ export interface ProgressLogEntry {
   notes?: string;
   completedWorkoutMin?: number;
 }
-
-export interface SupabaseConfig {
-  url: string;
-  anonKey: string;
-  tableName: string;
-  isConnected: boolean;
-}

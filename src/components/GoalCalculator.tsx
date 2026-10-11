@@ -176,22 +176,22 @@ export const GoalCalculator: React.FC<Props> = ({ profile, lang, onSelectDuratio
   return (
     <div className="space-y-6">
       {/* Speed Selector Header */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+      <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <Target className="w-5 h-5 text-emerald-600" />
-              <h3 className="text-xl font-black text-slate-900">{t.goals_title}</h3>
+              <Target className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+              <h3 className="text-xl font-black text-slate-900 dark:text-white">{t.goals_title}</h3>
             </div>
-            <p className="text-xs text-slate-500">{t.choose_speed}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{t.choose_speed}</p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 bg-emerald-50 px-3.5 py-1.5 rounded-2xl border border-emerald-100 text-xs self-start sm:self-auto">
-            <span className="text-slate-500">{lang === 'darija' ? 'البروفيل النشط :' : 'Profil Actif :'}</span>
-            <span className="font-bold text-emerald-800">{plan.name}</span>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-600">{lang === 'darija' || lang === 'ar' ? 'الوزن الحالي :' : 'Poids actuel :'}</span>
-            <span className="font-mono font-bold text-emerald-900">{profile.weight} {t.kg}</span>
+          <div className="flex flex-wrap items-center gap-2 bg-emerald-50 dark:bg-emerald-950/60 px-3.5 py-1.5 rounded-2xl border border-emerald-100 dark:border-emerald-800/60 text-xs self-start sm:self-auto">
+            <span className="text-slate-500 dark:text-slate-400">{lang === 'darija' ? 'البروفيل النشط :' : 'Profil Actif :'}</span>
+            <span className="font-bold text-emerald-800 dark:text-emerald-300">{plan.name}</span>
+            <span className="text-slate-300 dark:text-slate-600">|</span>
+            <span className="text-slate-600 dark:text-slate-400">{lang === 'darija' || lang === 'ar' ? 'الوزن الحالي :' : 'Poids actuel :'}</span>
+            <span className="font-mono font-bold text-emerald-900 dark:text-emerald-200">{profile.weight} {t.kg}</span>
           </div>
         </div>
 
@@ -205,29 +205,29 @@ export const GoalCalculator: React.FC<Props> = ({ profile, lang, onSelectDuratio
             }}
             className={`p-5 rounded-2xl border cursor-pointer transition-all flex flex-col justify-between ${
               selectedSpeed === 2
-                ? 'bg-emerald-50/70 border-emerald-500 ring-2 ring-emerald-500/20 shadow-md'
-                : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
+                ? 'bg-emerald-50/70 dark:bg-emerald-950/50 border-emerald-500 ring-2 ring-emerald-500/20 shadow-md'
+                : 'bg-white dark:bg-slate-800/70 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 shadow-sm'
             }`}
           >
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span dir="ltr" className="text-2xl font-black font-mono tabular-nums text-slate-900 bg-white px-2.5 py-1 rounded-xl border border-slate-200 shadow-xs">
+                <span dir="ltr" className="text-2xl font-black font-mono tabular-nums text-slate-900 dark:text-white bg-white dark:bg-slate-900 px-2.5 py-1 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xs">
                   -2 kg
                 </span>
-                <span dir="ltr" className="text-xs px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-bold">
+                <span dir="ltr" className="text-xs px-2.5 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold">
                   15 min / jour
                 </span>
               </div>
 
-              <h4 className="text-sm font-bold text-slate-900 mb-1">{t.speed_2kg}</h4>
-              <p className="text-xs text-slate-500 mb-3 leading-relaxed">
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1">{t.speed_2kg}</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3 leading-relaxed">
                 {lang === 'darija' ? 'حركات خفيفة ومستمرة، كاتحافظ على صحتك وماكاتردش الوزن.' : 'Rythme doux et pérenne, parfait pour préserver la masse osseuse.'}
               </p>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between text-[11px] text-slate-500 font-mono">
+            <div className="mt-4 pt-3 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
               <span>Déficit :</span>
-              <span className="font-bold text-emerald-700">-450 kcal / jour</span>
+              <span className="font-bold text-emerald-700 dark:text-emerald-400">-450 kcal / jour</span>
             </div>
           </div>
 
@@ -239,13 +239,13 @@ export const GoalCalculator: React.FC<Props> = ({ profile, lang, onSelectDuratio
             }}
             className={`p-5 rounded-2xl border cursor-pointer transition-all flex flex-col justify-between ${
               selectedSpeed === 4
-                ? 'bg-emerald-50/70 border-emerald-500 ring-2 ring-emerald-500/20 shadow-md'
-                : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
+                ? 'bg-emerald-50/70 dark:bg-emerald-950/50 border-emerald-500 ring-2 ring-emerald-500/20 shadow-md'
+                : 'bg-white dark:bg-slate-800/70 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 shadow-sm'
             }`}
           >
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span dir="ltr" className="text-2xl font-black font-mono tabular-nums text-emerald-600 bg-white px-2.5 py-1 rounded-xl border border-emerald-200 shadow-xs">
+                <span dir="ltr" className="text-2xl font-black font-mono tabular-nums text-emerald-600 dark:text-emerald-400 bg-white dark:bg-slate-900 px-2.5 py-1 rounded-xl border border-emerald-200 dark:border-emerald-800 shadow-xs">
                   -4 kg
                 </span>
                 <span dir="ltr" className="text-xs px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold">
@@ -253,15 +253,15 @@ export const GoalCalculator: React.FC<Props> = ({ profile, lang, onSelectDuratio
                 </span>
               </div>
 
-              <h4 className="text-sm font-bold text-slate-900 mb-1">{t.speed_4kg}</h4>
-              <p className="text-xs text-slate-500 mb-3 leading-relaxed">
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1">{t.speed_4kg}</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3 leading-relaxed">
                 {lang === 'darija' ? 'أحسن ريتم متوازن: كيطيح الشحم بالمعقول والجلد كيتجمع.' : 'L\'équilibre parfait recommandé par les médecins et coachs.'}
               </p>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between text-[11px] text-slate-500 font-mono">
+            <div className="mt-4 pt-3 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
               <span>Déficit :</span>
-              <span className="font-bold text-emerald-700">-850 kcal / jour</span>
+              <span className="font-bold text-emerald-700 dark:text-emerald-400">-850 kcal / jour</span>
             </div>
           </div>
 
@@ -273,37 +273,37 @@ export const GoalCalculator: React.FC<Props> = ({ profile, lang, onSelectDuratio
             }}
             className={`p-5 rounded-2xl border cursor-pointer transition-all flex flex-col justify-between ${
               selectedSpeed === 6
-                ? 'bg-rose-50/70 border-rose-500 ring-2 ring-rose-500/20 shadow-md'
-                : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
+                ? 'bg-rose-50/70 dark:bg-rose-950/50 border-rose-500 ring-2 ring-rose-500/20 shadow-md'
+                : 'bg-white dark:bg-slate-800/70 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 shadow-sm'
             }`}
           >
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span dir="ltr" className="text-2xl font-black font-mono tabular-nums text-rose-600 bg-white px-2.5 py-1 rounded-xl border border-rose-200 shadow-xs">
+                <span dir="ltr" className="text-2xl font-black font-mono tabular-nums text-rose-600 dark:text-rose-400 bg-white dark:bg-slate-900 px-2.5 py-1 rounded-xl border border-rose-200 dark:border-rose-800 shadow-xs">
                   -6 kg
                 </span>
-                <span dir="ltr" className="text-xs px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 font-bold">
+                <span dir="ltr" className="text-xs px-2.5 py-1 rounded-lg bg-rose-100 dark:bg-rose-950 text-rose-800 dark:text-rose-300 font-bold">
                   45 min / jour
                 </span>
               </div>
 
-              <h4 className="text-sm font-bold text-slate-900 mb-1">{t.speed_6kg}</h4>
-              <p className="text-xs text-slate-500 mb-3 leading-relaxed">
-                {lang === 'darija' ? 'حرق قوي وسريع، كيبغي التزام صارم بالماكلة والرياضة.' : 'Rythme commando intensif pour une transformation radicale rapide.'}
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1">{t.speed_6kg}</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mb-3 leading-relaxed">
+                {lang === 'darija' ? 'حرق قوي وسريع، كيبغي التزام صارم بالماكلة والرياضة.' : 'Rythme intensif pour une transformation radicale rapide.'}
               </p>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between text-[11px] text-slate-500 font-mono">
+            <div className="mt-4 pt-3 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
               <span>Déficit :</span>
-              <span className="font-bold text-rose-700">-1300 kcal / jour</span>
+              <span className="font-bold text-rose-700 dark:text-rose-400">-1300 kcal / jour</span>
             </div>
           </div>
         </div>
 
         {/* Warning if 6kg chosen for Mama Laaziza */}
         {selectedSpeed === 6 && profile.id === 'femme_65' && (
-          <div className="mt-5 p-3.5 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-3 text-xs text-amber-900">
-            <ShieldAlert className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <div className="mt-5 p-3.5 bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800/60 rounded-2xl flex items-start gap-3 text-xs text-amber-900 dark:text-amber-200">
+            <ShieldAlert className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
             <div>
               <span className="font-bold">
                 {lang === 'darija' ? 'تنبيه صحي مهم (ماما لعزيزة - تثبيت 64 كلغ) :' : 'Conseil médical (Mama Laaziza - Stabilisation 64 kg) :'}
@@ -500,83 +500,83 @@ export const GoalCalculator: React.FC<Props> = ({ profile, lang, onSelectDuratio
       {/* 3 Months & 6 Months Projections Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* 3 Months Target */}
-        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden flex flex-col justify-between transition-colors">
           <div>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-emerald-600" />
-                <h4 className="font-bold text-slate-900">{t.projection_3_months}</h4>
+                <Calendar className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                <h4 className="font-bold text-slate-900 dark:text-white">{t.projection_3_months}</h4>
               </div>
-              <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">
+              <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 rounded-full border border-emerald-200 dark:border-emerald-800/60">
                 90 {lang === 'darija' ? 'يوم' : lang === 'ar' ? 'يوماً' : 'jours'}
               </span>
             </div>
 
             <div className="flex items-baseline gap-3 my-4">
-              <span className="text-4xl font-extrabold font-mono text-slate-900 tabular-nums">
-                {target3M} <span className="text-lg font-normal text-slate-500">{t.kg}</span>
+              <span className="text-4xl font-extrabold font-mono text-slate-900 dark:text-white tabular-nums">
+                {target3M} <span className="text-lg font-normal text-slate-500 dark:text-slate-400">{t.kg}</span>
               </span>
-              <span className="text-sm font-semibold text-emerald-600 flex items-center gap-0.5">
+              <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-0.5">
                 <TrendingDown className="w-4 h-4" /> -{lossIn3Months} {t.kg}
               </span>
             </div>
 
-            <p className="text-xs text-slate-600 leading-relaxed mb-4">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
               {lang === 'darija'
                 ? `من هنا لـ 3 أشهر غاتكون طيحتي ${lossIn3Months} كيلو كاملة، المقاسات د الحوايج غايتبدلو والكرش غاتنقص بزاف.`
                 : `En 3 mois, vous aurez éliminé ${lossIn3Months} kg. Changement visible de tour de taille et regain complet d'énergie.`}
             </p>
           </div>
 
-          <div className="pt-4 border-t border-slate-100 grid grid-cols-2 gap-4 text-xs">
+          <div className="pt-4 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 gap-4 text-xs">
             <div>
-              <span className="text-slate-400 block mb-0.5">IMC Projeté</span>
-              <span className="font-semibold text-slate-800 font-mono">{bmi3M}</span>
+              <span className="text-slate-400 dark:text-slate-500 block mb-0.5">IMC Projeté</span>
+              <span className="font-semibold text-slate-800 dark:text-slate-200 font-mono">{bmi3M}</span>
             </div>
             <div>
-              <span className="text-slate-400 block mb-0.5">Séance Conseillée</span>
-              <span className="font-semibold text-emerald-700">{recommendedWorkoutDuration} min / jour</span>
+              <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Séance Conseillée</span>
+              <span className="font-semibold text-emerald-700 dark:text-emerald-400">{recommendedWorkoutDuration} min / jour</span>
             </div>
           </div>
         </div>
 
         {/* 6 Months Target */}
-        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200 shadow-sm relative overflow-hidden flex flex-col justify-between">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm relative overflow-hidden flex flex-col justify-between transition-colors">
           <div>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <Award className="w-5 h-5 text-indigo-600" />
-                <h4 className="font-bold text-slate-900">{t.projection_6_months}</h4>
+                <Award className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
+                <h4 className="font-bold text-slate-900 dark:text-white">{t.projection_6_months}</h4>
               </div>
-              <span className="text-xs font-semibold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-full">
+              <span className="text-xs font-semibold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-1 rounded-full border border-indigo-200 dark:border-indigo-800/60">
                 180 {lang === 'darija' ? 'يوم' : lang === 'ar' ? 'يوماً' : 'jours'}
               </span>
             </div>
 
             <div className="flex items-baseline gap-3 my-4">
-              <span className="text-4xl font-extrabold font-mono text-slate-900 tabular-nums">
-                {target6M} <span className="text-lg font-normal text-slate-500">{t.kg}</span>
+              <span className="text-4xl font-extrabold font-mono text-slate-900 dark:text-white tabular-nums">
+                {target6M} <span className="text-lg font-normal text-slate-500 dark:text-slate-400">{t.kg}</span>
               </span>
-              <span className="text-sm font-semibold text-indigo-600 flex items-center gap-0.5">
+              <span className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 flex items-center gap-0.5">
                 <TrendingDown className="w-4 h-4" /> -{lossIn6Months} {t.kg}
               </span>
             </div>
 
-            <p className="text-xs text-slate-600 leading-relaxed mb-4">
+            <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
               {lang === 'darija'
                 ? `من هنا لـ 6 أشهر غاتوصل لـ ${target6M} كلغ، الوزن المثالي لي كايثبت وماكيرجعش نهائياً، مع صحة جديدة ومناعة قوية.`
                 : `À 6 mois, vous atteignez ${target6M} kg stabilisés. Nouveau métabolisme de base et fin définitive de l'effet yo-yo.`}
             </p>
           </div>
 
-          <div className="pt-4 border-t border-slate-100 grid grid-cols-2 gap-4 text-xs">
+          <div className="pt-4 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 gap-4 text-xs">
             <div>
-              <span className="text-slate-400 block mb-0.5">IMC Projeté</span>
-              <span className="font-semibold text-slate-800 font-mono">{bmi6M}</span>
+              <span className="text-slate-400 dark:text-slate-500 block mb-0.5">IMC Projeté</span>
+              <span className="font-semibold text-slate-800 dark:text-slate-200 font-mono">{bmi6M}</span>
             </div>
             <div>
-              <span className="text-slate-400 block mb-0.5">Transformation</span>
-              <span className="font-semibold text-indigo-700">
+              <span className="text-slate-400 dark:text-slate-500 block mb-0.5">Transformation</span>
+              <span className="font-semibold text-indigo-700 dark:text-indigo-400">
                 {lang === 'darija' ? 'تثبيت الوزن المثالي' : 'Stabilisation Définitive'}
               </span>
             </div>

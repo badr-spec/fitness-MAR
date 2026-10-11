@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dumbbell, CalendarDays, Target, TrendingUp, Users, Database, Globe, Shield, Scale, Radio } from 'lucide-react';
+import { Dumbbell, CalendarDays, Target, TrendingUp, Users, Globe, Shield, Scale, Radio, Sun, Moon } from 'lucide-react';
 import { UserProfile, Language, WorkoutDuration, ProgressLogEntry } from './types';
 import { PROFILES } from './data/profiles';
 import { EXERCISES } from './data/exercises';
@@ -10,7 +10,6 @@ import { WorkoutPlayer } from './components/WorkoutPlayer';
 import { MealPlanner } from './components/MealPlanner';
 import { GoalCalculator } from './components/GoalCalculator';
 import { ProgressTracker } from './components/ProgressTracker';
-import { SupabaseSync } from './components/SupabaseSync';
 import { MilitaryCalisthenics } from './components/MilitaryCalisthenics';
 import { PWAInstallButton } from './components/PWAInstallButton';
 import { MamaLaazizaSpecialPlan } from './components/MamaLaazizaSpecialPlan';
@@ -39,7 +38,11 @@ export default function App() {
     return (localStorage.getItem('fitmaghrib_lang') as Language) || 'darija';
   });
 
-  const [activeTab, setActiveTab] = useState<'profiles' | 'workout' | 'military' | 'diet' | 'goals' | 'progress' | 'supabase'>('profiles');
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    return (localStorage.getItem('fitmaghrib_theme') as 'light' | 'dark') || 'light';
+  });
+
+  const [activeTab, setActiveTab] = useState<'profiles' | 'workout' | 'military' | 'diet' | 'goals' | 'progress'>('profiles');
 
   const [activeProfileId, setActiveProfileId] = useState<string>(() => {
     return localStorage.getItem('fitmaghrib_profile_id') || 'homme_44';
@@ -62,6 +65,16 @@ export default function App() {
   const activeProfile = PROFILES.find((p) => p.id === activeProfileId) || PROFILES[0];
   const t = TRANSLATIONS[lang];
 
+  // Sync theme
+  useEffect(() => {
+    localStorage.setItem('fitmaghrib_theme', theme);
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
+
   // Sync lang direction and storage
   useEffect(() => {
     localStorage.setItem('fitmaghrib_lang', lang);
@@ -69,11 +82,14 @@ export default function App() {
     document.documentElement.lang = lang === 'fr' ? 'fr' : 'ar';
   }, [lang]);
 
-  // Sync profile storage
+  // Sync profile storage & avoid military tab for Mama Laaziza and Kaoutar
   useEffect(() => {
     localStorage.setItem('fitmaghrib_profile_id', activeProfileId);
     setSelectedDuration(activeProfile.recommendedDuration);
-  }, [activeProfileId, activeProfile]);
+    if (activeProfileId !== 'homme_44' && activeTab === 'military') {
+      setActiveTab('workout');
+    }
+  }, [activeProfileId, activeProfile, activeTab]);
 
   // Sync logs storage
   useEffect(() => {
@@ -82,6 +98,9 @@ export default function App() {
 
   const handleSelectProfile = (profile: UserProfile) => {
     setActiveProfileId(profile.id);
+    if (profile.id !== 'homme_44' && activeTab === 'military') {
+      setActiveTab('workout');
+    }
   };
 
   const handleAddLog = (newLog: ProgressLogEntry) => {
@@ -116,12 +135,12 @@ export default function App() {
   const currentSessionExercises = filteredExercises.slice(0, Math.min(exerciseCount, filteredExercises.length));
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
       {/* =========================================================================
           TOP BAR CONTRACT:
           [Brand title, one line] — [4–5 nav links, 1–2 word labels, single-line] — [1 primary action]
           ========================================================================= */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
+      <header className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4 md:gap-8 min-w-0">
           {/* Zone 1: Brand Wordmark (single line, no subtitle) with custom professional logo */}
           <div className="flex items-center gap-2 sm:gap-2.5 whitespace-nowrap shrink-0">
@@ -130,18 +149,18 @@ export default function App() {
               alt="FitMaghrib Logo"
               className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl shadow-md ring-1 ring-emerald-500/20 object-cover shrink-0"
             />
-            <span className="text-lg sm:text-xl font-black tracking-tight text-slate-900 font-mono flex items-center gap-1">
+            <span className="text-lg sm:text-xl font-black tracking-tight text-slate-900 dark:text-white font-mono flex items-center gap-1">
               <span>FitMaghrib</span>
-              <span className="text-[9px] sm:text-[10px] font-bold bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded-md">PRO</span>
+              <span className="text-[9px] sm:text-[10px] font-bold bg-emerald-100 dark:bg-emerald-900/80 text-emerald-800 dark:text-emerald-200 px-1.5 py-0.5 rounded-md">PRO</span>
             </span>
           </div>
 
           {/* Zone 2: 4-5 Navigation Links (1-2 word labels, single line) */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
             <button
               onClick={() => setActiveTab('profiles')}
-              className={`hover:text-emerald-700 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 ${
-                activeTab === 'profiles' ? 'border-emerald-600 text-emerald-700 font-semibold' : 'border-transparent'
+              className={`hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 ${
+                activeTab === 'profiles' ? 'border-emerald-600 text-emerald-700 dark:text-emerald-400 font-semibold' : 'border-transparent'
               }`}
             >
               {t.nav_profiles}
@@ -149,26 +168,29 @@ export default function App() {
 
             <button
               onClick={() => setActiveTab('workout')}
-              className={`hover:text-emerald-700 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 ${
-                activeTab === 'workout' ? 'border-emerald-600 text-emerald-700 font-semibold' : 'border-transparent'
+              className={`hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 ${
+                activeTab === 'workout' ? 'border-emerald-600 text-emerald-700 dark:text-emerald-400 font-semibold' : 'border-transparent'
               }`}
             >
               {t.nav_workout}
             </button>
 
-            <button
-              onClick={() => setActiveTab('military')}
-              className={`hover:text-emerald-700 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 font-bold ${
-                activeTab === 'military' ? 'border-emerald-600 text-emerald-700' : 'border-transparent text-emerald-800'
-              }`}
-            >
-              🎖️ {t.nav_military}
-            </button>
+            {/* Commando 3skri: Only visible for Badr (homme_44) */}
+            {activeProfile.id === 'homme_44' && (
+              <button
+                onClick={() => setActiveTab('military')}
+                className={`hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 font-bold ${
+                  activeTab === 'military' ? 'border-emerald-600 text-emerald-700 dark:text-emerald-400' : 'border-transparent text-emerald-800 dark:text-emerald-400'
+                }`}
+              >
+                🎖️ {t.nav_military}
+              </button>
+            )}
 
             <button
               onClick={() => setActiveTab('diet')}
-              className={`hover:text-emerald-700 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 ${
-                activeTab === 'diet' ? 'border-emerald-600 text-emerald-700 font-semibold' : 'border-transparent'
+              className={`hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 ${
+                activeTab === 'diet' ? 'border-emerald-600 text-emerald-700 dark:text-emerald-400 font-semibold' : 'border-transparent'
               }`}
             >
               {t.nav_diet}
@@ -176,8 +198,8 @@ export default function App() {
 
             <button
               onClick={() => setActiveTab('goals')}
-              className={`hover:text-emerald-700 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 ${
-                activeTab === 'goals' ? 'border-emerald-600 text-emerald-700 font-semibold' : 'border-transparent'
+              className={`hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 ${
+                activeTab === 'goals' ? 'border-emerald-600 text-emerald-700 dark:text-emerald-400 font-semibold' : 'border-transparent'
               }`}
             >
               {t.nav_goals}
@@ -185,49 +207,65 @@ export default function App() {
 
             <button
               onClick={() => setActiveTab('progress')}
-              className={`hover:text-emerald-700 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 ${
-                activeTab === 'progress' ? 'border-emerald-600 text-emerald-700 font-semibold' : 'border-transparent'
+              className={`hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 ${
+                activeTab === 'progress' ? 'border-emerald-600 text-emerald-700 dark:text-emerald-400 font-semibold' : 'border-transparent'
               }`}
             >
               {t.nav_progress}
             </button>
-
-            <button
-              onClick={() => setActiveTab('supabase')}
-              className={`hover:text-emerald-700 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 ${
-                activeTab === 'supabase' ? 'border-emerald-600 text-emerald-700 font-semibold' : 'border-transparent'
-              }`}
-            >
-              {t.nav_supabase}
-            </button>
           </nav>
 
-          {/* Zone 3: Actions (PWA Install Button + Language Switcher) */}
-          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+          {/* Zone 3: Actions (Theme Toggle + Language Switcher + PWA Install) */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            {/* Dark Mode Switcher */}
+            <button
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="px-2.5 py-1.5 rounded-xl border transition-all flex items-center gap-1.5 text-xs font-semibold bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 shadow-sm cursor-pointer active:scale-95"
+              title={theme === 'dark' ? (lang === 'fr' ? 'Mode clair' : 'الوضع النهاري') : (lang === 'fr' ? 'Mode sombre' : 'الوضع المظلم')}
+            >
+              {theme === 'dark' ? (
+                <>
+                  <Sun className="w-4 h-4 text-amber-400" />
+                  <span className="text-[11px] font-bold">{lang === 'fr' ? 'Clair' : 'نهاري'}</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="w-4 h-4 text-slate-700 dark:text-slate-200" />
+                  <span className="text-[11px] font-bold">{lang === 'fr' ? 'Sombre' : 'مظلم'}</span>
+                </>
+              )}
+            </button>
+
             {/* PWA In-App Install Button */}
             <PWAInstallButton lang={lang} />
 
-            <div className="flex items-center p-0.5 sm:p-1 bg-slate-100 rounded-xl text-xs shrink-0">
+            <div className="flex items-center p-0.5 sm:p-1 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs shrink-0">
               <button
                 onClick={() => setLang('darija')}
-                className={`px-1.5 sm:px-2.5 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition-all ${
-                  lang === 'darija' ? 'bg-white text-emerald-800 shadow-sm font-bold' : 'text-slate-600 hover:text-slate-900'
+                className={`px-1.5 sm:px-2 py-1 sm:py-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all ${
+                  lang === 'darija' 
+                    ? 'bg-white dark:bg-slate-700 text-emerald-800 dark:text-emerald-300 shadow-sm font-bold' 
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 دارجة
               </button>
               <button
                 onClick={() => setLang('fr')}
-                className={`px-1.5 sm:px-2.5 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition-all ${
-                  lang === 'fr' ? 'bg-white text-emerald-800 shadow-sm font-bold' : 'text-slate-600 hover:text-slate-900'
+                className={`px-1.5 sm:px-2 py-1 sm:py-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all ${
+                  lang === 'fr' 
+                    ? 'bg-white dark:bg-slate-700 text-emerald-800 dark:text-emerald-300 shadow-sm font-bold' 
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 FR
               </button>
               <button
                 onClick={() => setLang('ar')}
-                className={`px-1.5 sm:px-2.5 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-medium transition-all ${
-                  lang === 'ar' ? 'bg-white text-emerald-800 shadow-sm font-bold' : 'text-slate-600 hover:text-slate-900'
+                className={`px-1.5 sm:px-2 py-1 sm:py-1 rounded-lg text-[11px] sm:text-xs font-medium transition-all ${
+                  lang === 'ar' 
+                    ? 'bg-white dark:bg-slate-700 text-emerald-800 dark:text-emerald-300 shadow-sm font-bold' 
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 عربية
@@ -240,21 +278,21 @@ export default function App() {
       {/* Main Content Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8 overflow-x-hidden min-w-0">
         {/* Quick Profile Kicker Banner */}
-        <section className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <section className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors">
           <div className="flex items-center gap-3">
             <span className="w-3 h-3 rounded-full bg-emerald-500 shrink-0" />
             <div className="text-xs">
-              <span className="text-slate-500 block">{t.active_profile} :</span>
+              <span className="text-slate-500 dark:text-slate-400 block">{t.active_profile} :</span>
               <div className="flex flex-wrap items-center gap-2 mt-0.5">
-                <span className="font-bold text-slate-900 text-sm">
+                <span className="font-bold text-slate-900 dark:text-white text-sm">
                   {activeProfile.id === 'homme_44' && t.profile_1_title}
                   {activeProfile.id === 'femme_65' && t.profile_2_title}
                   {activeProfile.id === 'femme_36' && t.profile_3_title}
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold">
-                  <Scale className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 text-xs font-semibold">
+                  <Scale className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                   <span>{lang === 'darija' || lang === 'ar' ? 'الوزن الحالي :' : 'Poids actuel :'}</span>
-                  <span className="font-mono text-emerald-950 font-black">{activeProfile.weight} {t.kg}</span>
+                  <span className="font-mono text-emerald-950 dark:text-emerald-200 font-black">{activeProfile.weight} {t.kg}</span>
                 </span>
               </div>
             </div>
@@ -264,16 +302,16 @@ export default function App() {
             {activeProfile.id === 'femme_65' && (
               <button
                 onClick={() => setActiveTab('workout')}
-                className="text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 px-3 py-1.5 rounded-lg border border-amber-300 transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
+                className="text-xs font-bold text-amber-900 dark:text-amber-200 bg-amber-100 dark:bg-amber-900/50 hover:bg-amber-200 dark:hover:bg-amber-900/70 px-3 py-1.5 rounded-lg border border-amber-300 dark:border-amber-700/60 transition-all flex items-center gap-1.5 shadow-sm active:scale-95"
               >
-                <Radio className="w-3.5 h-3.5 text-amber-700 animate-pulse" />
+                <Radio className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400 animate-pulse" />
                 <span>{lang === 'darija' || lang === 'ar' ? '📻 راديو محمد السادس (القرآن)' : '📻 Radio Mohammed VI (Coran)'}</span>
               </button>
             )}
 
             <button
               onClick={() => setActiveTab('profiles')}
-              className="text-xs font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg border border-emerald-200 transition-colors"
+              className="text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 px-3 py-1.5 rounded-lg border border-emerald-200 dark:border-emerald-800 transition-colors"
             >
               {t.switch_profile}
             </button>
@@ -300,24 +338,24 @@ export default function App() {
             ) : (
               <>
                 {/* Duration Selector Strip */}
-                <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
                   <div>
-                    <h3 className="text-lg font-bold text-slate-900">{t.workout_title}</h3>
-                    <p className="text-xs text-slate-500">{t.workout_subtitle}</p>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">{t.workout_title}</h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{t.workout_subtitle}</p>
                   </div>
 
                   {/* 15 / 30 / 45 min buttons */}
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-semibold text-slate-500 hidden sm:inline">
+                    <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 hidden sm:inline">
                       {t.choose_duration}
                     </span>
-                    <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl">
+                    <div className="flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl">
                       <button
                         onClick={() => setSelectedDuration(15)}
                         className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                           selectedDuration === 15
-                            ? 'bg-white text-emerald-700 shadow-sm'
-                            : 'text-slate-600 hover:text-slate-900'
+                            ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-300 shadow-sm'
+                            : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                         }`}
                       >
                         15 min
@@ -326,8 +364,8 @@ export default function App() {
                         onClick={() => setSelectedDuration(30)}
                         className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                           selectedDuration === 30
-                            ? 'bg-white text-emerald-700 shadow-sm'
-                            : 'text-slate-600 hover:text-slate-900'
+                            ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-300 shadow-sm'
+                            : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                         }`}
                       >
                         30 min
@@ -336,8 +374,8 @@ export default function App() {
                         onClick={() => setSelectedDuration(45)}
                         className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                           selectedDuration === 45
-                            ? 'bg-white text-emerald-700 shadow-sm'
-                            : 'text-slate-600 hover:text-slate-900'
+                            ? 'bg-white dark:bg-slate-700 text-emerald-700 dark:text-emerald-300 shadow-sm'
+                            : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                         }`}
                       >
                         45 min
@@ -358,8 +396,8 @@ export default function App() {
           </section>
         )}
 
-        {/* Tab: Military Calisthenics Bootcamp */}
-        {activeTab === 'military' && (
+        {/* Tab: Military Calisthenics Bootcamp (Exclusively for Badr / homme_44) */}
+        {activeTab === 'military' && activeProfile.id === 'homme_44' && (
           <section className="space-y-6">
             <MilitaryCalisthenics
               profile={activeProfile}
@@ -408,22 +446,15 @@ export default function App() {
             />
           </section>
         )}
-
-        {/* Tab 6: Supabase & Vercel / GitHub */}
-        {activeTab === 'supabase' && (
-          <section className="space-y-6">
-            <SupabaseSync lang={lang} />
-          </section>
-        )}
       </main>
 
       {/* Mobile Bottom Tab Bar (Ergonomic Thumb Zone) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg">
-        <div className="grid grid-cols-7 items-center h-15 px-0.5 max-w-full overflow-hidden w-full">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 shadow-lg">
+        <div className={`grid ${activeProfile.id === 'homme_44' ? 'grid-cols-6' : 'grid-cols-5'} items-center h-15 px-0.5 max-w-full overflow-hidden w-full`}>
           <button
             onClick={() => setActiveTab('profiles')}
             className={`flex flex-col items-center justify-center py-1 transition-colors min-w-0 ${
-              activeTab === 'profiles' ? 'text-emerald-700 font-bold' : 'text-slate-500'
+              activeTab === 'profiles' ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400'
             }`}
           >
             <Users className="w-4 h-4 shrink-0" />
@@ -433,11 +464,11 @@ export default function App() {
           <button
             onClick={() => setActiveTab('workout')}
             className={`flex flex-col items-center justify-center py-1 transition-colors min-w-0 ${
-              activeTab === 'workout' ? 'text-emerald-700 font-bold' : 'text-slate-500'
+              activeTab === 'workout' ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400'
             }`}
           >
             {activeProfile.id === 'femme_65' ? (
-              <Radio className="w-4 h-4 shrink-0 text-amber-600" />
+              <Radio className="w-4 h-4 shrink-0 text-amber-600 dark:text-amber-400" />
             ) : (
               <Dumbbell className="w-4 h-4 shrink-0" />
             )}
@@ -448,20 +479,23 @@ export default function App() {
             </span>
           </button>
 
-          <button
-            onClick={() => setActiveTab('military')}
-            className={`flex flex-col items-center justify-center py-1 transition-colors min-w-0 ${
-              activeTab === 'military' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
-          >
-            <Shield className="w-4 h-4 shrink-0" />
-            <span className="text-[8.5px] mt-0.5 truncate max-w-full">{lang === 'darija' ? 'عسكري' : 'Commando'}</span>
-          </button>
+          {/* Commando 3skri: Only visible for Badr (homme_44) */}
+          {activeProfile.id === 'homme_44' && (
+            <button
+              onClick={() => setActiveTab('military')}
+              className={`flex flex-col items-center justify-center py-1 transition-colors min-w-0 ${
+                activeTab === 'military' ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400'
+              }`}
+            >
+              <Shield className="w-4 h-4 shrink-0" />
+              <span className="text-[8.5px] mt-0.5 truncate max-w-full">{lang === 'darija' ? 'عسكري' : 'Commando'}</span>
+            </button>
+          )}
 
           <button
             onClick={() => setActiveTab('diet')}
             className={`flex flex-col items-center justify-center py-1 transition-colors min-w-0 ${
-              activeTab === 'diet' ? 'text-emerald-700 font-bold' : 'text-slate-500'
+              activeTab === 'diet' ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400'
             }`}
           >
             <CalendarDays className="w-4 h-4 shrink-0" />
@@ -471,7 +505,7 @@ export default function App() {
           <button
             onClick={() => setActiveTab('goals')}
             className={`flex flex-col items-center justify-center py-1 transition-colors min-w-0 ${
-              activeTab === 'goals' ? 'text-emerald-700 font-bold' : 'text-slate-500'
+              activeTab === 'goals' ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400'
             }`}
           >
             <Target className="w-4 h-4 shrink-0" />
@@ -481,37 +515,43 @@ export default function App() {
           <button
             onClick={() => setActiveTab('progress')}
             className={`flex flex-col items-center justify-center py-1 transition-colors min-w-0 ${
-              activeTab === 'progress' ? 'text-emerald-700 font-bold' : 'text-slate-500'
+              activeTab === 'progress' ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400'
             }`}
           >
             <TrendingUp className="w-4 h-4 shrink-0" />
             <span className="text-[8.5px] mt-0.5 truncate max-w-full">{lang === 'darija' ? 'ميزان' : 'Suivi'}</span>
           </button>
-
-          <button
-            onClick={() => setActiveTab('supabase')}
-            className={`flex flex-col items-center justify-center py-1 transition-colors min-w-0 ${
-              activeTab === 'supabase' ? 'text-emerald-700 font-bold' : 'text-slate-500'
-            }`}
-          >
-            <Database className="w-4 h-4 shrink-0" />
-            <span className="text-[8.5px] mt-0.5 truncate max-w-full">Cloud</span>
-          </button>
         </div>
       </nav>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white py-6 mt-12 pb-24 md:pb-6 text-xs text-slate-500">
+      <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 mt-12 pb-24 md:pb-6 text-xs text-slate-500 dark:text-slate-400 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-800">FitMaghrib</span>
+            <span className="font-bold text-slate-800 dark:text-slate-200">FitMaghrib PRO</span>
             <span>·</span>
             <span>Programme de Perte de Poids & Mouvements Maison</span>
           </div>
-          <div className="flex items-center gap-4 text-slate-400">
+          <div className="flex flex-wrap items-center gap-4 text-slate-400 dark:text-slate-500">
+            <button
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-all cursor-pointer"
+            >
+              {theme === 'dark' ? (
+                <>
+                  <Sun className="w-3.5 h-3.5 text-amber-400" />
+                  <span>{lang === 'fr' ? 'Mode clair' : 'الوضع النهاري (Clair)'}</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="w-3.5 h-3.5 text-slate-700 dark:text-slate-300" />
+                  <span>{lang === 'fr' ? 'Mode sombre' : 'الوضع المظلم (Sombre)'}</span>
+                </>
+              )}
+            </button>
             <span>Darija / Français / العربية</span>
             <span>·</span>
-            <span>GitHub & Supabase Ready</span>
+            <span>100% Mobile Ready</span>
           </div>
         </div>
       </footer>

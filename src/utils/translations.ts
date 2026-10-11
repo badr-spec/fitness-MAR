@@ -15,7 +15,6 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     nav_diet: 'Menu 2 Semaines',
     nav_goals: 'Objectifs & Projections',
     nav_progress: 'Suivi & Évolution',
-    nav_supabase: 'GitHub & Supabase',
 
     // Profiles
     profile_1_title: 'Badr (Poids actuel : 102 kg · 179 cm)',
@@ -106,17 +105,6 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     current_weight: 'Poids actuel',
     starting_weight: 'Poids de départ',
     total_lost: 'Poids perdu',
-
-    // Supabase & Deploy
-    supabase_title: 'Synchronisation Supabase & Déploiement Vercel / GitHub',
-    supabase_desc: 'Connectez votre base de données Supabase gratuite et exportez sur GitHub/Vercel en quelques clics.',
-    supabase_url: 'URL du projet Supabase',
-    supabase_anon_key: 'Clé Publique Anon',
-    test_connection: 'Tester la connexion Supabase',
-    save_config: 'Sauvegarder les paramètres',
-    copy_sql: 'Copier le script SQL Supabase',
-    sql_copied: 'Script SQL copié !',
-    deploy_vercel_guide: 'Comment déployer sur Vercel avec GitHub :',
   },
 
   ar: {
@@ -133,7 +121,6 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     nav_diet: 'وجبات أسبوعين',
     nav_goals: 'الأهداف والتوقعات',
     nav_progress: 'سجل التطور',
-    nav_supabase: 'GitHub وسوبابيز',
 
     // Profiles
     profile_1_title: 'بدر (الوزن الحالي: 102 كغ · 179 سم)',
@@ -224,17 +211,6 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     current_weight: 'الوزن الحالي',
     starting_weight: 'وزن البداية',
     total_lost: 'مجموع النقصان',
-
-    // Supabase & Deploy
-    supabase_title: 'ربط قاعدة بيانات Supabase ونشر التطبيق على Vercel',
-    supabase_desc: 'اربط قاعدة بيانات سوبابيز مجاناً وانشر مشروعك على غيتهاب وفيرسل.',
-    supabase_url: 'رابط مشروع سوبابيز (URL)',
-    supabase_anon_key: 'المفتاح العام (Anon Key)',
-    test_connection: 'اختبار الاتصال مع Supabase',
-    save_config: 'حفظ الإعدادات',
-    copy_sql: 'نسخ أوامر إنشاء الجدول SQL',
-    sql_copied: 'تم نسخ كود SQL بنجاح!',
-    deploy_vercel_guide: 'طريقة النشر على Vercel مع GitHub:',
   },
 
   darija: {
@@ -251,7 +227,6 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     nav_diet: 'ماكلة 2 سيمانات',
     nav_goals: 'الهدف والتوقعات',
     nav_progress: 'التطور والميزان',
-    nav_supabase: 'GitHub و Supabase',
 
     // Profiles
     profile_1_title: 'بدر (الوزن الحالي: 102 كلغ · 179 سم)',
@@ -342,16 +317,5 @@ export const TRANSLATIONS: Record<Language, Record<string, string>> = {
     current_weight: 'الوزن دابا',
     starting_weight: 'وزن البداية',
     total_lost: 'شحال طيحتي تبارك الله',
-
-    // Supabase & Deploy
-    supabase_title: 'الربط مع Supabase والنشر فـ Vercel مع GitHub',
-    supabase_desc: 'تقدر تلصق السوارت ديال Supabase باش يتسجلو بياناتك فـ السحاب أو تنشر المشروع فـ Vercel.',
-    supabase_url: 'رابط مشروع Supabase (URL)',
-    supabase_anon_key: 'الساروت العمومي (Anon Key)',
-    test_connection: 'جرب الاتصال بـ Supabase',
-    save_config: 'حفظ الإعدادات',
-    copy_sql: 'نسخ كود SQL لـ Supabase',
-    sql_copied: 'الكود د SQL تنقل !',
-    deploy_vercel_guide: 'كيفاش تنشر هاد لابليكاسيون فـ Vercel باستعمال GitHub :',
   },
 };
