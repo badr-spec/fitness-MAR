@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Heart, 
   Footprints, 
@@ -15,7 +15,11 @@ import {
   Coffee,
   Clock,
   Salad,
-  Radio
+  Radio,
+  Play,
+  Pause,
+  RotateCcw,
+  Dumbbell
 } from 'lucide-react';
 import { Language, UserProfile } from '../types';
 import { MamaQuranRadio } from './MamaQuranRadio';
@@ -27,18 +31,45 @@ interface Props {
 
 export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
   const [activeTab, setActiveTab] = useState<'stabilisation' | 'marche' | 'menu' | 'recommandations'>('stabilisation');
+  const [walkSeconds, setWalkSeconds] = useState(0);
+  const [isWalkTimerActive, setIsWalkTimerActive] = useState(false);
+
+  useEffect(() => {
+    let interval: any = null;
+    if (isWalkTimerActive) {
+      interval = setInterval(() => {
+        setWalkSeconds((s) => s + 1);
+      }, 1000);
+    } else {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isWalkTimerActive]);
+
+  const formatWalkTime = (totalSec: number) => {
+    const hrs = Math.floor(totalSec / 3600);
+    const mins = Math.floor((totalSec % 3600) / 60);
+    const secs = totalSec % 60;
+    if (hrs > 0) {
+      return `${hrs}h ${mins.toString().padStart(2, '0')}m ${secs.toString().padStart(2, '0')}s`;
+    }
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const walkTargetSec = 90 * 60; // 1h30 = 5400s
+  const walkProgressPct = Math.min(100, Math.round((walkSeconds / walkTargetSec) * 100));
 
   const content = {
     darija: {
       heroBadge: 'برنامج خاص وحصري لماما لعزيزة (الوزن الحالي: 64 كلغ)',
-      heroTitle: 'تثبيت الوزن المثالي (64 kg) · بدون حركات رياضية شاقة',
-      heroSubtitle: 'خطة غذائية متكاملة مصممة خصيصاً لتثبيت الوزن بدون حركات أو تمارين مجهدة، مع تسيير ذكي لحصص المشي (1h30 مرتين فالسيمانة)، حمية بدون ملح وبدون سكر، وحماية الكوليسترول والعظام.',
+      heroTitle: 'حركات رياضية خفيفة · تنظيم المشي (1h30) · تثبيت الوزن (64 kg)',
+      heroSubtitle: 'خطة متكاملة تجمع بين حركات رياضية وتمارين خفيفة في البيت لتليين المفاصل، وتنظيم حصص المشي المنعشة (1h30 مرتين فالسيمانة)، حمية متوازنة بدون ملح وبدون سكر، مع راديو محمد السادس للقرآن الكريم.',
       weightCardTitle: 'الوزن المستهدف للتثبيت',
       currentWeight: '64 كلغ (الوزن المثالي المستقر)',
       weightSub: 'الهدف: الحفاظ على 64kg بدون زيادة وبدون نزول حاد، مع توازن الكتلة العضلية والمائية.',
       walkCardTitle: 'تسيير حصص المشي المنظم',
       walkSub: '1h30 دقيقة مشي مريح في الهواء الطلق (2 مرات في الأسبوع)',
-      walkNote: 'المشي كافي 100% لتنشيط الدورة الدموية وحرق السعرات اليومية وتفادي تيبس المفاصل.',
+      walkNote: 'المشي مع الحركات الخفيفة كافيان 100% لتنشيط الدورة الدموية وحرق السعرات اليومية وتفادي تيبس المفاصل.',
       
       tabStabilisation: '🎯 تثبيت الوزن',
       tabMarche: '🚶‍♀️ تنظيم المشي 1h30',
@@ -88,14 +119,14 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
     },
     ar: {
       heroBadge: 'برنامج خاص وحصري لماما لعزيزة (الوزن الحالي: 64 كغ)',
-      heroTitle: 'تثبيت الوزن المثالي (64 كغ) · بدون حركات رياضية شاقة',
-      heroSubtitle: 'خطة غذائية متكاملة مصممة خصيصاً لتثبيت الوزن بدون حركات أو تمارين مجهدة، مع تسيير ذكي لحصص المشي (1h30 مرتين أسبوعياً)، حمية بدون ملح وبدون سكر، وحماية الكوليسترول والعظام.',
+      heroTitle: 'حركات رياضية خفيفة · تنظيم المشي (1h30) · تثبيت الوزن (64 كغ)',
+      heroSubtitle: 'خطة متكاملة تجمع بين الحركات الرياضية الخفيفة في البيت لتليين المفاصل وتقوية الجسم، وتنظيم حصص المشي الخارجي (1h30 مرتين أسبوعياً)، حمية بدون ملح وبدون سكر، وراديو القرآن الكريم.',
       weightCardTitle: 'الوزن المستهدف للتثبيت',
       currentWeight: '64 كغ (الوزن المثالي المستقر)',
       weightSub: 'الهدف: الحفاظ على 64 كغ بدون زيادة وبدون نزول حاد، مع توازن الكتلة العضلية والمائية.',
       walkCardTitle: 'تنظيم حصص المشي الخارجي',
       walkSub: 'ساعة ونصف (1h30) مشي مريح في الهواء الطلق (مرتين في الأسبوع)',
-      walkNote: 'المشي كافٍ تماماً لتنشيط الدورة الدموية وحرق السعرات اليومية وتفادي تيبس المفاصل.',
+      walkNote: 'المشي مع الحركات الرياضية الخفيفة كافيان تماماً لتنشيط الدورة الدموية وتفادي تيبس المفاصل.',
       
       tabStabilisation: '🎯 تثبيت الوزن',
       tabMarche: '🚶‍♀️ تنظيم المشي 1h30',
@@ -141,14 +172,14 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
     },
     fr: {
       heroBadge: 'Programme Sur-Mesure pour Mama Laaziza (Poids Actuel : 64 kg)',
-      heroTitle: 'Stabilisation du Poids Idéal (64 kg) · Sans Exercices Éprouvants',
-      heroSubtitle: 'Plan nutritionnel exclusif axé sur le maintien parfait du poids à 64 kg sans mouvements fatigants, avec gestion de la marche (1h30 2x/semaine), régime strict sans sel/sucre et protection osseuse & cardiovasculaire.',
+      heroTitle: 'Exercices Doux Seniors · Organisation de la Marche (1h30) · Stabilisation (64 kg)',
+      heroSubtitle: 'Plan complet associant mouvements doux à domicile pour la mobilité articulaire, sorties de marche (1h30 2x/semaine), équilibre sans sel/sucre et Radio Coran en direct.',
       weightCardTitle: 'Poids Idéal à Stabiliser',
       currentWeight: '64 kg (Poids Stable et Idéal)',
       weightSub: 'Objectif : Maintenir 64 kg sans fluctuation, préserver la masse osseuse et le tonus vital.',
       walkCardTitle: 'Gestion des Sorties Marche',
       walkSub: '1h30 de marche agréable en extérieur (2 fois par semaine)',
-      walkNote: 'La marche suffit amplement pour la dépense calorique quotidienne et la santé des articulations.',
+      walkNote: 'La marche et les exercices doux réguliers suffisent amplement pour la vitalité et la santé des articulations.',
       
       tabStabilisation: '🎯 Stabilisation',
       tabMarche: '🚶‍♀️ Marche 1h30',
@@ -264,16 +295,16 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
 
           <div className="pt-2 flex flex-wrap items-center gap-3 text-xs font-semibold text-amber-200">
             <span className="bg-black/30 px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>ممنوع الحركات المجهدة (Zéro Mouvements Bruts)</span>
+              <Dumbbell className="w-4 h-4 text-emerald-400" />
+              <span>{lang === 'darija' || lang === 'ar' ? 'حركات رياضية خفيفة وآمنة' : 'Exercices Maison Doux'}</span>
             </span>
             <span className="bg-black/30 px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-1.5">
               <Footprints className="w-4 h-4 text-amber-400" />
-              <span>المشي فقط 1h30 مرتين فالسيمانة</span>
+              <span>{lang === 'darija' || lang === 'ar' ? 'المشي المنظم 1h30 (مرتين أسبوعياً)' : 'Marche Active 1h30 (2x/semaine)'}</span>
             </span>
             <span className="bg-black/30 px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-1.5">
               <Utensils className="w-4 h-4 text-emerald-300" />
-              <span>ريجيم بدون ملح وبدون سكر</span>
+              <span>{lang === 'darija' || lang === 'ar' ? 'تثبيت 64kg بدون ملح وبدون سكر' : 'Stabilisation 64kg Sans Sel/Sucre'}</span>
             </span>
           </div>
         </div>
@@ -408,6 +439,70 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
             <span className="text-xs font-bold bg-amber-50 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 px-3 py-1 rounded-xl border border-amber-200 dark:border-amber-800/60 self-start sm:self-auto">
               {content.marcheTiming}
             </span>
+          </div>
+
+          {/* Interactive Walking Stopwatch & Progress */}
+          <div className="bg-gradient-to-br from-amber-500/10 via-emerald-500/10 to-slate-50 dark:to-slate-850 rounded-2xl p-5 border border-amber-300/40 dark:border-amber-700/50 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span className="text-xs font-extrabold uppercase tracking-wider text-amber-700 dark:text-amber-400 flex items-center gap-1.5">
+                  <Clock className="w-4 h-4" />
+                  {lang === 'darija' || lang === 'ar' ? 'عداد وقت حصة المشي (الهدف: 1h30 دقيقة)' : 'Chronomètre Séance Marche (Objectif : 1h30)'}
+                </span>
+                <div className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-slate-900 dark:text-white mt-1">
+                  {formatWalkTime(walkSeconds)}
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setIsWalkTimerActive(!isWalkTimerActive)}
+                  className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-sm transition-all active:scale-95 ${
+                    isWalkTimerActive
+                      ? 'bg-amber-600 hover:bg-amber-700 text-white'
+                      : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                  }`}
+                >
+                  {isWalkTimerActive ? (
+                    <>
+                      <Pause className="w-4 h-4" />
+                      <span>{lang === 'darija' || lang === 'ar' ? 'إيقاف مؤقت' : 'Pause'}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-4 h-4" />
+                      <span>{lang === 'darija' || lang === 'ar' ? 'بدء المشي' : 'Démarrer Marche'}</span>
+                    </>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => {
+                    setIsWalkTimerActive(false);
+                    setWalkSeconds(0);
+                  }}
+                  className="px-3 py-2.5 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 flex items-center gap-1.5 transition-colors"
+                  title="Réinitialiser"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>{lang === 'darija' || lang === 'ar' ? 'إعادة' : 'Reset'}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Progress Bar to 1h30 */}
+            <div className="space-y-1">
+              <div className="flex justify-between text-[11px] font-bold text-slate-600 dark:text-slate-300">
+                <span>{lang === 'darija' || lang === 'ar' ? 'التقدم نحو ساعة ونصف :' : 'Progression vers 1h30 :'} {walkProgressPct}%</span>
+                <span>{walkSeconds >= walkTargetSec ? '🎉 تم إكمال الحصة بنجاح !' : `${Math.max(0, Math.round((walkTargetSec - walkSeconds)/60))} دقيقة متبقية`}</span>
+              </div>
+              <div className="w-full h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden p-0.5">
+                <div
+                  className="h-full bg-gradient-to-r from-emerald-500 to-amber-500 rounded-full transition-all duration-300"
+                  style={{ width: `${walkProgressPct}%` }}
+                />
+              </div>
+            </div>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">

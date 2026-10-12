@@ -11,12 +11,12 @@ export default defineConfig(() => {
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
-        includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'icon.svg'],
+        includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'icon.svg', 'logo.png', 'logo.jpg', 'pwa-192x192.png', 'pwa-512x512.png', 'pwa-maskable-512x512.png'],
         manifest: {
           id: '/',
-          name: 'FitMaghrib - Sport & Perte de Poids',
+          name: 'FitMaghrib Pro - Sport & Perte de Poids',
           short_name: 'FitMaghrib',
-          description: 'Programme personnalisé de perte de poids avec calisthenics militaire, chronomètre et repas marocains équilibrés.',
+          description: 'Programme personnalisé de perte de poids à domicile avec radio Coran, musique cardio et suivi nutritionnel.',
           theme_color: '#064e3b',
           background_color: '#022c22',
           display: 'standalone',
@@ -40,6 +40,12 @@ export default defineConfig(() => {
               sizes: '512x512',
               type: 'image/png',
               purpose: 'maskable',
+            },
+            {
+              src: '/logo.png',
+              sizes: '512x512',
+              type: 'image/png',
+              purpose: 'any',
             },
           ],
         },
