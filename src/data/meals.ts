@@ -1179,4 +1179,97 @@ export const MEAL_PLAN_14_DAYS: DayDietPlan[] = [
       },
     },
   },
+
+  {
+    dayNumber: 15,
+    week: 2,
+    breakfast: {
+      title: {
+        fr: 'Ftour : Crème d\'Orge Fine Douce, Cumin, Huile d\'Olive & Infusion Verveine',
+        ar: 'فطور: حساء الشعير الرطب (بلبولة رقيقة منخولة) بزيت الزيتون والكمون وشاي اللويزة',
+        darija: 'فطور مهدئ: بلبولة رقيقة منخولة طايبة مزيان بزيت العود وشوية الكمون وكاس د اللويزة بلا سكر',
+      },
+      description: {
+        fr: 'Velouté d\'orge fine tamisée (sans son agressif pour le côlon), 1 c. à café d\'huile d\'olive extra vierge, pincée de cumin et graines d\'anis doux (nafaâ), infusion de verveine (louiza) sans sucre.',
+        ar: 'شوربة شعير ناعمة منخولة بدون نخالة قاسية، ملعقة زيت زيتون بكر، رشة كمون ويانسون، شاي اللويزة المهدئ للأعصاب وللمصران.',
+        darija: 'زلافة بلبولة الشعير الرقيقة منخولة مفيهاش النخالة الحارشة على المصران، مع زيت العود وشوية النافع والكمون وكاس اللويزة كيرخي الطونسيو والمصران.',
+      },
+      caloriesApprox: 310,
+      proteinApprox: 12,
+      specialNotes: {
+        fr: 'Fibres solubles très douces, zéro irritation intestinale, zéro sucre rapide.',
+        ar: 'ألياف ذائبة رطبة تحمي بطانة القولون بدون أي تهيج.',
+        darija: 'ألياف رطبة وصحية مريحة للمصران وماكاديرش الغازات.',
+      },
+    },
+    lunch: {
+      title: {
+        fr: 'Ghdha : Filet de Merlan au Four, Courgettes & Carottes Vapeur au Cumin',
+        ar: 'الغداء: فيليه سمك الميرلا بالفرن مع كوسة وجزر مطهوان على البخار بالكمون',
+        darija: 'الغدا: سمك الميرلا (أو الصول) فالفران مع القرعة الخضرا وخيزو مبخرين بالكمون والحامض',
+      },
+      description: {
+        fr: '140g filet de merlan frais (poisson blanc ultra-digeste, zéro graisse saturée) cuit au four avec jus de citron et cumin, accompagné de courgettes épluchées et carottes vapeur, 40g pain de blé tendre sans son grossier.',
+        ar: '140غ فيليه ميرلا طازج بالفرن مع عصير الليمون والكمون، كوسة مقشرة وجزر على البخار، مع قطعة خبز قمح لين منخول.',
+        darija: 'حوت الميرلا أبيض خفيف بزاف على المصران وبلا شوك، طايب فالفران بالحامض والكمون، مع خيزو وقريعة خضرا مقشرين ومبخرين، وطريف خبيز منخول.',
+      },
+      caloriesApprox: 430,
+      proteinApprox: 35,
+      specialNotes: {
+        fr: 'Zéro gaz : courgettes et carottes sont les légumes les plus digestes pour le côlon.',
+        ar: 'خالٍ من الغازات: الكوسة والجزر هما الألطف على القولون العصبي.',
+        darija: 'زيرو غازات: القرعة وخيزو كيهدنو المصران والحوت الأبيض كيهبط الكوليسترول.',
+      },
+    },
+    snack: {
+      title: {
+        fr: 'Kskrout : Compote de Pomme Tiède Maison & Tisane de Camomille',
+        ar: 'لمجة: تفاحة مطهوة على البخار (كومبوت بدون سكر) مع منقوع البابونج',
+        darija: 'كاسكروط: تفاحة بلدية طايبة على البخار وممعوسة مع كاس د البابونج دافي',
+      },
+      description: {
+        fr: 'Pomme cuite pelée et écrasée à la cannelle douce (sans sucre ajouté), accompagnée d\'une infusion de fleurs de camomille (babounj) apaisante pour le système digestif.',
+        ar: 'تفاحة مقشرة ومطهوة على البخار مع رشة قرفة خفيفة بدون سكر، مع كأس بابونج مهدئ للمصران.',
+        darija: 'تفاحة منقية ومفورة كتهضم بسرعة ومكتنفخش المصران، مع كاس البابونج كيحيد التشنجات.',
+      },
+      caloriesApprox: 110,
+      proteinApprox: 1,
+    },
+    dinner: {
+      title: {
+        fr: '3cha : Velouté Doux de Potiron & Carottes à la Coriandre, Yaourt Nature',
+        ar: 'العشاء: حساء القرع الأحمر والجزر بالكزبرة الطازجة وياغورت طبيعي',
+        darija: 'العشا: صوبة رطبة د القرعة الحمرا وخيزو بالقزبور وزيت العود مع ياغورت طبيعي',
+      },
+      description: {
+        fr: 'Soupe veloutée onctueuse de potiron et carottes mixée à l\'huile d\'olive extra vierge et coriandre (sans crème ni choux), 1 yaourt nature sans sucre fermenté bénéfique pour la flore intestinale.',
+        ar: 'شوربة قرع أحمر وجزر مهروسة بزيت الزيتون والكزبرة (بدون ملح ولا كريمة)، مع علبة زبادي طبيعي تدعم بكتيريا الأمعاء النافعة.',
+        darija: 'صوبة د القرعة الحمرا وخيزو خفيفة ولذيذة كتحمي الشرايين، مع حك ياغورت طبيعي مسوس فيه الخمائر النافعة للمصران.',
+      },
+      caloriesApprox: 210,
+      proteinApprox: 7,
+    },
+    hydrationTip: {
+      fr: 'Boire de l\'eau tiède par petites gorgées tout au long de la journée pour hydrater le côlon en douceur.',
+      ar: 'شرب الماء الفاتر على رشفات صغيرة على مدار اليوم لترطيب الأمعاء بلطف.',
+      darija: 'شرب الما دافي بشوية على طول النهار كيعاون المصران يخدم مرتاح بلا قبض.',
+    },
+    profileSpecificAdvice: {
+      p1: {
+        fr: 'Badr : 15 jours de discipline accomplis avec succès ! Continuez sur cette excellente lancée.',
+        ar: 'بدر: أكملت 15 يوماً من الانضباط الرياضي والغذائي، حافظ على هذا الإيقاع الممتاز.',
+        darija: 'بدر: تبارك الله كملتي 15 يوم متواصلة، الكريشة نقصات والجهد زاد!',
+      },
+      p2: {
+        fr: 'Mama Laaziza : Bravo ! 15 jours de repas sur-mesure sans son agressif, sans choux, sans sel et riches en poissons blancs et oméga-3. Votre côlon est apaisé, votre cholestérol régulé et votre vitamine D renforcée.',
+        ar: 'ماما لعزيزة: مبروك 15 يوماً من التغذية المصممة خصيصاً لحماية المصران الحساس، خفض الكوليسترول، ورفع فيتامين د مع المشي المنتظم.',
+        darija: 'ماما لعزيزة: الله يعطيك الصحة! 15 يوم بماكلة نقية بلا نخالة حارشة وبلا غازات، الحوت المزيان والقرعة واللويزة والمشي فالشميشة خلو المصران هاني والطونسيو مقاد والكوليسترول كيهبط.',
+      },
+      p3: {
+        fr: 'Kaoutar : Programme 15 jours complété sans aucune douleur aux genoux grâce aux anti-inflammatoires naturels.',
+        ar: 'كوثر: أنهيت 15 يوماً بنجاح ودون أي ألم في الركبتين.',
+        darija: 'كوثر: 15 يوم دازت بامتياز والركابي مزيانين مع حركات بدون صدمات.',
+      },
+    },
+  },
 ];

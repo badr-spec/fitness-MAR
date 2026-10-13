@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Coffee, Utensils, Apple, Moon, Droplets, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Coffee, Utensils, Apple, Moon, Droplets, Sparkles, CheckCircle2, ShieldCheck, Fish, AlertTriangle, ChevronDown, ChevronUp, HeartPulse } from 'lucide-react';
 import { DayDietPlan, Language, UserProfile } from '../types';
 import { TRANSLATIONS } from '../utils/translations';
 
@@ -13,6 +13,7 @@ export const MealPlanner: React.FC<Props> = ({ mealPlans, lang, activeProfile })
   const t = TRANSLATIONS[lang];
   const [selectedWeek, setSelectedWeek] = useState<1 | 2>(1);
   const [selectedDayNumber, setSelectedDayNumber] = useState<number>(1);
+  const [showMamaMedicalGuide, setShowMamaMedicalGuide] = useState<boolean>(true);
 
   const weekDays = mealPlans.filter((p) => p.week === selectedWeek);
   const currentDay = mealPlans.find((p) => p.dayNumber === selectedDayNumber) || mealPlans[0];
@@ -94,6 +95,90 @@ export const MealPlanner: React.FC<Props> = ({ mealPlans, lang, activeProfile })
           </p>
         </div>
       </div>
+
+      {/* Mama Laaziza Medical Analysis & Dietary Rules Banner */}
+      {activeProfile.id === 'femme_65' && (
+        <div className="bg-gradient-to-br from-amber-50/80 via-emerald-50/60 to-slate-50 dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-950 border border-amber-300/80 dark:border-amber-700/60 rounded-3xl p-5 sm:p-6 shadow-sm transition-all space-y-4">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-800 dark:text-amber-300 flex items-center justify-center shrink-0">
+                <HeartPulse className="w-5 h-5 text-amber-700 dark:text-amber-400" />
+              </div>
+              <div>
+                <h4 className="text-sm sm:text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
+                  <span>{lang === 'darija' || lang === 'ar' ? '🩺 الملف الغذائي والطبي لماما لعزيزة (نتائج التحاليل)' : '🩺 Bilan Médical & Nutritionnel Mama Laaziza'}</span>
+                  <span className="text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold px-2 py-0.5 rounded-full border border-emerald-300/60">
+                    {lang === 'darija' || lang === 'ar' ? 'متابعة دقيقة' : 'Sur-Mesure'}
+                  </span>
+                </h4>
+                <p className="text-xs text-slate-600 dark:text-slate-400">
+                  {lang === 'darija' || lang === 'ar' ? 'تحاليل الكوليسترول وفيتامين D + حماية المصران الحساس وتفادي الغازات والنخالة القاسية' : 'Analyses cholestérol & vit. D + protection côlon sensible, sans gaz ni son dur'}
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setShowMamaMedicalGuide(!showMamaMedicalGuide)}
+              className="text-xs font-bold text-amber-800 dark:text-amber-300 bg-amber-100/80 dark:bg-amber-950/60 hover:bg-amber-200 dark:hover:bg-amber-900 px-3 py-1.5 rounded-xl border border-amber-300/70 dark:border-amber-700 transition-colors flex items-center gap-1 shrink-0"
+            >
+              <span>{showMamaMedicalGuide ? (lang === 'darija' || lang === 'ar' ? 'إخفاء' : 'Réduire') : (lang === 'darija' || lang === 'ar' ? 'عرض التفاصيل' : 'Détails')}</span>
+              {showMamaMedicalGuide ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            </button>
+          </div>
+
+          {showMamaMedicalGuide && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-2 border-t border-amber-200/60 dark:border-slate-800 text-xs animate-in fade-in duration-200">
+              <div className="bg-white/80 dark:bg-slate-850 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-1.5">
+                <span className="font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5 text-xs text-emerald-800 dark:text-emerald-300">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  {lang === 'darija' || lang === 'ar' ? '1. نتائج التحاليل (الدم والكوليسترول وفيتامين D)' : '1. Analyses Médicales & Bilan'}
+                </span>
+                <p className="text-[11.5px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                  {lang === 'darija' || lang === 'ar'
+                    ? '• الكوليسترول الإجمالي: 2.40 g/L (في تحسن مقارنة بـ 2.55 g/L). ينخفض أكثر مع الحوت الأبيض والمشي.\n• الدهون الثلاثية (1.22) ومخزون الحديد (100.63) والكلى: ممتازة وطبيعية 100%.\n• فيتامين D: ارتفع إلى 21.80 ng/mL (تقدم ممتاز من 8.70 ng/mL). المشي الصباحي (09:30-11:00) والسردين كافيان لتجاوز 30.'
+                    : '• Cholestérol total : 2,40 g/L (en baisse vs 2,55). Régulation avec poissons blancs et marche.\n• Triglycérides (1,22), Ferritine (100,63), Reins et Glycémie : 100% parfaits.\n• Vitamine D : 21,80 ng/mL (forte hausse vs 8,70). Sorties au soleil doux pour dépasser 30.'}
+                </p>
+              </div>
+
+              <div className="bg-white/80 dark:bg-slate-850 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-1.5">
+                <span className="font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5 text-xs text-amber-800 dark:text-amber-300">
+                  <Fish className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                  {lang === 'darija' || lang === 'ar' ? '2. أنواع الحوت الموصى بها (بلا قلي)' : '2. Poissons Recommandés (Sans Friture)'}
+                </span>
+                <p className="text-[11.5px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                  {lang === 'darija' || lang === 'ar'
+                    ? '• الحوت الأبيض الهادئ للمصران: الميرلا (Merlan)، الصول (Sole)، الدَّوْرَاد (Daurade)، الكولان (Colin).\n• حوت فيتامين D والأوميغا 3: السردين البلدي طازج في الفرن بالحامض والكمون، الشطون، أو قطعة سلمون.\n• طريقة الطهي: في الفرن أو مبخر أو طاجين خفيف. ممنوع القلي في الزيت نهائياً.'
+                    : '• Poissons blancs digestes : Merlan, Sole, Daurade, Colin (zéro graisse saturée).\n• Poissons riches en Vitamine D et Oméga-3 : Sardines fraîches au four au citron et cumin, anchois, saumon.\n• Cuisson : au four, vapeur ou tajine doux. Friture strictement proscrite.'}
+                </p>
+              </div>
+
+              <div className="bg-white/80 dark:bg-slate-850 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-1.5">
+                <span className="font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5 text-xs text-rose-800 dark:text-rose-300">
+                  <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+                  {lang === 'darija' || lang === 'ar' ? '3. المصران الحساس والخبز (تجنب النخالة القاسية)' : '3. Côlon Sensible & Pain (Zéro Son Grossier)'}
+                </span>
+                <p className="text-[11.5px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                  {lang === 'darija' || lang === 'ar'
+                    ? '• الألياف: لا نقطع الألياف بل نأخذ الألياف الذائبة الرطبة (القرعة الخضراء المقشرة، الجزر، القرعة الحمراء).\n• الخبز: ممنوع خبز النخالة الغليظة القاسية لأنها تخدش المصران. الأفضل: خبز القمح أو الشعير المنخول ناعماً ومحمص خفيفاً.\n• ما عندهاش لاغوط (حمض اليوريك): لا يوجد مانع من تناول الأسماك والدجاج المعتدل.'
+                    : '• Fibres douces solubles : courgettes épluchées, carottes, potiron doux.\n• Pain : proscrire le son dur/grossier qui irrite la paroi. Préférer farine tamisée fine ou orge douce toastée.\n• Pas d\'acide urique (goutte) : tolérance excellente des protéines blanches.'}
+                </p>
+              </div>
+
+              <div className="bg-white/80 dark:bg-slate-850 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-1.5">
+                <span className="font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5 text-xs text-indigo-800 dark:text-indigo-300">
+                  <Droplets className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                  {lang === 'darija' || lang === 'ar' ? '4. الغازات والأعشاب والطونسيو (الضغط الدموي)' : '4. Gaz, Herbes & Tension Artérielle'}
+                </span>
+                <p className="text-[11.5px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                  {lang === 'darija' || lang === 'ar'
+                    ? '• خضروات ممنوعة لتفادي الغازات: الكرنب (الملفوف)، الشفلور، البروكولي، الفلفل الأخضر النيء، اللفت الحار والبقوليات الجافة.\n• أعشاب ممنوعة على ود الطونسيو: ممنوع اليازير (إكليل الجبل) والعرقسوس.\n• أعشاب مسموحة ومريحة: اللويزة، البابونج، الكمون البلدي والنافع لطرد الغازات.'
+                    : '• Légumes gazogènes à éviter : choux, chou-fleur, brocoli, poivrons crus, légumineuses dures.\n• Herbes à éviter pour la tension : bannir romarin (Yazir) et réglisse.\n• Herbes douces bienfaitrices : verveine (Louiza), camomille (Babounj), cumin doux.'}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* 4 Meals Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
