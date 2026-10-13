@@ -27,9 +27,10 @@ import { MamaQuranRadio } from './MamaQuranRadio';
 interface Props {
   profile: UserProfile;
   lang: Language;
+  onNavigateToDiet?: () => void;
 }
 
-export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
+export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang, onNavigateToDiet }) => {
   const [activeTab, setActiveTab] = useState<'stabilisation' | 'marche' | 'menu' | 'recommandations'>('stabilisation');
   const [walkSeconds, setWalkSeconds] = useState(0);
   const [isWalkTimerActive, setIsWalkTimerActive] = useState(false);
@@ -541,12 +542,43 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang }) => {
         </div>
       )}
 
-      {/* 3. Special Menu for Stabilisation */}
+      {/* 3. Special Menu for Stabilisation & 15-Day Plan Link */}
       {activeTab === 'menu' && (
         <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5 animate-in fade-in duration-200 transition-colors">
-          <div className="flex items-center gap-2.5 text-slate-900 dark:text-white">
-            <Utensils className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-            <h3 className="text-base font-extrabold">{content.menuTitle}</h3>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+            <div className="flex items-center gap-2.5 text-slate-900 dark:text-white">
+              <Utensils className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+              <h3 className="text-base font-extrabold">{content.menuTitle}</h3>
+            </div>
+            {onNavigateToDiet && (
+              <button
+                onClick={onNavigateToDiet}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm transition-colors self-start sm:self-auto"
+              >
+                <span>{lang === 'darija' || lang === 'ar' ? 'عرض برنامج الـ 15 يوماً بالكامل 📅' : 'Voir les 15 Jours Complets 📅'}</span>
+              </button>
+            )}
+          </div>
+
+          {/* Quick Announcement of 15 days update */}
+          <div className="p-3.5 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 flex items-start gap-3">
+            <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+            <div className="text-xs text-emerald-900 dark:text-emerald-200">
+              <p className="font-bold">
+                {lang === 'darija'
+                  ? 'تم تحديث برنامج 15 يوماً كاملاً في التطبيق بالأطباق اليومية المخصصة:'
+                  : lang === 'ar'
+                  ? 'تم تحديث جدول الـ 15 يوماً بالكامل في التطبيق ليناسب تحاليل الدم والمصران الحساس:'
+                  : 'Programme de 15 jours complet mis à jour pour le profil Mama Laaziza :'}
+              </p>
+              <p className="mt-1 text-slate-600 dark:text-slate-300">
+                {lang === 'darija'
+                  ? '• حوت الميرلا والصول بالفرن (أبيض خفيف) والسردين لرفع فيتامين D وخفض الكوليسترول.\n• الخبز منخول ناعم بدون نخالة قاسية لتفادي تجريح المصران.\n• كوسة مقشرة وجزر وقرع أحمر (زيرو غازات وبدون ملح ولا سكر).'
+                  : lang === 'ar'
+                  ? '• أسماك بيضاء وسردين بالفرن، ألياف ذائبة رطبة، استبعاد النخالة القاسية، وزيرو ملح وسكر.'
+                  : '• Poissons blancs digestes & sardines au four, zéro son dur, zéro sel ni sucre.'}
+              </p>
+            </div>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4">

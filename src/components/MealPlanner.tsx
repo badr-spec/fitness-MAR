@@ -24,13 +24,41 @@ export const MealPlanner: React.FC<Props> = ({ mealPlans, lang, activeProfile })
     return day.profileSpecificAdvice.p3[lang];
   };
 
+  const isMama = activeProfile.id === 'femme_65';
+  const totalDays = mealPlans.length;
+
+  const week1Label = isMama
+    ? (lang === 'darija' ? 'السيمانة 1 (أيام 1 حتى 7)' : lang === 'ar' ? 'الأسبوع الأول (الأيام 1 إلى 7)' : 'Semaine 1 (Jours 1 à 7)')
+    : t.week_1;
+
+  const week2Label = isMama
+    ? (lang === 'darija' ? 'السيمانة 2 (أيام 8 حتى 15)' : lang === 'ar' ? 'الأسبوع الثاني (الأيام 8 إلى 15)' : 'Semaine 2 (Jours 8 à 15)')
+    : (totalDays >= 15
+        ? (lang === 'darija' ? 'السيمانة 2 (أيام 8 حتى 15)' : lang === 'ar' ? 'الأسبوع الثاني (الأيام 8 إلى 15)' : 'Semaine 2 (Jours 8 à 15)')
+        : t.week_2);
+
+  const dietTitle = isMama
+    ? (lang === 'darija' ? 'برنامج 15 يوم للأكل خاص بماما لعزيزة' : lang === 'ar' ? 'برنامج التغذية لـ 15 يوماً لماما لعزيزة' : 'Programme Nutritionnel 15 Jours Mama Laaziza')
+    : t.diet_title;
+
+  const dietSubtitle = isMama
+    ? (lang === 'darija' ? '15 يوم بأطباق مغربية صحية بدون ملح وبدون سكر، ألياف رطبة للمصران الحساس، حوت الميرلا والسردين، بدون غازات' : lang === 'ar' ? '15 يوماً من الأطباق المحمية بدون ملح أو سكر، لحماية القولون العصبي وخفض الكوليسترول ورفع فيتامين D' : '15 jours sur-mesure : zéro son dur, poissons digestes, sans gaz, sans sel ni sucre')
+    : t.diet_subtitle;
+
   return (
     <div className="space-y-6">
       {/* Week Tabs */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 transition-colors">
         <div>
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white">{t.diet_title}</h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400">{t.diet_subtitle}</p>
+          <div className="flex items-center gap-2">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">{dietTitle}</h3>
+            {isMama && (
+              <span className="text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-extrabold px-2.5 py-0.5 rounded-full border border-emerald-300/60">
+                {lang === 'darija' || lang === 'ar' ? '15 يوم جديدة ومحدثة' : '15 Jours Mis à Jour'}
+              </span>
+            )}
+          </div>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{dietSubtitle}</p>
         </div>
 
         <div className="flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl self-start sm:self-auto">
@@ -45,7 +73,7 @@ export const MealPlanner: React.FC<Props> = ({ mealPlans, lang, activeProfile })
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
-            {t.week_1}
+            {week1Label}
           </button>
           <button
             onClick={() => {
@@ -58,7 +86,7 @@ export const MealPlanner: React.FC<Props> = ({ mealPlans, lang, activeProfile })
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
-            {t.week_2}
+            {week2Label}
           </button>
         </div>
       </div>

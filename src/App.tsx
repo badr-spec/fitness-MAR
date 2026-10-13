@@ -4,6 +4,7 @@ import { UserProfile, Language, WorkoutDuration, ProgressLogEntry } from './type
 import { PROFILES } from './data/profiles';
 import { EXERCISES } from './data/exercises';
 import { MEAL_PLAN_14_DAYS } from './data/meals';
+import { MAMA_LAAZIZA_15_DAYS_MEALS } from './data/mamaMeals';
 import { TRANSLATIONS } from './utils/translations';
 import { ProfileSelector } from './components/ProfileSelector';
 import { WorkoutPlayer } from './components/WorkoutPlayer';
@@ -366,7 +367,11 @@ export default function App() {
             )}
 
             {activeProfile.id === 'femme_65' && mamaWorkoutSubView === 'walking' ? (
-              <MamaLaazizaSpecialPlan profile={activeProfile} lang={lang} />
+              <MamaLaazizaSpecialPlan
+                profile={activeProfile}
+                lang={lang}
+                onNavigateToDiet={() => setActiveTab('diet')}
+              />
             ) : (
               <>
                 {/* Duration Selector Strip */}
@@ -446,11 +451,11 @@ export default function App() {
           </section>
         )}
 
-        {/* Tab 3: Diet Plan (14 Days) */}
+        {/* Tab 3: Diet Plan (15 Days for Mama Laaziza, 14 Days for others) */}
         {activeTab === 'diet' && (
           <section className="space-y-6">
             <MealPlanner
-              mealPlans={MEAL_PLAN_14_DAYS}
+              mealPlans={activeProfile.id === 'femme_65' ? MAMA_LAAZIZA_15_DAYS_MEALS : MEAL_PLAN_14_DAYS}
               lang={lang}
               activeProfile={activeProfile}
             />
