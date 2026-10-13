@@ -156,48 +156,48 @@ export const MealPlanner: React.FC<Props> = ({ mealPlans, lang, activeProfile })
 
           {showMamaMedicalGuide && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-2 border-t border-amber-200/60 dark:border-slate-800 text-xs animate-in fade-in duration-200">
-              <div className="bg-white/80 dark:bg-slate-850 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-1.5">
-                <span className="font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5 text-xs text-emerald-800 dark:text-emerald-300">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-2">
+                <span className="font-black text-slate-900 dark:text-emerald-300 flex items-center gap-1.5 text-xs">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                   {lang === 'darija' || lang === 'ar' ? '1. نتائج التحاليل (الدم والكوليسترول وفيتامين D)' : '1. Analyses Médicales & Bilan'}
                 </span>
-                <p className="text-[11.5px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                <p className="text-[12px] text-slate-800 dark:text-slate-100 leading-relaxed font-medium">
                   {lang === 'darija' || lang === 'ar'
                     ? '• الكوليسترول الإجمالي: 2.40 g/L (في تحسن مقارنة بـ 2.55 g/L). ينخفض أكثر مع الحوت الأبيض والمشي.\n• الدهون الثلاثية (1.22) ومخزون الحديد (100.63) والكلى: ممتازة وطبيعية 100%.\n• فيتامين D: ارتفع إلى 21.80 ng/mL (تقدم ممتاز من 8.70 ng/mL). المشي الصباحي (09:30-11:00) والسردين كافيان لتجاوز 30.'
                     : '• Cholestérol total : 2,40 g/L (en baisse vs 2,55). Régulation avec poissons blancs et marche.\n• Triglycérides (1,22), Ferritine (100,63), Reins et Glycémie : 100% parfaits.\n• Vitamine D : 21,80 ng/mL (forte hausse vs 8,70). Sorties au soleil doux pour dépasser 30.'}
                 </p>
               </div>
 
-              <div className="bg-white/80 dark:bg-slate-850 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-1.5">
-                <span className="font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5 text-xs text-amber-800 dark:text-amber-300">
-                  <Fish className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+              <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-2">
+                <span className="font-black text-slate-900 dark:text-amber-300 flex items-center gap-1.5 text-xs">
+                  <Fish className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
                   {lang === 'darija' || lang === 'ar' ? '2. أنواع الحوت الموصى بها (بلا قلي)' : '2. Poissons Recommandés (Sans Friture)'}
                 </span>
-                <p className="text-[11.5px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                <p className="text-[12px] text-slate-800 dark:text-slate-100 leading-relaxed font-medium">
                   {lang === 'darija' || lang === 'ar'
                     ? '• الحوت الأبيض الهادئ للمصران: الميرلا (Merlan)، الصول (Sole)، الدَّوْرَاد (Daurade)، الكولان (Colin).\n• حوت فيتامين D والأوميغا 3: السردين البلدي طازج في الفرن بالحامض والكمون، الشطون، أو قطعة سلمون.\n• طريقة الطهي: في الفرن أو مبخر أو طاجين خفيف. ممنوع القلي في الزيت نهائياً.'
                     : '• Poissons blancs digestes : Merlan, Sole, Daurade, Colin (zéro graisse saturée).\n• Poissons riches en Vitamine D et Oméga-3 : Sardines fraîches au four au citron et cumin, anchois, saumon.\n• Cuisson : au four, vapeur ou tajine doux. Friture strictement proscrite.'}
                 </p>
               </div>
 
-              <div className="bg-white/80 dark:bg-slate-850 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-1.5">
-                <span className="font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5 text-xs text-rose-800 dark:text-rose-300">
-                  <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400" />
+              <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-2">
+                <span className="font-black text-slate-900 dark:text-rose-300 flex items-center gap-1.5 text-xs">
+                  <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" />
                   {lang === 'darija' || lang === 'ar' ? '3. المصران الحساس والخبز (تجنب النخالة القاسية)' : '3. Côlon Sensible & Pain (Zéro Son Grossier)'}
                 </span>
-                <p className="text-[11.5px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                <p className="text-[12px] text-slate-800 dark:text-slate-100 leading-relaxed font-medium">
                   {lang === 'darija' || lang === 'ar'
                     ? '• الألياف: لا نقطع الألياف بل نأخذ الألياف الذائبة الرطبة (القرعة الخضراء المقشرة، الجزر، القرعة الحمراء).\n• الخبز: ممنوع خبز النخالة الغليظة القاسية لأنها تخدش المصران. الأفضل: خبز القمح أو الشعير المنخول ناعماً ومحمص خفيفاً.\n• ما عندهاش لاغوط (حمض اليوريك): لا يوجد مانع من تناول الأسماك والدجاج المعتدل.'
                     : '• Fibres douces solubles : courgettes épluchées, carottes, potiron doux.\n• Pain : proscrire le son dur/grossier qui irrite la paroi. Préférer farine tamisée fine ou orge douce toastée.\n• Pas d\'acide urique (goutte) : tolérance excellente des protéines blanches.'}
                 </p>
               </div>
 
-              <div className="bg-white/80 dark:bg-slate-850 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-1.5">
-                <span className="font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5 text-xs text-indigo-800 dark:text-indigo-300">
-                  <Droplets className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+              <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-2">
+                <span className="font-black text-slate-900 dark:text-indigo-300 flex items-center gap-1.5 text-xs">
+                  <Droplets className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
                   {lang === 'darija' || lang === 'ar' ? '4. الغازات والأعشاب والطونسيو (الضغط الدموي)' : '4. Gaz, Herbes & Tension Artérielle'}
                 </span>
-                <p className="text-[11.5px] text-slate-700 dark:text-slate-300 leading-relaxed">
+                <p className="text-[12px] text-slate-800 dark:text-slate-100 leading-relaxed font-medium">
                   {lang === 'darija' || lang === 'ar'
                     ? '• خضروات ممنوعة لتفادي الغازات: الكرنب (الملفوف)، الشفلور، البروكولي، الفلفل الأخضر النيء، اللفت الحار والبقوليات الجافة.\n• أعشاب ممنوعة على ود الطونسيو: ممنوع اليازير (إكليل الجبل) والعرقسوس.\n• أعشاب مسموحة ومريحة: اللويزة، البابونج، الكمون البلدي والنافع لطرد الغازات.'
                     : '• Légumes gazogènes à éviter : choux, chou-fleur, brocoli, poivrons crus, légumineuses dures.\n• Herbes à éviter pour la tension : bannir romarin (Yazir) et réglisse.\n• Herbes douces bienfaitrices : verveine (Louiza), camomille (Babounj), cumin doux.'}
