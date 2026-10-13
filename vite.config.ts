@@ -11,15 +11,17 @@ export default defineConfig(() => {
       tailwindcss(),
       VitePWA({
         registerType: 'autoUpdate',
-        includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'icon.svg', 'logo.png', 'logo.jpg', 'pwa-192x192.png', 'pwa-512x512.png', 'pwa-maskable-512x512.png'],
+        injectRegister: 'auto',
+        includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'icon.svg', 'logo.png', 'logo.jpg', 'pwa-192x192.png', 'pwa-512x512.png', 'pwa-maskable-512x512.png', 'manifest.webmanifest', 'manifest.json'],
         manifest: {
           id: '/',
           name: 'FitMaghrib Pro - Sport & Perte de Poids',
           short_name: 'FitMaghrib',
           description: 'Programme personnalisé de perte de poids à domicile avec radio Coran, musique cardio et suivi nutritionnel.',
           theme_color: '#064e3b',
-          background_color: '#022c22',
+          background_color: '#064e3b',
           display: 'standalone',
+          orientation: 'portrait',
           start_url: '/',
           scope: '/',
           icons: [
@@ -47,6 +49,12 @@ export default defineConfig(() => {
               type: 'image/png',
               purpose: 'any',
             },
+            {
+              src: '/apple-touch-icon.png',
+              sizes: '180x180',
+              type: 'image/png',
+              purpose: 'any',
+            },
           ],
         },
         workbox: {
@@ -60,7 +68,7 @@ export default defineConfig(() => {
     ],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(import.meta.dirname || '.', '.'),
       },
     },
     server: {

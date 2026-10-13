@@ -12,7 +12,7 @@ import { MealPlanner } from './components/MealPlanner';
 import { GoalCalculator } from './components/GoalCalculator';
 import { ProgressTracker } from './components/ProgressTracker';
 import { MilitaryCalisthenics } from './components/MilitaryCalisthenics';
-import { PWAInstallButton } from './components/PWAInstallButton';
+import { PWAInstallButton, PWAInstallBanner } from './components/PWAInstallButton';
 import { MamaLaazizaSpecialPlan } from './components/MamaLaazizaSpecialPlan';
 
 // Pre-seeded initial logs for each profile
@@ -637,6 +637,9 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Mobile Floating PWA Install Banner */}
+      <PWAInstallBanner lang={lang} />
     </div>
   );
 }
