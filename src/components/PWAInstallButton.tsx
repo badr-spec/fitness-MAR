@@ -217,14 +217,14 @@ export const PWAInstallButton: React.FC<{ lang?: 'fr' | 'ar' | 'darija' }> = ({ 
     <>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="inline-flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-xs font-bold shadow-md shadow-emerald-700/20 hover:shadow-emerald-700/40 transition-all active:scale-95 border border-emerald-400/30 whitespace-nowrap shrink-0"
+        className="inline-flex items-center gap-1.5 px-2 sm:px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-500 hover:to-teal-600 text-white text-xs font-bold shadow-md shadow-emerald-700/20 hover:shadow-emerald-700/40 transition-all active:scale-95 border border-emerald-400/30 whitespace-nowrap shrink-0"
         title="Installer FitMaghrib sur votre smartphone"
       >
         <Download className="w-3.5 h-3.5 animate-pulse shrink-0" />
         <span className="hidden sm:inline">{label}</span>
-        <span className="sm:hidden text-[11px] font-bold">📲 App</span>
+        <span className="sm:hidden text-[10px] font-bold">App</span>
         {isInstalled && (
-          <span className="w-2 h-2 rounded-full bg-emerald-300 shrink-0" title="Installé" />
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 shrink-0" title="Installé" />
         )}
       </button>
 

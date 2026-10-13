@@ -137,28 +137,30 @@ export default function App() {
   const currentSessionExercises = filteredExercises.slice(0, Math.min(exerciseCount, filteredExercises.length));
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200 overflow-x-hidden w-full max-w-full">
       {/* =========================================================================
           TOP BAR CONTRACT:
-          [Brand title, one line] — [4–5 nav links, 1–2 word labels, single-line] — [1 primary action]
+          Mobile: Clean brand + actions row, followed by full-width 3-language segmented bar.
+          Desktop: Single-line brand + nav links + actions (theme, PWA, 3 languages).
+          Zero horizontal overflow, 100% visible on all smartphone viewports.
           ========================================================================= */}
-      <header className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4 md:gap-8 min-w-0">
+      <header className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 w-full overflow-hidden">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2 min-w-0 w-full">
           {/* Zone 1: Brand Wordmark (single line, no subtitle) with custom professional logo */}
           <div className="flex items-center gap-2 sm:gap-2.5 whitespace-nowrap shrink-0">
             <img
               src="/logo.png"
               alt="FitMaghrib Logo"
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl shadow-md ring-1 ring-emerald-500/20 object-cover shrink-0"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl shadow-md ring-1 ring-emerald-500/20 object-cover shrink-0"
             />
-            <span className="text-lg sm:text-xl font-black tracking-tight text-slate-900 dark:text-white font-mono flex items-center gap-1">
+            <span className="text-base sm:text-xl font-black tracking-tight text-slate-900 dark:text-white font-mono flex items-center gap-1">
               <span>FitMaghrib</span>
               <span className="text-[9px] sm:text-[10px] font-bold bg-emerald-100 dark:bg-emerald-900/80 text-emerald-800 dark:text-emerald-200 px-1.5 py-0.5 rounded-md">PRO</span>
             </span>
           </div>
 
-          {/* Zone 2: 4-5 Navigation Links (1-2 word labels, single line) */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
+          {/* Zone 2: 4-5 Navigation Links for Tablet/Desktop */}
+          <nav className="hidden md:flex items-center gap-5 lg:gap-6 text-sm font-medium text-slate-600 dark:text-slate-300">
             <button
               onClick={() => setActiveTab('profiles')}
               className={`hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors whitespace-nowrap shrink-0 py-1 border-b-2 ${
@@ -217,8 +219,42 @@ export default function App() {
             </button>
           </nav>
 
-          {/* Zone 3: Actions (Theme Toggle + Language Switcher + PWA Install) */}
-          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+          {/* Zone 3: Actions (Theme Toggle + Language Switcher on Desktop + PWA Install) */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            {/* Desktop Language Switcher (hidden on mobile, mobile has full 3-button bar below) */}
+            <div className="hidden sm:flex items-center p-0.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs shrink-0">
+              <button
+                onClick={() => setLang('darija')}
+                className={`px-2 py-1 rounded-lg text-xs font-bold transition-all ${
+                  lang === 'darija' 
+                    ? 'bg-emerald-600 text-white shadow-sm' 
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                دارجة
+              </button>
+              <button
+                onClick={() => setLang('fr')}
+                className={`px-2 py-1 rounded-lg text-xs font-bold transition-all ${
+                  lang === 'fr' 
+                    ? 'bg-emerald-600 text-white shadow-sm' 
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                FR
+              </button>
+              <button
+                onClick={() => setLang('ar')}
+                className={`px-2 py-1 rounded-lg text-xs font-bold transition-all ${
+                  lang === 'ar' 
+                    ? 'bg-emerald-600 text-white shadow-sm' 
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                عربية
+              </button>
+            </div>
+
             {/* Dark Mode Switcher */}
             <button
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
@@ -240,40 +276,46 @@ export default function App() {
 
             {/* PWA In-App Install Button */}
             <PWAInstallButton lang={lang} />
+          </div>
+        </div>
 
-            {/* Language Switcher with All 3 Languages Visible */}
-            <div className="flex items-center p-0.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs shrink-0">
-              <button
-                onClick={() => setLang('darija')}
-                className={`px-1.5 sm:px-2 py-1 rounded-lg text-[10px] sm:text-xs font-medium transition-all ${
-                  lang === 'darija' 
-                    ? 'bg-emerald-600 text-white shadow-sm font-bold' 
-                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                دارجة
-              </button>
-              <button
-                onClick={() => setLang('fr')}
-                className={`px-1.5 sm:px-2 py-1 rounded-lg text-[10px] sm:text-xs font-medium transition-all ${
-                  lang === 'fr' 
-                    ? 'bg-emerald-600 text-white shadow-sm font-bold' 
-                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                FR
-              </button>
-              <button
-                onClick={() => setLang('ar')}
-                className={`px-1.5 sm:px-2 py-1 rounded-lg text-[10px] sm:text-xs font-medium transition-all ${
-                  lang === 'ar' 
-                    ? 'bg-emerald-600 text-white shadow-sm font-bold' 
-                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                عربية
-              </button>
-            </div>
+        {/* Mobile Dedicated 3-Language Segmented Bar (sm:hidden) */}
+        {/* Guarantees 100% visibility of all 3 languages on any smartphone without clipping or horizontal scroll */}
+        <div className="sm:hidden w-full border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-100/90 dark:bg-slate-850/90 px-2.5 py-1.5">
+          <div className="grid grid-cols-3 gap-1.5 w-full max-w-full">
+            <button
+              onClick={() => setLang('darija')}
+              className={`py-1.5 px-1 rounded-xl text-xs font-black transition-all text-center flex items-center justify-center gap-1 ${
+                lang === 'darija'
+                  ? 'bg-emerald-600 text-white shadow-md ring-1 ring-emerald-500'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700'
+              }`}
+            >
+              <span>🇲🇦</span>
+              <span>الدارجة</span>
+            </button>
+            <button
+              onClick={() => setLang('fr')}
+              className={`py-1.5 px-1 rounded-xl text-xs font-black transition-all text-center flex items-center justify-center gap-1 ${
+                lang === 'fr'
+                  ? 'bg-emerald-600 text-white shadow-md ring-1 ring-emerald-500'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700'
+              }`}
+            >
+              <span>🇫🇷</span>
+              <span>Français</span>
+            </button>
+            <button
+              onClick={() => setLang('ar')}
+              className={`py-1.5 px-1 rounded-xl text-xs font-black transition-all text-center flex items-center justify-center gap-1 ${
+                lang === 'ar'
+                  ? 'bg-emerald-600 text-white shadow-md ring-1 ring-emerald-500'
+                  : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700'
+              }`}
+            >
+              <span>🇸🇦</span>
+              <span>العربية</span>
+            </button>
           </div>
         </div>
       </header>

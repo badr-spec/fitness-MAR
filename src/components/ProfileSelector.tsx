@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Activity, AlertCircle, Heart, ShieldCheck, Check } from 'lucide-react';
+import { User, Activity, AlertCircle, Heart, ShieldCheck, Check, Fish, AlertTriangle, Droplets } from 'lucide-react';
 import { UserProfile, Language } from '../types';
 import { TRANSLATIONS } from '../utils/translations';
 import { MamaQuranRadio } from './MamaQuranRadio';
@@ -212,6 +212,78 @@ export const ProfileSelector: React.FC<Props> = ({ profiles, activeProfile, onSe
             </p>
           </div>
         </div>
+
+        {/* Mama Laaziza 4 Key Medical & Nutrition Pillars (Points 1, 2, 3, 4) */}
+        {activeProfile.id === 'femme_65' && (
+          <div className="mt-6 pt-6 border-t border-slate-700/60 space-y-4">
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-black text-amber-300 flex items-center gap-2">
+                <span>{lang === 'darija' || lang === 'ar' ? '🩺 الملف الطبي والغذائي الخاص بماما لعزيزة (1 - 4) :' : '🩺 Bilan Médical & Directives Nutritionnelles (1 à 4) :'}</span>
+              </h4>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                {lang === 'darija' || lang === 'ar' ? 'متابعة التحاليل' : 'Validé Analyses'}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              {/* Point 1 */}
+              <div className="bg-slate-800/90 p-4 rounded-2xl border border-slate-700 shadow-sm space-y-2">
+                <span className="font-black text-emerald-300 flex items-center gap-1.5 text-xs">
+                  <span className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-300 font-black text-xs flex items-center justify-center shrink-0">1</span>
+                  <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                  {lang === 'darija' || lang === 'ar' ? 'نتائج التحاليل (الدم والكوليسترول وفيتامين D)' : 'Analyses Médicales & Bilan'}
+                </span>
+                <p className="text-[12px] text-slate-100 leading-relaxed font-medium whitespace-pre-line">
+                  {lang === 'darija' || lang === 'ar'
+                    ? '• الكوليسترول الإجمالي: 2.40 g/L (في تحسن مقارنة بـ 2.55 g/L). ينخفض أكثر مع الحوت الأبيض والمشي.\n• الدهون الثلاثية (1.22) ومخزون الحديد (100.63) والكلى: ممتازة وطبيعية 100%.\n• فيتامين D: ارتفع إلى 21.80 ng/mL (تقدم ممتاز من 8.70 ng/mL). المشي الصباحي (09:30-11:00) والسردين كافيان لتجاوز 30.'
+                    : '• Cholestérol total : 2,40 g/L (en baisse vs 2,55). Régulation avec poissons blancs et marche.\n• Triglycérides (1,22), Ferritine (100,63), Reins et Glycémie : 100% parfaits.\n• Vitamine D : 21,80 ng/mL (forte hausse vs 8,70). Sorties au soleil doux pour dépasser 30.'}
+                </p>
+              </div>
+
+              {/* Point 2 */}
+              <div className="bg-slate-800/90 p-4 rounded-2xl border border-slate-700 shadow-sm space-y-2">
+                <span className="font-black text-amber-300 flex items-center gap-1.5 text-xs">
+                  <span className="w-5 h-5 rounded-full bg-amber-500/20 text-amber-300 font-black text-xs flex items-center justify-center shrink-0">2</span>
+                  <Fish className="w-4 h-4 text-cyan-400 shrink-0" />
+                  {lang === 'darija' || lang === 'ar' ? 'أنواع الحوت الموصى بها (بلا قلي)' : 'Poissons Recommandés (Sans Friture)'}
+                </span>
+                <p className="text-[12px] text-slate-100 leading-relaxed font-medium whitespace-pre-line">
+                  {lang === 'darija' || lang === 'ar'
+                    ? '• الحوت الأبيض الهادئ للمصران: الميرلا (Merlan)، الصول (Sole)، الدَّوْرَاد (Daurade)، الكولان (Colin).\n• حوت فيتامين D والأوميغا 3: السردين البلدي طازج في الفرن بالحامض والكمون، الشطون، أو قطعة سلمون.\n• طريقة الطهي: في الفرن أو مبخر أو طاجين خفيف. ممنوع القلي في الزيت نهائياً.'
+                    : '• Poissons blancs digestes : Merlan, Sole, Daurade, Colin (zéro graisse saturée).\n• Poissons riches en Vitamine D et Oméga-3 : Sardines fraîches au four au citron et cumin, anchois, saumon.\n• Cuisson : au four, vapeur ou tajine doux. Friture strictement proscrite.'}
+                </p>
+              </div>
+
+              {/* Point 3 */}
+              <div className="bg-slate-800/90 p-4 rounded-2xl border border-slate-700 shadow-sm space-y-2">
+                <span className="font-black text-rose-300 flex items-center gap-1.5 text-xs">
+                  <span className="w-5 h-5 rounded-full bg-rose-500/20 text-rose-300 font-black text-xs flex items-center justify-center shrink-0">3</span>
+                  <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
+                  {lang === 'darija' || lang === 'ar' ? 'المصران الحساس والخبز (تجنب النخالة القاسية)' : 'Côlon Sensible & Pain (Zéro Son Grossier)'}
+                </span>
+                <p className="text-[12px] text-slate-100 leading-relaxed font-medium whitespace-pre-line">
+                  {lang === 'darija' || lang === 'ar'
+                    ? '• الألياف: لا نقطع الألياف بل نأخذ الألياف الذائبة الرطبة (القرعة الخضراء المقشرة، الجزر، القرعة الحمراء).\n• الخبز: ممنوع خبز النخالة الغليظة القاسية لأنها تخدش المصران. الأفضل: خبز القمح أو الشعير المنخول ناعماً ومحمص خفيفاً.\n• ما عندهاش لاغوط (حمض اليوريك): لا يوجد مانع من تناول الأسماك والدجاج المعتدل.'
+                    : '• Fibres douces solubles : courgettes épluchées, carottes, potiron doux.\n• Pain : proscrire le son dur/grossier qui irrite la paroi. Préférer farine tamisée fine ou orge douce toastée.\n• Pas d\'acide urique (goutte) : tolérance excellente des protéines blanches.'}
+                </p>
+              </div>
+
+              {/* Point 4 */}
+              <div className="bg-slate-800/90 p-4 rounded-2xl border border-slate-700 shadow-sm space-y-2">
+                <span className="font-black text-indigo-300 flex items-center gap-1.5 text-xs">
+                  <span className="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-300 font-black text-xs flex items-center justify-center shrink-0">4</span>
+                  <Droplets className="w-4 h-4 text-indigo-400 shrink-0" />
+                  {lang === 'darija' || lang === 'ar' ? 'الغازات والأعشاب والطونسيو (الضغط الدموي)' : 'Gaz, Herbes & Tension Artérielle'}
+                </span>
+                <p className="text-[12px] text-slate-100 leading-relaxed font-medium whitespace-pre-line">
+                  {lang === 'darija' || lang === 'ar'
+                    ? '• خضروات ممنوعة لتفادي الغازات: الكرنب (الملفوف)، الشفلور، البروكولي، الفلفل الأخضر النيء، اللفت الحار والبقوليات الجافة.\n• أعشاب ممنوعة على ود الطونسيو: ممنوع اليازير (إكليل الجبل) والعرقسوس.\n• أعشاب مسموحة ومريحة: اللويزة، البابونج، الكمون البلدي والنافع لطرد الغازات.'
+                    : '• Légumes gazogènes à éviter : choux, chou-fleur, brocoli, poivrons crus, légumineuses dures.\n• Herbes à éviter pour la tension : bannir romarin (Yazir) et réglisse.\n• Herbes douces bienfaitrices : verveine (Louiza), camomille (Babounj), cumin doux.'}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Special Radio Mohammed VI du Saint Coran for Mama Aziza (femme_65) */}
         {activeProfile.id === 'femme_65' && (
