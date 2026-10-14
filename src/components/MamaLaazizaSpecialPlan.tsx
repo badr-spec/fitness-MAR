@@ -19,7 +19,7 @@ import {
   Play,
   Pause,
   RotateCcw,
-  Dumbbell
+  Check
 } from 'lucide-react';
 import { Language, UserProfile } from '../types';
 import { MamaQuranRadio } from './MamaQuranRadio';
@@ -31,9 +31,22 @@ interface Props {
 }
 
 export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang, onNavigateToDiet }) => {
-  const [activeTab, setActiveTab] = useState<'stabilisation' | 'marche' | 'menu' | 'recommandations'>('stabilisation');
+  const [activeTab, setActiveTab] = useState<'marche' | 'eau' | 'conseils' | 'menu'>('marche');
   const [walkSeconds, setWalkSeconds] = useState(0);
   const [isWalkTimerActive, setIsWalkTimerActive] = useState(false);
+
+  // Daily water glasses tracker (8 glasses = 2 Liters)
+  const todayKey = new Date().toISOString().slice(0, 10);
+  const [waterGlasses, setWaterGlasses] = useState<number>(() => {
+    const saved = localStorage.getItem(`mama_water_${todayKey}`);
+    return saved ? parseInt(saved, 10) : 0;
+  });
+
+  const toggleWaterGlass = (index: number) => {
+    const newCount = index + 1 === waterGlasses ? index : index + 1;
+    setWaterGlasses(newCount);
+    localStorage.setItem(`mama_water_${todayKey}`, newCount.toString());
+  };
 
   useEffect(() => {
     let interval: any = null;
@@ -62,45 +75,64 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang, onNavig
 
   const content = {
     darija: {
-      heroBadge: 'برنامج خاص وحصري لماما لعزيزة (الوزن الحالي: 64 كلغ)',
-      heroTitle: 'حركات رياضية خفيفة · تنظيم المشي (1h30) · تثبيت الوزن (64 kg)',
-      heroSubtitle: 'خطة متكاملة تجمع بين حركات رياضية وتمارين خفيفة في البيت لتليين المفاصل، وتنظيم حصص المشي المنعشة (1h30 مرتين فالسيمانة)، حمية متوازنة بدون ملح وبدون سكر، مع راديو محمد السادس للقرآن الكريم.',
+      heroBadge: 'برنامج خاص وحصري لماما لعزيزة (تثبيت 64 كلغ)',
+      heroTitle: 'المشي اليومي (1h30) · شرب الماء · نصائح الصحة وتثبيت 64kg',
+      heroSubtitle: 'خطة مخصصة لماما لعزيزة ترتكز بالكامل على المشي المنظم في الهواء الطلق، شرب الماء بانتظام، نصائح تثبيت الوزن عند 64 كلغ، وحماية الضغط والعظام، مع الاستماع المباشر لإذاعة محمد السادس للقرآن الكريم (بدون أي أغاني أو حركات رياضية مجهدة).',
       weightCardTitle: 'الوزن المستهدف للتثبيت',
       currentWeight: '64 كلغ (الوزن المثالي المستقر)',
-      weightSub: 'الهدف: الحفاظ على 64kg بدون زيادة وبدون نزول حاد، مع توازن الكتلة العضلية والمائية.',
-      walkCardTitle: 'تسيير حصص المشي المنظم',
-      walkSub: '1h30 دقيقة مشي مريح في الهواء الطلق (2 مرات في الأسبوع)',
-      walkNote: 'المشي مع الحركات الخفيفة كافيان 100% لتنشيط الدورة الدموية وحرق السعرات اليومية وتفادي تيبس المفاصل.',
+      weightSub: 'الهدف: الحفاظ على 64kg بدون زيادة وبدون نزول حاد، مع توازن الكتلة العضلية والمائية وحماية العظام.',
+      walkCardTitle: 'تنظيم حصص المشي المنظم',
+      walkSub: '1h30 دقيقة مشي مريح في الهواء الطلق (مرتين في الأسبوع)',
+      walkNote: 'المشي الهادئ وشرب الماء بانتظام كافيان 100% لتنشيط الدورة الدموية وحرق السعرات وتثبيت الوزن دون الحاجة لأي حركات مجهدة.',
       
-      tabStabilisation: '🎯 تثبيت الوزن',
-      tabMarche: '🚶‍♀️ تنظيم المشي 1h30',
+      tabMarche: '🚶‍♀️ المشي والمدة (1h30)',
+      tabEau: '💧 شرب الماء والترطيب',
+      tabConseils: '🩺 نصائح الصحة وتثبيت 64kg',
       tabMenu: '🍲 ماكلة خاصة للتثبيت',
-      tabRecommandations: '🩺 نصائح صحية (سكر/ملح/عظام)',
 
-      // Tab 1: Stabilisation
-      stabTitle: 'خطة تثبيت الوزن عند 64 كلغ بالضبط:',
-      stabP1: 'تثبيت الوزن في 64 كلغ (Stabilisation) أهم بكثير من النزول الحاد، للحفاظ على قوة العظام وكثافتها وتفادي هشاشة العظام (Ostéoporose) أو فقدان العضلات.',
-      stabStep1Title: '1. ميزان الطاقة المتوازن (1450 سعرة حرارية/يوم):',
-      stabStep1Desc: 'السعرات الحرارية التي تتناولها ماما لعزيزة تساوي تماماً ما تحرقه عبر الأنشطة اليومية وحصص المشي، وبالتالي يبقى الميزان ثابتاً في 64 كلغ أسبوعاً بعد أسبوع.',
-      stabStep2Title: '2. تفادي تقلبات الوزن والماء:',
-      stabStep2Desc: 'الابتعاد الكامل عن الملح يمنع احتباس السوائل (Rétention d\'eau)، مما يحافظ على خفة القدمين واستقرار ضغط الدم دون انتفاخ.',
-      stabStep3Title: '3. تثبيت الكولسترول والسكر التراكمي:',
-      stabStep3Desc: 'استبدال الدهون المشبعة بالأوميغا 3 (السردين وزيت الزيتون) يحمي الشرايين ويبقي مؤشرات الدم ممتازة عند الطبيب.',
-
-      // Tab 2: Marche
-      marcheTitle: 'دليل تسيير حصص المشي (1h30 مرتين في الأسبوع):',
-      marcheTiming: 'أفضل الأيام: الثلاثاء والجمعة أو الأربعاء والسبت (يوم مشي متبوع بيومين راحة)',
+      // Tab 1: Marche & Duration
+      marcheTitle: 'دليل تسيير المشي والمدة المنصوح بها (1h30):',
+      marcheTiming: 'مرتين في الأسبوع (الثلاثاء والجمعة أو الأربعاء والسبت)',
+      marcheDurationTitle: 'شحال مدة المشي؟ (1h30 دقيقة = 90 دقيقة)',
+      marcheDurationDesc: 'مدة المشي المحددة لماما لعزيزة هي ساعة ونصف (1h30) بوتيرة هادئة ومستمرة. هذه المدة كافية لحرق السعرات وتنشيط القلب بدون سرعة وبدون لهاث وبدون أي ضغط على الركابي.',
       marcheRule1Title: 'قبل الخروج للمشي (30 دقيقة قبل):',
-      marcheRule1Desc: 'شرب كأس ماء معتدل الحرارة، وتناول 3 حبات لوز أو نصف موزة لتفادي هبوط السكر المفاجئ أثناء المشي.',
+      marcheRule1Desc: 'شرب كأس كبير من الماء معتدل الحرارة، وتناول 3 حبات لوز أو نصف موزة لتفادي هبوط السكر.',
       marcheRule2Title: 'خلال حصة 1h30 دقيقة:',
-      marcheRule2Desc: 'مشي بوتيرة متوسطة هادئة ومستمرة في حديقة أو كورنيش مستوٍ، مع ارتداء حذاء مريح ذو قاعدة طبية لامتصاص الصدمات.',
+      marcheRule2Desc: 'المشي بخطوات مريحة في حديقة أو كورنيش مستوٍ، مع ارتداء حذاء مريح ذو قاعدة طبية لامتصاص الصدمات وحماية المفاصل.',
       marcheRule3Title: 'الاستفادة من أشعة الشمس وفيتامين (D):',
-      marcheRule3Desc: 'المشي في الصباح بين 09:30 و 11:00 للاستفادة من أشعة الشمس الطبيعية لتثبيت الكالسيوم في العظام.',
+      marcheRule3Desc: 'المشي في الصباح بين 09:30 و 11:00 للاستفادة من أشعة الشمس الطبيعية لرفع فيتامين D فوق 30 وتثبيت الكالسيوم في العظام.',
       marcheRule4Title: 'بعد العودة للمنزل:',
       marcheRule4Desc: 'شرب كأسين من الماء الدافئ تدريجياً، ورفع الرجلين على وسادة لمدة 10 دقائق لراحة الدورة الدموية.',
 
-      // Tab 3: Menu Stabilisation
-      menuTitle: 'برنامج الأكل اليومي المخصص لتثبيت 64 كلغ:',
+      // Tab 2: Eau & Hydration
+      eauTitle: 'دليل شرب الماء والترطيب اليومي لماما لعزيزة:',
+      eauTarget: 'الهدف اليومي: 1.5 لتر إلى 2 لتر (8 كؤوس من الماء الدافئ يومياً)',
+      eauTrackerTitle: 'تتبع كؤوس الماء لليوم (اضغطي لتسجيل الكأس):',
+      eauRule1Title: '1. كأس ماء دافئ على الريق فور الاستيقاظ (08:00):',
+      eauRule1Desc: 'يغسل الكليتين بلطف، ينشط الأمعاء والمصران، ويطرد السموم المتراكمة أثناء النوم.',
+      eauRule2Title: '2. كأس ماء 30 دقيقة قبل المشي (09:00):',
+      eauRule2Desc: 'يرطب العضلات والأوتار ويمنع الشد العضلي وجفاف الحلق أثناء الخروج.',
+      eauRule3Title: '3. رشفات صغيرة أثناء المشي عند الإحساس بالعطش:',
+      eauRule3Desc: 'حمل قنينة ماء صغيرة وترطيب الفم برشفات هادئة بدون بلع كميات كبيرة دفعة واحدة.',
+      eauRule4Title: '4. كأسان من الماء الدافئ بعد العودة من المشي (11:15):',
+      eauRule4Desc: 'شرب كأسين تدريجياً لتعويض ما فقده الجسم مع العرق ولتليين المفاصل.',
+      eauRule5Title: '5. كأس ماء قبل كل وجبة بنصف ساعة (قبل الغداء والعشاء):',
+      eauRule5Desc: 'يسهل عملية الهضم، يحمي جدار المعدة، ويساعد على عدم الإفراط في الأكل.',
+      eauRule6Title: '6. شاي الأعشاب المسائي (اللويزة أو البابونج بدون سكر):',
+      eauRule6Desc: 'يوفر ترطيباً ممتازاً للأعصاب ويساعد على نوم هادئ بدون أي تأثير على ضغط الدم.',
+      eauWarningTitle: '⚠️ قاعدة ذهبية في شرب الماء:',
+      eauWarningDesc: 'الابتعاد التام عن شرب الماء البارد أو المثلج! الماء الدافئ أو المعتدل بدرجة حرارة الغرفة يحمي المصران الحساس ويمنع تشنج المعدة. الشرب جالسة وعلى 3 دفعات كما في السنة الشريفة.',
+
+      // Tab 3: Medical & Health
+      healthTitle: 'النصائح الطبية وقواعد تثبيت الوزن عند 64 كلغ:',
+      h1: 'الملح والطونسيو (الضغط الدموي): الامتناع التام عن الملح واستبداله بالليمون الحامض والكمون البلدي وزيت الزيتون. وتجنب الأعشاب التي ترفع الضغط كاليازير (إكليل الجبل) والعرقسوس، واعتماد اللويزة والبابونج فقط.',
+      h2: 'المصران الحساس والخبز: الاعتماد على ألياف ذائبة رطبة (القرعة الخضراء المقشرة، الجزر، القرعة الحمراء). وتجنب الخبز بالنخالة القاسية، واعتماد خبز القمح اللين أو الشعير المنخول ناعماً.',
+      h3: 'تفادي الغازات والنفخة: الامتناع عن الكرنب (الملفوف)، الشفلور، البروكولي، والفلفل النيء، واستعمال الكمون والنافع لطرد الغازات.',
+      h4: 'أنواع الأسماك والكوليسترول: الأسماك البيضاء الخفيفة (الميرلا، الصول، الدَّوْرَاد) + السردين الطازج بالفرن بدون قلي (غني بالأوميغا 3 وفيتامين D لرفعه فوق 30).',
+      h5: 'تثبيت الوزن في 64 كلغ: ميزان متوازن (1450 سعرة حرارية/يوم) بدون حمية قاسية وبدون صدمات، للحفاظ على قوة العظام وتفادي هشاشة العظام.',
+
+      // Tab 4: Menu
+      menuTitle: 'برنامج الأكل اليومي المخصص لتثبيت 64 كلغ (بدون ملح وبدون سكر):',
       menuFtour: 'الفطور (08:30):',
       menuFtourDesc: 'زلافة حسوة الشعير (بلبولة بلدي) بزيت العود النافع وحبة حلاوة (بدون ملح) + كاس حليب معقم خالي الدسم + شاي أعشاب باللويزة بدون سكر.',
       menuGhda: 'الغداء (13:30):',
@@ -109,169 +141,136 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang, onNavig
       menuKskroutDesc: 'تفاحة أو إجاصة طازجة + 5 حبات جوز (كركاع) بلدي غني بالأوميغا 3 المفيد للدماغ والقلب + مغلي البابونج أو اللويزة.',
       menuAcha: 'العشاء (19:30):',
       menuAchaDesc: 'شوربة خفيفة بالقرع الأحمر والكرفس واللفت بزيت الزيتون البكر ورشة كمون (بدون ملح) أو ياغورت طبيعي بدون سكر.',
-
-      // Tab 4: Health guidelines
-      healthTitle: 'القواعد الذهبية والطبية لماما لعزيزة:',
-      h1: 'الملح والطونسيو: تقليل الملح واستبداله بالليمون الحامض والكمون البلدي. وتجنب الأعشاب التي ترفع الضغط كاليازير (إكليل الجبل) والعرقسوس، واعتماد اللويزة والبابونج فقط.',
-      h2: 'المصران الحساس والخبز: الاعتماد على ألياف ذائبة رطبة (القرعة الخضراء المقشرة، الجزر، القرعة الحمراء). وتجنب الخبز بالنخالة القاسية، واعتماد خبز القمح اللين أو الشعير المنخول ناعماً.',
-      h3: 'تفادي الغازات والنفخة: الامتناع عن الكرنب (الملفوف)، الشفلور، البروكولي، والفلفل النيء، واستعمال الكمون والنافع لطرد الغازات.',
-      h4: 'أنواع الأسماك والكوليسترول: الأسماك البيضاء الخفيفة (الميرلا، الصول، الدَّوْرَاد) + السردين الطازج بالفرن بدون قلي (أوميغا 3 وفيتامين D لرفعه فوق 30).',
-      h5: 'المشي وأشعة الشمس: المشي 1h30 مرتين أسبوعياً صباحاً (09:30-11:00) لتثبيت فيتامين D على العظام وتنشيط الدورة الدموية.',
     },
     ar: {
-      heroBadge: 'برنامج خاص وحصري لماما لعزيزة (الوزن الحالي: 64 كغ)',
-      heroTitle: 'حركات رياضية خفيفة · تنظيم المشي (1h30) · تثبيت الوزن (64 كغ)',
-      heroSubtitle: 'خطة متكاملة تجمع بين الحركات الرياضية الخفيفة في البيت لتليين المفاصل وتقوية الجسم، وتنظيم حصص المشي الخارجي (1h30 مرتين أسبوعياً)، حمية بدون ملح وبدون سكر، وراديو القرآن الكريم.',
+      heroBadge: 'برنامج خاص وحصري لماما لعزيزة (تثبيت 64 كغ)',
+      heroTitle: 'المشي اليومي (1h30) · شرب الماء · نصائح الصحة وتثبيت 64 كغ',
+      heroSubtitle: 'خطة مخصصة لماما لعزيزة ترتكز بالكامل على المشي المنظم في الهواء الطلق، شرب الماء بانتظام، نصائح تثبيت الوزن عند 64 كغ، وحماية الضغط والعظام، مع الاستماع المباشر لإذاعة محمد السادس للقرآن الكريم (بدون أي أغانٍ أو تمارين مجهدة).',
       weightCardTitle: 'الوزن المستهدف للتثبيت',
       currentWeight: '64 كغ (الوزن المثالي المستقر)',
-      weightSub: 'الهدف: الحفاظ على 64 كغ بدون زيادة وبدون نزول حاد، مع توازن الكتلة العضلية والمائية.',
-      walkCardTitle: 'تنظيم حصص المشي الخارجي',
+      weightSub: 'الهدف: الحفاظ على 64 كغ بدون زيادة وبدون نزول حاد، مع توازن الكتلة العضلية والمائية وحماية العظام.',
+      walkCardTitle: 'تنظيم حصص المشي المنظم',
       walkSub: 'ساعة ونصف (1h30) مشي مريح في الهواء الطلق (مرتين في الأسبوع)',
-      walkNote: 'المشي مع الحركات الرياضية الخفيفة كافيان تماماً لتنشيط الدورة الدموية وتفادي تيبس المفاصل.',
+      walkNote: 'المشي الهادئ وشرب الماء بانتظام كافيان تماماً لتنشيط الدورة الدموية وحرق السعرات وتثبيت الوزن دون الحاجة لأي حركات مجهدة.',
       
-      tabStabilisation: '🎯 تثبيت الوزن',
-      tabMarche: '🚶‍♀️ تنظيم المشي 1h30',
-      tabMenu: '🍲 وجبات التثبيت',
-      tabRecommandations: '🩺 نصائح صحية (سكر/ملح/عظام)',
+      tabMarche: '🚶‍♀️ المشي والمدة (1h30)',
+      tabEau: '💧 شرب الماء والترطيب',
+      tabConseils: '🩺 نصائح الصحة وتثبيت 64 كغ',
+      tabMenu: '🍲 وجبات التثبيت المتوازنة',
 
-      stabTitle: 'خطة تثبيت الوزن عند 64 كغ بالضبط:',
-      stabP1: 'تثبيت الوزن عند 64 كغ أهم بكثير من النزول الحاد، للحفاظ على قوة العظام وكثافتها وتفادي هشاشة العظام أو فقدان الكتلة العضلية.',
-      stabStep1Title: '1. ميزان الطاقة المتوازن (1450 سعرة حرارية/يوم):',
-      stabStep1Desc: 'السعرات الحرارية اليومية تعادل تماماً الاحتياج الحقيقي مع المشي، فيبقى الوزن ثابتاً في 64 كغ دائماً.',
-      stabStep2Title: '2. تفادي احتباس السوائل:',
-      stabStep2Desc: 'الامتناع الكامل عن الملح يمنع احتباس الماء ويحافظ على خفة القدمين واستقرار ضغط الدم.',
-      stabStep3Title: '3. حماية الكوليسترول والشرايين:',
-      stabStep3Desc: 'الاعتماد على دهون الأوميغا 3 الطبيعية (السردين وزيت الزيتون) يحمي صحة القلب والأوعية الدموية.',
-
-      marcheTitle: 'دليل تنظيم المشي (1h30 مرتين أسبوعياً):',
-      marcheTiming: 'الأيام المثالية: الثلاثاء والجمعة أو الأربعاء والسبت',
+      marcheTitle: 'دليل تسيير المشي والمدة المنصوح بها (1h30):',
+      marcheTiming: 'مرتان في الأسبوع (الثلاثاء والجمعة أو الأربعاء والسبت)',
+      marcheDurationTitle: 'كم مدة المشي؟ (1h30 = 90 دقيقة)',
+      marcheDurationDesc: 'مدة المشي المحددة لماما لعزيزة هي ساعة ونصف (1h30) بوتيرة هادئة ومستمرة. هذه المدة كافية لحرق السعرات وتنشيط القلب بدون سرعة وبدون إجهاد وبدون أي ضغط على الركبتين.',
       marcheRule1Title: 'قبل الخروج للمشي (بـ 30 دقيقة):',
-      marcheRule1Desc: 'شرب كأس ماء وتناول 3 حبات لوز لتفادي هبوط الطاقة.',
+      marcheRule1Desc: 'شرب كأس كبير من الماء معتدل الحرارة، وتناول 3 حبات لوز لتفادي هبوط السكر.',
       marcheRule2Title: 'أثناء حصة المشي (1h30):',
-      marcheRule2Desc: 'المشي بوتيرة مريحة ومنتظمة في حديقة مستوية مع ارتداء حذاء مريح ممتص للصدمات.',
+      marcheRule2Desc: 'المشي بخطوات مريحة في حديقة مستوية مع ارتداء حذاء مريح ممتص للصدمات لحماية المفاصل.',
       marcheRule3Title: 'الاستفادة من فيتامين د الطبيعي:',
-      marcheRule3Desc: 'المشي صباحاً تحت أشعة الشمس المعتدلة بين 09:30 و 11:00 لتثبيت الكالسيوم في العظام.',
+      marcheRule3Desc: 'المشي صباحاً تحت أشعة الشمس المعتدلة بين 09:30 و 11:00 لرفع فيتامين D وتثبيت الكالسيوم في العظام.',
       marcheRule4Title: 'بعد العودة إلى المنزل:',
-      marcheRule4Desc: 'شرب كأسين من الماء تدريجياً وإراحة القدمين على وسادة لمدة 10 دقائق.',
+      marcheRule4Desc: 'شرب كأسين من الماء الدافئ تدريجياً وإراحة القدمين على وسادة لمدة 10 دقائق.',
+
+      eauTitle: 'دليل شرب الماء والترطيب اليومي لماما لعزيزة:',
+      eauTarget: 'الهدف اليومي: 1.5 لتر إلى 2 لتر (8 كؤوس من الماء الدافئ يومياً)',
+      eauTrackerTitle: 'تتبع كؤوس الماء اليومية (اضغطي لتسجيل الكأس):',
+      eauRule1Title: '1. كأس ماء دافئ على الريق فور الاستيقاظ:',
+      eauRule1Desc: 'ينشط الكليتين والأمعاء ويطرد السموم بلطف.',
+      eauRule2Title: '2. كأس ماء قبل المشي بـ 30 دقيقة:',
+      eauRule2Desc: 'يرطب العضلات والأوتار ويمنع التشنج العضلي.',
+      eauRule3Title: '3. رشفات صغيرة أثناء المشي:',
+      eauRule3Desc: 'ترطيب الحلق بهدوء دون شرب كميات كبيرة دفعة واحدة.',
+      eauRule4Title: '4. كأسان من الماء الدافئ بعد العودة من المشي:',
+      eauRule4Desc: 'تعويض السوائل المفقودة وتليين المفاصل.',
+      eauRule5Title: '5. كأس ماء قبل كل وجبة بنصف ساعة:',
+      eauRule5Desc: 'يسهل الهضم ويحمي جدار المعدة.',
+      eauRule6Title: '6. شاي الأعشاب المسائي (لويزة أو بابونج بدون سكر):',
+      eauRule6Desc: 'ترطيب مهدئ للأعصاب يساعد على النوم العميق دون التأثير على الضغط.',
+      eauWarningTitle: '⚠️ قاعدة ذهبية في شرب الماء:',
+      eauWarningDesc: 'ممنوع شرب الماء البارد أو المثلج! الماء الدافئ أو المعتدل يحمي القولون الحساس ويمنع التشنج. الشرب جالسة وعلى 3 دفعات.',
+
+      healthTitle: 'النصائح الطبية وتثبيت الوزن عند 64 كغ:',
+      h1: 'الملح وضغط الدم: تقليل الملح واستبداله بالليمون والكمون وزيت الزيتون. تجنب اليازير وعرق السوس، واعتماد اللويزة والبابونج.',
+      h2: 'القولون الحساس والخبز: اعتماد ألياف ذائبة رطبة (القرع الأخضر، الجزر، القرع الأحمر). تجنب خبز النخالة القاسية.',
+      h3: 'تفادي الغازات: تجنب الكرنب، الشفلور، البروكولي، والفلفل النيء. استعمال الكمون واليانسون.',
+      h4: 'الأسماك وفيتامين د: الأسماك البيضاء (الميرلا، الصول) والسردين الطازج بالفرن بدون قلي لرفع فيتامين D فوق 30.',
+      h5: 'تثبيت 64 كغ: ميزان طاقة متوازن (1450 سعرة حرارية/يوم) بدون حمية قاسية لحماية كثافة العظام.',
 
       menuTitle: 'البرنامج الغذائي اليومي لتثبيت الوزن (64 كغ):',
       menuFtour: 'الفطور (08:30):',
       menuFtourDesc: 'حساء شعير بلدي (بلبولة) بزيت الزيتون واليانسون (بدون ملح) + كأس حليب خالي الدسم + شاي لويزة بدون سكر.',
       menuGhda: 'الغداء (13:30):',
-      menuGhdaDesc: 'طاجين خضار موسمية بدون دهون مهدرجة مع سمك سردين مشوي بالفرن بالليمون والكمون + ربع رغيف شعير كامل.',
-      menuKskrout: 'لمجة المساء (17:00):',
-      menuKskroutDesc: 'تفاحة أو إجاصة طازجة + 5 حبات جوز غني بالأوميغا 3 + شاي بابونج مهدئ بدون سكر.',
+      menuGhdaDesc: 'طاجين الخضار الموسمية مع سمك السردين الطازج في الفرن بالكمون والثوم والليمون + ربع خبز شعير كامل.',
+      menuKskrout: 'اللمجة (17:00):',
+      menuKskroutDesc: 'تفاحة أو إجاصة طازجة + 5 حبات جوز بلدي غني بالأوميغا 3 + مغلي البابونج.',
       menuAcha: 'العشاء (19:30):',
-      menuAchaDesc: 'شوربة قرع أحمر وكرفس دافئة بزيت الزيتون البكر ورشة كمون (بدون ملح) أو زبادي طبيعي غير محلى.',
-
-      healthTitle: 'القواعد الغذائية والطبية لصحة ماما لعزيزة:',
-      h1: 'الملح وضغط الدم: تقليل الملح واستبداله بعصير الليمون والكمون. وتجنب الأعشاب الرافعة للضغط مثل إكليل الجبل (اليازير) والعرقسوس، والاكتفاء باللويزة والبابونج.',
-      h2: 'القولون الحساس والخبز: الاعتماد على الألياف الذائبة اللطيفة (الكوسة، الجزر، اليقطين). وتجنب خبز النخالة الخشنة واعتماد خبز القمح اللين المنخول أو دقيق الشعير الناعم.',
-      h3: 'منع الغازات والانتفاخ: تجنب الملفوف، القرنبيط، البروكلي، والفلفل النيء، واستعمال الكمون واليانسون لتهدئة البطن.',
-      h4: 'أنواع الأسماك والكوليسترول: الأسماك البيضاء سهلة الهضم (الميرلا، الصول، الدَّوْرَاد) مع السردين الطازج المشوي بالفرن (أوميغا 3 وفيتامين د).',
-      h5: 'المشي وفيتامين د: المشي ساعة ونصف مرتين أسبوعياً تحت الشمس الصباحية المعتدلة لدعم كثافة العظام.',
+      menuAchaDesc: 'شوربة خفيفة بالقرع الأحمر والكرفس بزيت الزيتون البكر والكمون (بدون ملح) أو ياغورت طبيعي بدون سكر.',
     },
     fr: {
-      heroBadge: 'Programme Sur-Mesure pour Mama Laaziza (Poids Actuel : 64 kg)',
-      heroTitle: 'Exercices Doux Seniors · Organisation de la Marche (1h30) · Stabilisation (64 kg)',
-      heroSubtitle: 'Plan complet associant mouvements doux à domicile pour la mobilité articulaire, sorties de marche (1h30 2x/semaine), équilibre sans sel/sucre et Radio Coran en direct.',
-      weightCardTitle: 'Poids Idéal à Stabiliser',
-      currentWeight: '64 kg (Poids Stable et Idéal)',
-      weightSub: 'Objectif : Maintenir 64 kg sans fluctuation, préserver la masse osseuse et le tonus vital.',
-      walkCardTitle: 'Gestion des Sorties Marche',
-      walkSub: '1h30 de marche agréable en extérieur (2 fois par semaine)',
-      walkNote: 'La marche et les exercices doux réguliers suffisent amplement pour la vitalité et la santé des articulations.',
+      heroBadge: 'Programme Dédié Mama Laaziza (Stabilisation 64 kg)',
+      heroTitle: 'Marche Quotidienne (1h30) · Hydratation · Conseils Santé & 64kg',
+      heroSubtitle: 'Plan exclusif axé à 100% sur la marche active en plein air, l\'hydratation régulière en eau tiède, la stabilisation du poids à 64 kg et la protection articulaire/tension, avec la Radio Mohammed VI du Saint Coran (zéro musique/chansons, zéro exercice éprouvant).',
+      weightCardTitle: 'Poids Cible de Stabilisation',
+      currentWeight: '64 kg (Poids Idéal Stable)',
+      weightSub: 'Objectif : Maintenir 64 kg sans reprise et sans fonte musculaire, en préservant le capital osseux.',
+      walkCardTitle: 'Gestion des Séances de Marche',
+      walkSub: '1h30 de marche douce en plein air (2x par semaine)',
+      walkNote: 'La marche sereine et une bonne hydratation suffisent à 100% pour la circulation et le maintien du poids, sans aucun mouvement contraignant.',
       
-      tabStabilisation: '🎯 Stabilisation',
-      tabMarche: '🚶‍♀️ Marche 1h30',
-      tabMenu: '🍲 Menu Dédié',
-      tabRecommandations: '🩺 Santé & Équilibre',
+      tabMarche: '🚶‍♀️ Marche & Durée (1h30)',
+      tabEau: '💧 Hydratation & Eau',
+      tabConseils: '🩺 Conseils Santé & 64kg',
+      tabMenu: '🍲 Menu de Stabilisation',
 
-      stabTitle: 'Plan de Stabilisation à 64 kg :',
-      stabP1: 'La stabilisation à 64 kg est la priorité absolue : elle préserve le capital osseux et évite la fonte musculaire tout en maintenant une forme olympique.',
-      stabStep1Title: '1. Équilibre calorique neutre (1450 kcal/jour) :',
-      stabStep1Desc: 'L\'apport correspond exactement à la dépense avec les 2 sorties de marche, assurant un poids parfaitement fixe à 64 kg.',
-      stabStep2Title: '2. Élimination de la rétention d\'eau :',
-      stabStep2Desc: 'Le zéro sel prévient tout œdème des chevilles et stabilise la tension artérielle.',
-      stabStep3Title: '3. Protection cardiaque et cholestérol :',
-      stabStep3Desc: 'Riche en acides gras oméga-3 (sardines, huile d\'olive vierge) pour maintenir un bilan sanguin irréprochable.',
+      marcheTitle: 'Guide de la Marche et Durée Recommandée (1h30) :',
+      marcheTiming: '2 fois par semaine (Mardi/Vendredi ou Mercredi/Samedi)',
+      marcheDurationTitle: 'Quelle durée de marche ? (1h30 = 90 minutes)',
+      marcheDurationDesc: 'La durée recommandée pour Mama Laaziza est de 1 heure et demie (1h30) à allure régulière et confortable. Cette durée brûle les graisses en douceur, renforce le cœur sans essoufflement et ne sollicite pas les genoux.',
+      marcheRule1Title: 'Avant de sortir marcher (30 min avant) :',
+      marcheRule1Desc: 'Boire un grand verre d\'eau tempérée et prendre 3 amandes ou 1/2 banane pour stabiliser la glycémie.',
+      marcheRule2Title: 'Pendant la séance de 1h30 :',
+      marcheRule2Desc: 'Marche sur terrain plat (parc ou corniche) avec de bonnes chaussures de marche à semelles amortissantes.',
+      marcheRule3Title: 'Exposition au soleil doux (Vitamine D) :',
+      marcheRule3Desc: 'Sortie matinale entre 09h30 et 11h00 pour fixer la Vitamine D naturelle et renforcer les os.',
+      marcheRule4Title: 'Après le retour à la maison :',
+      marcheRule4Desc: 'Boire 2 verres d\'eau tiède par petites gorgées et surélever les jambes 10 minutes sur un coussin.',
 
-      marcheTitle: 'Guide de Gestion de la Marche (1h30 2x/semaine) :',
-      marcheTiming: 'Jours conseillés : Mardi & Vendredi ou Mercredi & Samedi',
-      marcheRule1Title: 'Avant de partir (30 min avant) :',
-      marcheRule1Desc: 'Boire un verre d\'eau et prendre 3 amandes pour stabiliser la glycémie.',
-      marcheRule2Title: 'Pendant la sortie de 1h30 :',
-      marcheRule2Desc: 'Allure modérée et régulière, baskets amortissantes sur terrain plat sans dénivelé abrupt.',
-      marcheRule3Title: 'Bénéfice Vitamine D & Soleil :',
-      marcheRule3Desc: 'Marche le matin entre 09h30 et 11h00 sous le soleil doux pour fixer le calcium dans les os.',
-      marcheRule4Title: 'Après la sortie :',
-      marcheRule4Desc: 'Hydratation progressive avec 2 verres d\'eau tiède et surélévation des jambes 10 minutes.',
+      eauTitle: 'Guide de l\'Hydratation Quotidienne pour Mama Laaziza :',
+      eauTarget: 'Objectif : 1,5 L à 2 L d\'eau tiède par jour (8 verres)',
+      eauTrackerTitle: 'Suivi des verres d\'eau du jour (Cliquez pour valider) :',
+      eauRule1Title: '1. Un grand verre d\'eau tiède à jeun au réveil (08h00) :',
+      eauRule1Desc: 'Purifie les reins, active le transit intestinal en douceur et élimine les toxines nocturnes.',
+      eauRule2Title: '2. Un verre d\'eau 30 minutes avant la marche (09h00) :',
+      eauRule2Desc: 'Hydrate les tendons et les articulations, prévient les crampes et la gorge sèche.',
+      eauRule3Title: '3. Petites gorgées régulières pendant la marche :',
+      eauRule3Desc: 'Garder une petite bouteille et humidifier la gorge par petites gorgées lentes si sensation de soif.',
+      eauRule4Title: '4. Deux verres d\'eau tiède au retour de marche (11h15) :',
+      eauRule4Desc: 'Réhydratation progressive pour détendre la musculature et compenser la transpiration.',
+      eauRule5Title: '5. Un verre d\'eau 30 minutes avant chaque repas :',
+      eauRule5Desc: 'Facilite la digestion et protège l\'estomac contre les aigreurs.',
+      eauRule6Title: '6. Tisane du soir (Verveine / Louiza ou Camomille sans sucre) :',
+      eauRule6Desc: 'Hydratation apaisante pour le système nerveux et sommeil réparateur sans impact sur la tension.',
+      eauWarningTitle: '⚠️ Règle d\'or pour l\'eau :',
+      eauWarningDesc: 'Bannir l\'eau glacée ! Toujours tiède ou à température ambiante pour éviter les spasmes du côlon irritable. Boire assise et en 3 gorgées.',
 
-      menuTitle: 'Menu Quotidien Spécifique de Stabilisation :',
+      healthTitle: 'Directives Médicales & Stabilisation à 64 kg :',
+      h1: 'Sans sel & Tension : Zéro sel de table, assaisonner au jus de citron frais et cumin doux. Proscrire le romarin (Yazir) et la réglisse. Tisanes de verveine et camomille autorisées.',
+      h2: 'Côlon sensible & Pain : Fibres douces cuites (courgettes épluchées, carottes, potiron). Bannir le son dur qui irrite. Préférer le pain de farine tamisée douce ou orge.',
+      h3: 'Zéro gaz : Éviter les choux, chou-fleur, brocoli et poivrons crus. Cumin doux et anis vert recommandés.',
+      h4: 'Poissons & Vitamine D : Poissons blancs digestes (merlan, sole, colin) et sardines fraîches au four pour dépasser 30 ng/mL de Vitamine D.',
+      h5: 'Stabilisation 64 kg : 1450 kcal/jour adaptées à la marche, zéro régime d\'éviction violent pour préserver la masse osseuse.',
+
+      menuTitle: 'Menu de Stabilisation 64 kg (Sans Sel & Sans Sucre) :',
       menuFtour: 'Petit-déjeuner (08h30) :',
-      menuFtourDesc: 'Soupe d\'orge (Belboula) à l\'huile d\'olive et anis (sans sel) + lait écrémé + infusion de verveine sans sucre.',
+      menuFtourDesc: 'Bouillon d\'orge douce (belboula) à l\'huile d\'olive et anis vert (sans sel) + lait écrémé + thé verveine sans sucre.',
       menuGhda: 'Déjeuner (13h30) :',
-      menuGhdaDesc: 'Tajine de légumes de saison sans friture avec sardines fraîches au four au citron et cumin + 40g pain d\'orge.',
+      menuGhdaDesc: 'Tajine de légumes doux avec sardines fraîches au four au citron et cumin + 1/4 de pain d\'orge tamisé.',
       menuKskrout: 'Goûter (17h00) :',
-      menuKskroutDesc: '1 pomme ou poire fraîche + 5 cerneaux de noix (oméga-3) + infusion douce sans sucre.',
+      menuKskroutDesc: '1 pomme ou poire douce + 5 cerneaux de noix (oméga 3) + infusion camomille.',
       menuAcha: 'Dîner (19h30) :',
-      menuAchaDesc: 'Velouté doux de courge, carotte et céleri à l\'huile d\'olive vierge (zéro sel) ou yaourt nature.',
-
-      healthTitle: 'Règles d\'or & Directives Médicales pour Mama Laaziza :',
-      h1: 'Sel & Tension Artérielle : Réduire le sel au profit du citron et cumin. Bannir le romarin (Yazir) et la réglisse ; privilégier verveine (Louiza) et camomille.',
-      h2: 'Côlon Sensible & Pain : Préférer les fibres solubles douces (courgettes épluchées, carottes, potiron). Zéro son grossier dans le pain ; choisir farine tamisée ou orge fine.',
-      h3: 'Zéro Gaz & Ballonnements : Éviter choux, chou-fleur, brocoli et poivrons crus. Utiliser cumin doux et graines d\'anis pour apaiser.',
-      h4: 'Poissons & Cholestérol : Poissons blancs digestes (Merlan, Sole, Daurade, Colin) + sardines fraîches au four au citron/cumin sans friture.',
-      h5: 'Marche & Vitamine D : Marche 1h30 2x/semaine le matin au soleil doux (09h30-11h00) pour dépasser 30 ng/mL.',
+      menuAchaDesc: 'Soupe légère potiron-céleri à l\'huile d\'olive et cumin (sans sel) ou yaourt nature sans sucre.',
     },
-  }[lang] || {
-    heroBadge: 'Mama Laaziza',
-    heroTitle: 'Stabilisation 64kg',
-    heroSubtitle: 'Régime adapté et gestion de la marche',
-    weightCardTitle: 'Poids stable',
-    currentWeight: '64 kg',
-    weightSub: 'Maintien du poids idéal',
-    walkCardTitle: 'Sorties marche',
-    walkSub: '1h30 2x/semaine',
-    walkNote: 'Activité suffisante',
-    tabStabilisation: 'Stabilisation',
-    tabMarche: 'Marche 1h30',
-    tabMenu: 'Menu',
-    tabRecommandations: 'Santé',
-    stabTitle: 'Stabilisation',
-    stabP1: 'Maintien du poids à 64 kg.',
-    stabStep1Title: 'Calories adaptées',
-    stabStep1Desc: '1450 kcal',
-    stabStep2Title: 'Zéro sel',
-    stabStep2Desc: 'Pas de rétention d\'eau',
-    stabStep3Title: 'Cholestérol',
-    stabStep3Desc: 'Oméga 3 et sardines',
-    marcheTitle: 'Marche 1h30',
-    marcheTiming: '2x par semaine',
-    marcheRule1Title: 'Avant',
-    marcheRule1Desc: 'Eau et amandes',
-    marcheRule2Title: 'Sortie',
-    marcheRule2Desc: 'Terrain plat',
-    marcheRule3Title: 'Soleil',
-    marcheRule3Desc: 'Vitamine D',
-    marcheRule4Title: 'Après',
-    marcheRule4Desc: 'Repos jambes',
-    menuTitle: 'Menu',
-    menuFtour: 'Ftour',
-    menuFtourDesc: 'Belboula',
-    menuGhda: 'Ghdha',
-    menuGhdaDesc: 'Tajine sardines',
-    menuKskrout: 'Goûter',
-    menuKskroutDesc: 'Fruits et noix',
-    menuAcha: 'Dîner',
-    menuAchaDesc: 'Soupe légumes',
-    healthTitle: 'Santé',
-    h1: 'Sans sel',
-    h2: 'Sans sucre',
-    h3: 'Vitamine D',
-    h4: 'Cholestérol',
-    h5: 'Hydratation',
-  };
+  }[lang];
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
@@ -294,24 +293,24 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang, onNavig
             {content.heroSubtitle}
           </p>
 
-          <div className="pt-2 flex flex-wrap items-center gap-3 text-xs font-semibold text-amber-200">
-            <span className="bg-black/30 px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-1.5">
-              <Dumbbell className="w-4 h-4 text-emerald-400" />
-              <span>{lang === 'darija' || lang === 'ar' ? 'حركات رياضية خفيفة وآمنة' : 'Exercices Maison Doux'}</span>
-            </span>
+          <div className="pt-2 flex flex-wrap items-center gap-2.5 text-xs font-semibold text-amber-200">
             <span className="bg-black/30 px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-1.5">
               <Footprints className="w-4 h-4 text-amber-400" />
-              <span>{lang === 'darija' || lang === 'ar' ? 'المشي المنظم 1h30 (مرتين أسبوعياً)' : 'Marche Active 1h30 (2x/semaine)'}</span>
+              <span>{lang === 'darija' || lang === 'ar' ? 'المشي 1h30 (مرتين فالسيمانة)' : 'Marche 1h30 (2x/semaine)'}</span>
             </span>
             <span className="bg-black/30 px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-1.5">
-              <Utensils className="w-4 h-4 text-emerald-300" />
+              <Droplets className="w-4 h-4 text-cyan-400" />
+              <span>{lang === 'darija' || lang === 'ar' ? 'شرب 2L ماء دافئ يومياً' : '2L Eau Tiède / Jour'}</span>
+            </span>
+            <span className="bg-black/30 px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-emerald-300" />
               <span>{lang === 'darija' || lang === 'ar' ? 'تثبيت 64kg بدون ملح وبدون سكر' : 'Stabilisation 64kg Sans Sel/Sucre'}</span>
             </span>
           </div>
         </div>
       </div>
 
-      {/* Button & Live Player: Radio Mohammed VI du Saint Coran en Arabe */}
+      {/* Button & Live Player: Radio Mohammed VI du Saint Coran (No songs, peaceful Quran recitation) */}
       <MamaQuranRadio lang={lang} />
 
       {/* Top Two Pillar Metric Cards: Stable Weight & Walk Management */}
@@ -353,30 +352,42 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang, onNavig
         </div>
       </div>
 
-      {/* Interactive Tabs Navigation (Grid 2x2 on mobile so all 4 tabs are 100% visible without horizontal scroll) */}
+      {/* 4 Interactive Tabs Navigation (Grid 2x2 on mobile for full visibility) */}
       <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 pb-1 border-b border-slate-200 dark:border-slate-800 w-full max-w-full">
-        <button
-          onClick={() => setActiveTab('stabilisation')}
-          className={`px-3 py-2.5 text-xs font-bold rounded-xl transition-all text-center flex items-center justify-center gap-1.5 ${
-            activeTab === 'stabilisation'
-              ? 'bg-emerald-700 text-white shadow-sm ring-1 ring-emerald-600'
-              : 'text-slate-700 dark:text-slate-300 bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-700/60'
-          }`}
-        >
-          <span className="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 font-black text-[10px] flex items-center justify-center shrink-0">1</span>
-          <span className="truncate">{content.tabStabilisation}</span>
-        </button>
-
         <button
           onClick={() => setActiveTab('marche')}
           className={`px-3 py-2.5 text-xs font-bold rounded-xl transition-all text-center flex items-center justify-center gap-1.5 ${
             activeTab === 'marche'
+              ? 'bg-amber-600 text-white shadow-sm ring-1 ring-amber-500'
+              : 'text-slate-700 dark:text-slate-300 bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-700/60'
+          }`}
+        >
+          <Footprints className="w-4 h-4 text-amber-300 shrink-0" />
+          <span className="truncate">{content.tabMarche}</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('eau')}
+          className={`px-3 py-2.5 text-xs font-bold rounded-xl transition-all text-center flex items-center justify-center gap-1.5 ${
+            activeTab === 'eau'
+              ? 'bg-cyan-700 text-white shadow-sm ring-1 ring-cyan-600'
+              : 'text-slate-700 dark:text-slate-300 bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-700/60'
+          }`}
+        >
+          <Droplets className="w-4 h-4 text-cyan-300 shrink-0" />
+          <span className="truncate">{content.tabEau}</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('conseils')}
+          className={`px-3 py-2.5 text-xs font-bold rounded-xl transition-all text-center flex items-center justify-center gap-1.5 ${
+            activeTab === 'conseils'
               ? 'bg-emerald-700 text-white shadow-sm ring-1 ring-emerald-600'
               : 'text-slate-700 dark:text-slate-300 bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-700/60'
           }`}
         >
-          <span className="w-4 h-4 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 font-black text-[10px] flex items-center justify-center shrink-0">2</span>
-          <span className="truncate">{content.tabMarche}</span>
+          <ShieldCheck className="w-4 h-4 text-emerald-300 shrink-0" />
+          <span className="truncate">{content.tabConseils}</span>
         </button>
 
         <button
@@ -387,55 +398,15 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang, onNavig
               : 'text-slate-700 dark:text-slate-300 bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-700/60'
           }`}
         >
-          <span className="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 font-black text-[10px] flex items-center justify-center shrink-0">3</span>
+          <Utensils className="w-4 h-4 text-emerald-300 shrink-0" />
           <span className="truncate">{content.tabMenu}</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab('recommandations')}
-          className={`px-3 py-2.5 text-xs font-bold rounded-xl transition-all text-center flex items-center justify-center gap-1.5 ${
-            activeTab === 'recommandations'
-              ? 'bg-emerald-700 text-white shadow-sm ring-1 ring-emerald-600'
-              : 'text-slate-700 dark:text-slate-300 bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200/60 dark:border-slate-700/60'
-          }`}
-        >
-          <span className="w-4 h-4 rounded-full bg-rose-500/20 text-rose-800 dark:text-rose-300 font-black text-[10px] flex items-center justify-center shrink-0">4</span>
-          <span className="truncate">{content.tabRecommandations}</span>
         </button>
       </div>
 
       {/* Tab Panels */}
-      {/* 1. Stabilisation Plan */}
-      {activeTab === 'stabilisation' && (
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5 animate-in fade-in duration-200 transition-colors">
-          <div className="flex items-center gap-2.5 text-emerald-800 dark:text-emerald-400">
-            <Scale className="w-5 h-5" />
-            <h3 className="text-base font-extrabold text-slate-900 dark:text-white">{content.stabTitle}</h3>
-          </div>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-emerald-200/90 leading-relaxed bg-emerald-50/50 dark:bg-emerald-950/40 p-3.5 rounded-2xl border border-emerald-100 dark:border-emerald-800/60">
-            {content.stabP1}
-          </p>
-
-          <div className="grid gap-4">
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
-              <h4 className="text-xs font-bold text-slate-900 dark:text-white">{content.stabStep1Title}</h4>
-              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.stabStep1Desc}</p>
-            </div>
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
-              <h4 className="text-xs font-bold text-slate-900 dark:text-white">{content.stabStep2Title}</h4>
-              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.stabStep2Desc}</p>
-            </div>
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 space-y-1">
-              <h4 className="text-xs font-bold text-slate-900 dark:text-white">{content.stabStep3Title}</h4>
-              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.stabStep3Desc}</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 2. Marche Management */}
+      {/* 1. Marche Management & Duration */}
       {activeTab === 'marche' && (
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5 animate-in fade-in duration-200 transition-colors">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-in fade-in duration-200 transition-colors">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
             <div className="flex items-center gap-2.5 text-slate-900 dark:text-white">
               <Footprints className="w-5 h-5 text-amber-600 dark:text-amber-400" />
@@ -446,99 +417,125 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang, onNavig
             </span>
           </div>
 
+          {/* Explanation: Ch7al Duration */}
+          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-300/40 dark:border-amber-700/50 space-y-2">
+            <div className="flex items-center gap-2 text-amber-900 dark:text-amber-300 font-extrabold text-sm">
+              <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+              <h4>{content.marcheDurationTitle}</h4>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed font-medium">
+              {content.marcheDurationDesc}
+            </p>
+          </div>
+
           {/* Interactive Walking Stopwatch & Progress */}
           <div className="bg-gradient-to-br from-amber-500/10 via-emerald-500/10 to-slate-50 dark:to-slate-850 rounded-2xl p-5 border border-amber-300/40 dark:border-amber-700/50 space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div>
-                <span className="text-xs font-extrabold uppercase tracking-wider text-amber-700 dark:text-amber-400 flex items-center gap-1.5">
-                  <Clock className="w-4 h-4" />
-                  {lang === 'darija' || lang === 'ar' ? 'عداد وقت حصة المشي (الهدف: 1h30 دقيقة)' : 'Chronomètre Séance Marche (Objectif : 1h30)'}
-                </span>
-                <div className="text-3xl sm:text-4xl font-black font-mono tracking-tight text-slate-900 dark:text-white mt-1">
-                  {formatWalkTime(walkSeconds)}
-                </div>
-              </div>
-
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setIsWalkTimerActive(!isWalkTimerActive)}
-                  className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-sm transition-all active:scale-95 ${
-                    isWalkTimerActive
-                      ? 'bg-amber-600 hover:bg-amber-700 text-white'
-                      : 'bg-emerald-600 hover:bg-emerald-700 text-white'
-                  }`}
-                >
-                  {isWalkTimerActive ? (
-                    <>
-                      <Pause className="w-4 h-4" />
-                      <span>{lang === 'darija' || lang === 'ar' ? 'إيقاف مؤقت' : 'Pause'}</span>
-                    </>
-                  ) : (
-                    <>
-                      <Play className="w-4 h-4" />
-                      <span>{lang === 'darija' || lang === 'ar' ? 'بدء المشي' : 'Démarrer Marche'}</span>
-                    </>
-                  )}
-                </button>
-
-                <button
-                  onClick={() => {
-                    setIsWalkTimerActive(false);
-                    setWalkSeconds(0);
-                  }}
-                  className="px-3 py-2.5 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 flex items-center gap-1.5 transition-colors"
-                  title="Réinitialiser"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                  <span>{lang === 'darija' || lang === 'ar' ? 'إعادة' : 'Reset'}</span>
-                </button>
+                <Clock className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                <span className="text-xs font-bold text-slate-900 dark:text-white">
+                  {lang === 'darija' || lang === 'ar' ? 'كرونو المشي التفاعلي لماما لعزيزة (هدف 1h30)' : 'Chronomètre de Marche Active (Cible 1h30)'}
+                </span>
               </div>
+              <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300">
+                {walkProgressPct}%
+              </span>
             </div>
 
-            {/* Progress Bar to 1h30 */}
-            <div className="space-y-1">
-              <div className="flex justify-between text-[11px] font-bold text-slate-600 dark:text-slate-300">
-                <span>{lang === 'darija' || lang === 'ar' ? 'التقدم نحو ساعة ونصف :' : 'Progression vers 1h30 :'} {walkProgressPct}%</span>
-                <span>{walkSeconds >= walkTargetSec ? '🎉 تم إكمال الحصة بنجاح !' : `${Math.max(0, Math.round((walkTargetSec - walkSeconds)/60))} دقيقة متبقية`}</span>
+            {/* Time Display */}
+            <div className="text-center py-2">
+              <div className="text-4xl sm:text-5xl font-black font-mono tracking-tight text-slate-900 dark:text-white">
+                {formatWalkTime(walkSeconds)}
               </div>
-              <div className="w-full h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden p-0.5">
-                <div
-                  className="h-full bg-gradient-to-r from-emerald-500 to-amber-500 rounded-full transition-all duration-300"
-                  style={{ width: `${walkProgressPct}%` }}
-                />
-              </div>
+              <span className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold block mt-1">
+                {lang === 'darija' || lang === 'ar' ? 'الهدف الموصى به: 01:30:00 (ساعة ونصف)' : 'Objectif : 01:30:00 (1h30 de marche)'}
+              </span>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden">
+              <div
+                className="bg-gradient-to-r from-amber-500 to-emerald-500 h-3 rounded-full transition-all duration-300"
+                style={{ width: `${walkProgressPct}%` }}
+              />
+            </div>
+
+            {/* Walk Controls */}
+            <div className="flex items-center justify-center gap-3 pt-1">
+              <button
+                onClick={() => setIsWalkTimerActive(!isWalkTimerActive)}
+                className={`px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all shadow-md ${
+                  isWalkTimerActive
+                    ? 'bg-amber-600 hover:bg-amber-700 text-white'
+                    : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                }`}
+              >
+                {isWalkTimerActive ? (
+                  <>
+                    <Pause className="w-4 h-4" />
+                    <span>{lang === 'darija' || lang === 'ar' ? 'توقيف مؤقت' : 'Pause'}</span>
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-4 h-4 fill-white" />
+                    <span>{lang === 'darija' || lang === 'ar' ? 'بداي المشي دابا' : 'Démarrer la marche'}</span>
+                  </>
+                )}
+              </button>
+
+              <button
+                onClick={() => {
+                  setIsWalkTimerActive(false);
+                  setWalkSeconds(0);
+                }}
+                className="px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 flex items-center gap-1.5 transition-all"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>{lang === 'darija' || lang === 'ar' ? 'إعادة من الصفر' : 'Réinitialiser'}</span>
+              </button>
+            </div>
+
+            {/* Hydration Reminder inside Walk Timer */}
+            <div className="p-3 bg-cyan-500/10 rounded-xl border border-cyan-400/30 flex items-center gap-2.5 text-xs text-cyan-900 dark:text-cyan-200">
+              <Droplets className="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" />
+              <span>
+                {lang === 'darija' || lang === 'ar'
+                  ? 'تذكير أثناء المشي: اشربي رشفات صغيرة من الماء كل 30 دقيقة لترطيب المفاصل وتفادي الجفاف.'
+                  : 'Rappel pendant la marche : buvez de petites gorgées d\'eau toutes les 30 minutes.'}
+              </span>
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 space-y-1.5">
-              <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-xs">
-                <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>{content.marcheRule1Title}</span>
+          {/* 4 Essential Walking Rules */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 space-y-1">
+              <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-bold text-xs">
+                <Coffee className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <h4>{content.marcheRule1Title}</h4>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.marcheRule1Desc}</p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 space-y-1.5">
-              <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-xs">
-                <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>{content.marcheRule2Title}</span>
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 space-y-1">
+              <div className="flex items-center gap-2 text-amber-800 dark:text-amber-300 font-bold text-xs">
+                <Footprints className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                <h4>{content.marcheRule2Title}</h4>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.marcheRule2Desc}</p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 space-y-1.5">
-              <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-xs">
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 space-y-1">
+              <div className="flex items-center gap-2 text-amber-800 dark:text-amber-300 font-bold text-xs">
                 <Sun className="w-4 h-4 text-amber-500" />
-                <span>{content.marcheRule3Title}</span>
+                <h4>{content.marcheRule3Title}</h4>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.marcheRule3Desc}</p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 space-y-1.5">
-              <div className="flex items-center gap-2 text-slate-900 dark:text-white font-bold text-xs">
-                <Heart className="w-4 h-4 text-rose-500" />
-                <span>{content.marcheRule4Title}</span>
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 space-y-1">
+              <div className="flex items-center gap-2 text-teal-800 dark:text-teal-300 font-bold text-xs">
+                <Heart className="w-4 h-4 text-teal-600 dark:text-teal-400" />
+                <h4>{content.marcheRule4Title}</h4>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.marcheRule4Desc}</p>
             </div>
@@ -546,10 +543,164 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang, onNavig
         </div>
       )}
 
-      {/* 3. Special Menu for Stabilisation & 15-Day Plan Link */}
+      {/* 2. Hydratation & Drinking Water Guide (Tchrab Lma) */}
+      {activeTab === 'eau' && (
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-in fade-in duration-200 transition-colors">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+            <div className="flex items-center gap-2.5 text-slate-900 dark:text-white">
+              <Droplets className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
+              <h3 className="text-base font-extrabold">{content.eauTitle}</h3>
+            </div>
+            <span className="text-xs font-bold bg-cyan-50 dark:bg-cyan-950/70 text-cyan-800 dark:text-cyan-300 px-3 py-1 rounded-xl border border-cyan-200 dark:border-cyan-800/60 self-start sm:self-auto">
+              {content.eauTarget}
+            </span>
+          </div>
+
+          {/* Interactive 8 Glasses of Water Tracker */}
+          <div className="p-5 rounded-2xl bg-gradient-to-br from-cyan-500/10 via-teal-500/10 to-slate-50 dark:to-slate-850 border border-cyan-300/40 dark:border-cyan-700/50 space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h4 className="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <Droplets className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                  <span>{content.eauTrackerTitle}</span>
+                </h4>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                  {lang === 'darija' || lang === 'ar'
+                    ? `شربتِ ${waterGlasses} من أصل 8 كؤوس (${(waterGlasses * 0.25).toFixed(2)} لتر / 2 لتر)`
+                    : `${waterGlasses} verres sur 8 bus (${(waterGlasses * 0.25).toFixed(2)}L / 2L)`}
+                </p>
+              </div>
+              <span className="text-xs font-mono font-black px-2.5 py-1 rounded-full bg-cyan-500/20 text-cyan-800 dark:text-cyan-300 border border-cyan-400/30">
+                {Math.round((waterGlasses / 8) * 100)}%
+              </span>
+            </div>
+
+            {/* 8 Glasses Buttons */}
+            <div className="grid grid-cols-4 sm:grid-cols-8 gap-2.5 pt-1">
+              {[0, 1, 2, 3, 4, 5, 6, 7].map((idx) => {
+                const isDrunk = idx < waterGlasses;
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => toggleWaterGlass(idx)}
+                    className={`py-3 px-2 rounded-2xl border text-center transition-all flex flex-col items-center justify-center gap-1.5 ${
+                      isDrunk
+                        ? 'bg-gradient-to-b from-cyan-500 to-teal-600 text-white border-cyan-400 shadow-md ring-2 ring-cyan-400/30'
+                        : 'bg-white dark:bg-slate-800 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-700 hover:border-cyan-400'
+                    }`}
+                  >
+                    <Droplets className={`w-5 h-5 ${isDrunk ? 'text-white fill-white' : 'text-slate-300 dark:text-slate-600'}`} />
+                    <span className="text-[10px] font-bold">
+                      {isDrunk ? `✓ كاس ${idx + 1}` : `كاس ${idx + 1}`}
+                    </span>
+                    <span className="text-[8.5px] opacity-80">250 ml</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Golden Temperature Warning */}
+          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-300/40 dark:border-amber-700/50 space-y-1">
+            <h4 className="text-xs font-black text-amber-900 dark:text-amber-300 flex items-center gap-1.5">
+              <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+              <span>{content.eauWarningTitle}</span>
+            </h4>
+            <p className="text-xs text-slate-700 dark:text-slate-200 leading-relaxed font-medium">
+              {content.eauWarningDesc}
+            </p>
+          </div>
+
+          {/* Detailed Water Drinking Moments */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 space-y-1">
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <Sun className="w-4 h-4 text-amber-500" />
+                <span>{content.eauRule1Title}</span>
+              </h4>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.eauRule1Desc}</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 space-y-1">
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <Footprints className="w-4 h-4 text-emerald-500" />
+                <span>{content.eauRule2Title}</span>
+              </h4>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.eauRule2Desc}</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 space-y-1">
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <Clock className="w-4 h-4 text-cyan-500" />
+                <span>{content.eauRule3Title}</span>
+              </h4>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.eauRule3Desc}</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 space-y-1">
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <Heart className="w-4 h-4 text-rose-500" />
+                <span>{content.eauRule4Title}</span>
+              </h4>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.eauRule4Desc}</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 space-y-1">
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <Utensils className="w-4 h-4 text-emerald-500" />
+                <span>{content.eauRule5Title}</span>
+              </h4>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.eauRule5Desc}</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 space-y-1">
+              <h4 className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <Coffee className="w-4 h-4 text-amber-600" />
+                <span>{content.eauRule6Title}</span>
+              </h4>
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">{content.eauRule6Desc}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 3. Medical & Health Recommendations & Stabilisation 64kg */}
+      {activeTab === 'conseils' && (
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5 animate-in fade-in duration-200 transition-colors">
+          <div className="flex items-center gap-2.5 text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-800 pb-3">
+            <ShieldCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+            <h3 className="text-base font-extrabold">{content.healthTitle}</h3>
+          </div>
+
+          <div className="grid gap-3.5">
+            <div className="flex items-start gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-200">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+              <span className="leading-relaxed font-medium">{content.h1}</span>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-200">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+              <span className="leading-relaxed font-medium">{content.h2}</span>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-200">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+              <span className="leading-relaxed font-medium">{content.h3}</span>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-200">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+              <span className="leading-relaxed font-medium">{content.h4}</span>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-200">
+              <Scale className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+              <span className="leading-relaxed font-medium">{content.h5}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 4. Complete Balanced Meals for 64kg Stabilisation (No salt, no sugar) */}
       {activeTab === 'menu' && (
         <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5 animate-in fade-in duration-200 transition-colors">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
             <div className="flex items-center gap-2.5 text-slate-900 dark:text-white">
               <Utensils className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
               <h3 className="text-base font-extrabold">{content.menuTitle}</h3>
@@ -557,39 +708,18 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang, onNavig
             {onNavigateToDiet && (
               <button
                 onClick={onNavigateToDiet}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm transition-colors self-start sm:self-auto"
+                className="text-xs font-bold text-emerald-700 dark:text-emerald-400 hover:underline self-start sm:self-auto"
               >
-                <span>{lang === 'darija' || lang === 'ar' ? 'عرض برنامج الـ 15 يوماً بالكامل 📅' : 'Voir les 15 Jours Complets 📅'}</span>
+                {lang === 'darija' || lang === 'ar' ? 'عرض جدول 15 يوماً كاملاً ←' : 'Voir tout le menu 15 jours ←'}
               </button>
             )}
           </div>
 
-          {/* Quick Announcement of 15 days update */}
-          <div className="p-3.5 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 flex items-start gap-3">
-            <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-            <div className="text-xs text-emerald-900 dark:text-emerald-200">
-              <p className="font-bold">
-                {lang === 'darija'
-                  ? 'تم تحديث برنامج 15 يوماً كاملاً في التطبيق بالأطباق اليومية المخصصة:'
-                  : lang === 'ar'
-                  ? 'تم تحديث جدول الـ 15 يوماً بالكامل في التطبيق ليناسب تحاليل الدم والمصران الحساس:'
-                  : 'Programme de 15 jours complet mis à jour pour le profil Mama Laaziza :'}
-              </p>
-              <p className="mt-1 text-slate-600 dark:text-slate-300">
-                {lang === 'darija'
-                  ? '• حوت الميرلا والصول بالفرن (أبيض خفيف) والسردين لرفع فيتامين D وخفض الكوليسترول.\n• الخبز منخول ناعم بدون نخالة قاسية لتفادي تجريح المصران.\n• كوسة مقشرة وجزر وقرع أحمر (زيرو غازات وبدون ملح ولا سكر).'
-                  : lang === 'ar'
-                  ? '• أسماك بيضاء وسردين بالفرن، ألياف ذائبة رطبة، استبعاد النخالة القاسية، وزيرو ملح وسكر.'
-                  : '• Poissons blancs digestes & sardines au four, zéro son dur, zéro sel ni sucre.'}
-              </p>
-            </div>
-          </div>
-
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Breakfast */}
-            <div className="p-4 rounded-2xl bg-amber-50/50 dark:bg-amber-950/30 border border-amber-200/70 dark:border-amber-800/60 space-y-1.5">
-              <div className="flex items-center gap-2 text-amber-900 dark:text-amber-300 font-bold text-xs">
-                <Coffee className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+            <div className="p-4 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-200/70 dark:border-emerald-800/60 space-y-1.5">
+              <div className="flex items-center gap-2 text-emerald-900 dark:text-emerald-300 font-bold text-xs">
+                <Coffee className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span>{content.menuFtour}</span>
               </div>
               <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">{content.menuFtourDesc}</p>
@@ -620,39 +750,6 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang, onNavig
                 <span>{content.menuAcha}</span>
               </div>
               <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">{content.menuAchaDesc}</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 4. Health & Medical Recommendations */}
-      {activeTab === 'recommandations' && (
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5 animate-in fade-in duration-200 transition-colors">
-          <div className="flex items-center gap-2.5 text-slate-900 dark:text-white">
-            <ShieldCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-            <h3 className="text-base font-extrabold">{content.healthTitle}</h3>
-          </div>
-
-          <div className="grid gap-3">
-            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-200">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-              <span>{content.h1}</span>
-            </div>
-            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-200">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-              <span>{content.h2}</span>
-            </div>
-            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-200">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-              <span>{content.h3}</span>
-            </div>
-            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-200">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-              <span>{content.h4}</span>
-            </div>
-            <div className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs text-slate-700 dark:text-slate-200">
-              <Droplets className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0 mt-0.5" />
-              <span>{content.h5}</span>
             </div>
           </div>
         </div>

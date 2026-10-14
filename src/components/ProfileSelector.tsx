@@ -195,7 +195,7 @@ export const ProfileSelector: React.FC<Props> = ({ profiles, activeProfile, onSe
             </div>
             <p className="text-slate-200 font-medium">
               {activeProfile.id === 'homme_44' && (lang === 'darija' ? 'حركات بدون قفز لتفادي الضغط على الكواحل' : 'Low impact, protection chevilles et dos.')}
-              {activeProfile.id === 'femme_65' && (lang === 'darija' ? 'تقوية لطيفة للعظام والتوازن والحوض' : 'Maintien de la densité osseuse et de l\'équilibre.')}
+              {activeProfile.id === 'femme_65' && (lang === 'darija' ? 'المشي الهادئ وشرب الماء فقط، بدون أي حركات مجهدة أو قفز' : 'Marche sereine et hydratation seule, zéro mouvement éprouvant.')}
               {activeProfile.id === 'femme_36' && (lang === 'darija' ? 'ممنوع السكوات الغارق، تمارين جالسة ومستلقية' : 'Zéro flexion profonde, exercices assis ou au sol.')}
             </p>
           </div>
@@ -204,11 +204,13 @@ export const ProfileSelector: React.FC<Props> = ({ profiles, activeProfile, onSe
             <div className="flex items-center gap-2 text-slate-400 mb-2">
               <AlertCircle className="w-4 h-4 text-amber-400" />
               <span className="font-semibold text-slate-300">
-                {lang === 'darija' ? 'الحصة المنصوح بها' : 'Durée Quotidienne'}
+                {lang === 'darija' ? 'الحصة والمدة المنصوح بها' : 'Durée Recommandée'}
               </span>
             </div>
             <p className="text-emerald-400 font-bold text-sm">
-              {activeProfile.recommendedDuration} minutes / jour
+              {activeProfile.id === 'femme_65'
+                ? (lang === 'darija' ? '1h30 مشي (مرتين فالسيمانة)' : '1h30 marche (2x/semaine)')
+                : `${activeProfile.recommendedDuration} minutes / jour`}
             </p>
           </div>
         </div>

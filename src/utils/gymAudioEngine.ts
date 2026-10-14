@@ -237,7 +237,9 @@ class GymAudioEngine {
       this.activeProfileId = profileId;
       this.currentTrackIndex = 0;
       this.activeCategory = 'all';
-      if (this.isPlaying) {
+      if (profileId === 'femme_65') {
+        this.pause();
+      } else if (this.isPlaying) {
         this.play(0);
       } else {
         this.notify();
@@ -299,6 +301,10 @@ class GymAudioEngine {
   }
 
   public async play(trackIndex?: number) {
+    if (this.activeProfileId === 'femme_65') {
+      this.pause();
+      return;
+    }
     const playlist = this.getActivePlaylist();
     if (trackIndex !== undefined && trackIndex >= 0 && trackIndex < playlist.length) {
       this.currentTrackIndex = trackIndex;
@@ -484,3 +490,4 @@ class GymAudioEngine {
 }
 
 export const gymAudio = new GymAudioEngine();
+export const gymAudioEngine = gymAudio;

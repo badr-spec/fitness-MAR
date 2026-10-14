@@ -1,6 +1,6 @@
 export type Language = 'darija' | 'fr' | 'ar';
 
-export type WorkoutDuration = 15 | 30 | 45;
+export type WorkoutDuration = 15 | 30 | 45 | 90;
 
 export type MonthlyWeightGoal = 2 | 4 | 6; // kg per month
 

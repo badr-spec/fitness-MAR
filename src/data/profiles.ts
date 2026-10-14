@@ -32,7 +32,7 @@ export const PROFILES: UserProfile[] = [
     jointPrecautions: ['stabilisation_poids_ideal', 'marche_exclusive_1h30', 'zero_mouvements_eprouvants'],
     lifestyleNotes: 'marche_1h30_2fois_regime_sans_sel_sans_sucre',
     avatarSeed: 'MamaLaaziza-65',
-    recommendedDuration: 15,
+    recommendedDuration: 90,
     targetWeight3Months: 64,
     targetWeight6Months: 64,
     dailyCalorieBudget: 1450,
