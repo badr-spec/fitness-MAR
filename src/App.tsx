@@ -327,7 +327,7 @@ export default function App() {
       </header>
 
       {/* Main Content Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6 sm:space-y-8 overflow-x-hidden min-w-0">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-8 pb-24 md:pb-8 space-y-6 sm:space-y-8 overflow-x-hidden min-w-0">
         {/* Quick Profile Kicker Banner */}
         <section className="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200/80 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors">
           <div className="flex items-center gap-3">
@@ -509,34 +509,44 @@ export default function App() {
         )}
       </main>
 
-      {/* Mobile Bottom Tab Bar (Ergonomic Thumb Zone) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 shadow-lg">
-        <div className={`grid ${activeProfile.id === 'homme_44' ? 'grid-cols-6' : 'grid-cols-5'} items-center h-15 px-0.5 max-w-full overflow-hidden w-full`}>
+      {/* Mobile Bottom Tab Bar (Ergonomic Thumb Zone - High Visibility & Large Text) */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/98 dark:bg-slate-950/98 backdrop-blur-xl border-t-2 border-slate-200 dark:border-slate-800 shadow-[0_-4px_25px_rgba(0,0,0,0.15)] pb-[env(safe-area-inset-bottom)]">
+        <div className={`grid ${activeProfile.id === 'homme_44' ? 'grid-cols-6' : 'grid-cols-5'} items-center h-[72px] px-1.5 gap-1 max-w-full overflow-hidden w-full`}>
+          {/* 1. Profils */}
           <button
             onClick={() => setActiveTab('profiles')}
-            className={`flex flex-col items-center justify-center py-1 transition-colors min-w-0 ${
-              activeTab === 'profiles' ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400'
+            className={`flex flex-col items-center justify-center py-2 px-1 transition-all rounded-xl min-w-0 ${
+              activeTab === 'profiles'
+                ? 'bg-emerald-600 text-white shadow-md ring-1 ring-emerald-500'
+                : 'text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-900'
             }`}
           >
-            <Users className="w-4 h-4 shrink-0" />
-            <span className="text-[8.5px] mt-0.5 truncate max-w-full">{lang === 'darija' ? 'بروفيل' : 'Profils'}</span>
+            <Users className="w-5.5 h-5.5 sm:w-6 sm:h-6 shrink-0" />
+            <span className="text-[11px] sm:text-xs font-black mt-1 truncate max-w-full">
+              {lang === 'fr' ? 'Profils' : 'بروفيل'}
+            </span>
           </button>
 
+          {/* 2. Marche / Sport */}
           <button
             onClick={() => setActiveTab('workout')}
-            className={`flex flex-col items-center justify-center py-1 transition-colors min-w-0 ${
-              activeTab === 'workout' ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400'
+            className={`flex flex-col items-center justify-center py-2 px-1 transition-all rounded-xl min-w-0 ${
+              activeTab === 'workout'
+                ? activeProfile.id === 'femme_65'
+                  ? 'bg-amber-600 text-white shadow-md ring-1 ring-amber-500'
+                  : 'bg-emerald-600 text-white shadow-md ring-1 ring-emerald-500'
+                : 'text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-900'
             }`}
           >
             {activeProfile.id === 'femme_65' ? (
-              <Footprints className="w-4 h-4 shrink-0 text-amber-500" />
+              <Footprints className="w-5.5 h-5.5 sm:w-6 sm:h-6 shrink-0" />
             ) : (
-              <Dumbbell className="w-4 h-4 shrink-0" />
+              <Dumbbell className="w-5.5 h-5.5 sm:w-6 sm:h-6 shrink-0" />
             )}
-            <span className="text-[8.5px] mt-0.5 truncate max-w-full">
+            <span className="text-[11px] sm:text-xs font-black mt-1 truncate max-w-full">
               {activeProfile.id === 'femme_65'
-                ? (lang === 'darija' || lang === 'ar' ? 'مشي ونصائح' : 'Marche')
-                : (lang === 'darija' ? 'حركات' : lang === 'ar' ? 'رياضة' : 'Sport')}
+                ? (lang === 'fr' ? 'Marche' : 'مشي')
+                : (lang === 'fr' ? 'Sport' : lang === 'ar' ? 'رياضة' : 'حركات')}
             </span>
           </button>
 
@@ -544,43 +554,62 @@ export default function App() {
           {activeProfile.id === 'homme_44' && (
             <button
               onClick={() => setActiveTab('military')}
-              className={`flex flex-col items-center justify-center py-1 transition-colors min-w-0 ${
-                activeTab === 'military' ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400'
+              className={`flex flex-col items-center justify-center py-2 px-1 transition-all rounded-xl min-w-0 ${
+                activeTab === 'military'
+                  ? 'bg-emerald-700 text-white shadow-md ring-1 ring-emerald-600'
+                  : 'text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-900'
               }`}
             >
-              <Shield className="w-4 h-4 shrink-0" />
-              <span className="text-[8.5px] mt-0.5 truncate max-w-full">{lang === 'darija' ? 'عسكري' : 'Commando'}</span>
+              <Shield className="w-5.5 h-5.5 sm:w-6 sm:h-6 shrink-0" />
+              <span className="text-[11px] sm:text-xs font-black mt-1 truncate max-w-full">
+                {lang === 'fr' ? 'Commando' : 'عسكري'}
+              </span>
             </button>
           )}
 
+          {/* 3. Repas */}
           <button
             onClick={() => setActiveTab('diet')}
-            className={`flex flex-col items-center justify-center py-1 transition-colors min-w-0 ${
-              activeTab === 'diet' ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400'
+            className={`flex flex-col items-center justify-center py-2 px-1 transition-all rounded-xl min-w-0 ${
+              activeTab === 'diet'
+                ? 'bg-emerald-600 text-white shadow-md ring-1 ring-emerald-500'
+                : 'text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-900'
             }`}
           >
-            <CalendarDays className="w-4 h-4 shrink-0" />
-            <span className="text-[8.5px] mt-0.5 truncate max-w-full">{lang === 'darija' ? 'ماكلة' : 'Repas'}</span>
+            <CalendarDays className="w-5.5 h-5.5 sm:w-6 sm:h-6 shrink-0" />
+            <span className="text-[11px] sm:text-xs font-black mt-1 truncate max-w-full">
+              {lang === 'fr' ? 'Repas' : 'ماكلة'}
+            </span>
           </button>
 
+          {/* 4. Objectif */}
           <button
             onClick={() => setActiveTab('goals')}
-            className={`flex flex-col items-center justify-center py-1 transition-colors min-w-0 ${
-              activeTab === 'goals' ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400'
+            className={`flex flex-col items-center justify-center py-2 px-1 transition-all rounded-xl min-w-0 ${
+              activeTab === 'goals'
+                ? 'bg-emerald-600 text-white shadow-md ring-1 ring-emerald-500'
+                : 'text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-900'
             }`}
           >
-            <Target className="w-4 h-4 shrink-0" />
-            <span className="text-[8.5px] mt-0.5 truncate max-w-full">{lang === 'darija' ? 'الهدف' : 'Objectif'}</span>
+            <Target className="w-5.5 h-5.5 sm:w-6 sm:h-6 shrink-0" />
+            <span className="text-[11px] sm:text-xs font-black mt-1 truncate max-w-full">
+              {lang === 'fr' ? 'Objectif' : 'الهدف'}
+            </span>
           </button>
 
+          {/* 5. Suivi */}
           <button
             onClick={() => setActiveTab('progress')}
-            className={`flex flex-col items-center justify-center py-1 transition-colors min-w-0 ${
-              activeTab === 'progress' ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400'
+            className={`flex flex-col items-center justify-center py-2 px-1 transition-all rounded-xl min-w-0 ${
+              activeTab === 'progress'
+                ? 'bg-emerald-600 text-white shadow-md ring-1 ring-emerald-500'
+                : 'text-slate-700 dark:text-slate-300 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-slate-100 dark:hover:bg-slate-900'
             }`}
           >
-            <TrendingUp className="w-4 h-4 shrink-0" />
-            <span className="text-[8.5px] mt-0.5 truncate max-w-full">{lang === 'darija' ? 'ميزان' : 'Suivi'}</span>
+            <TrendingUp className="w-5.5 h-5.5 sm:w-6 sm:h-6 shrink-0" />
+            <span className="text-[11px] sm:text-xs font-black mt-1 truncate max-w-full">
+              {lang === 'fr' ? 'Suivi' : 'ميزان'}
+            </span>
           </button>
         </div>
       </nav>

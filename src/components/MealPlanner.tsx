@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Coffee, Utensils, Apple, Moon, Droplets, Sparkles, CheckCircle2, ShieldCheck, Fish, AlertTriangle, ChevronDown, ChevronUp, HeartPulse } from 'lucide-react';
+import { Coffee, Utensils, Apple, Moon, Droplets, Sparkles, CheckCircle2, ShieldCheck, Fish, AlertTriangle, ChevronDown, ChevronUp, HeartPulse, Download } from 'lucide-react';
 import { DayDietPlan, Language, UserProfile } from '../types';
 import { TRANSLATIONS } from '../utils/translations';
+import { downloadMamaDietDoc } from '../utils/exportMamaDietDoc';
 
 interface Props {
   mealPlans: DayDietPlan[];
@@ -90,6 +91,40 @@ export const MealPlanner: React.FC<Props> = ({ mealPlans, lang, activeProfile })
           </button>
         </div>
       </div>
+
+      {/* Mama Laaziza: Download 2-Week Plan as Word .doc (1 day per page) */}
+      {isMama && (
+        <div className="bg-gradient-to-r from-emerald-950 via-teal-950 to-slate-900 rounded-2xl p-4 sm:p-5 text-white border border-emerald-500/30 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-wider">
+                Word .doc · 1 jour / page
+              </span>
+              <span className="text-xs text-emerald-300 font-semibold">15 Jours complets</span>
+            </div>
+            <h4 className="text-base sm:text-lg font-black text-white">
+              {lang === 'darija' || lang === 'ar'
+                ? 'تحميل برنامج التغذية كاملاً (.doc وورد - صفحة لكل يوم)'
+                : 'Télécharger le Programme Alimentaire Complet (.doc - 1 jour par page)'}
+            </h4>
+            <p className="text-xs text-emerald-100/80 leading-relaxed max-w-xl">
+              {lang === 'darija' || lang === 'ar'
+                ? 'ملف وورد منسق وجاهز للطباعة أو القراءة بالهاتف: كل يوم مخصص في صفحة مستقلة مع الفطور والغداء والكاسكروط والعشاء وشرب الماء.'
+                : 'Document Word officiel avec saut de page automatique (1 jour par page) : Ftour, Ghdha, Kskrout, Dîner et conseils hydratation.'}
+            </p>
+          </div>
+
+          <button
+            onClick={() => downloadMamaDietDoc(lang)}
+            className="shrink-0 px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow-md active:scale-95 transition-all cursor-pointer"
+          >
+            <Download className="w-4 h-4 text-slate-950" />
+            <span>
+              {lang === 'darija' || lang === 'ar' ? 'تحميل الملف الآن (.doc)' : 'Télécharger (.doc)'}
+            </span>
+          </button>
+        </div>
+      )}
 
       {/* Horizontal Day Selector */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar w-full max-w-full min-w-0">

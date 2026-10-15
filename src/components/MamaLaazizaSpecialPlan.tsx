@@ -19,10 +19,12 @@ import {
   Play,
   Pause,
   RotateCcw,
-  Check
+  Check,
+  Download
 } from 'lucide-react';
 import { Language, UserProfile } from '../types';
 import { MamaQuranRadio } from './MamaQuranRadio';
+import { downloadMamaDietDoc } from '../utils/exportMamaDietDoc';
 
 interface Props {
   profile: UserProfile;
@@ -713,6 +715,30 @@ export const MamaLaazizaSpecialPlan: React.FC<Props> = ({ profile, lang, onNavig
                 {lang === 'darija' || lang === 'ar' ? 'عرض جدول 15 يوماً كاملاً ←' : 'Voir tout le menu 15 jours ←'}
               </button>
             )}
+          </div>
+
+          {/* Download Word .doc 1 jour par page */}
+          <div className="bg-gradient-to-r from-emerald-950 via-teal-950 to-slate-900 p-4 rounded-2xl border border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-white shadow-md">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-black text-xs shrink-0 shadow">
+                DOC
+              </div>
+              <div>
+                <h4 className="text-xs sm:text-sm font-extrabold text-white">
+                  {lang === 'darija' || lang === 'ar' ? 'تحميل برنامج 15 يوم كاملاً (.doc - صفحة لكل يوم)' : 'Télécharger le Programme 15 Jours (.doc - 1 jour / page)'}
+                </h4>
+                <p className="text-[11px] text-emerald-200/80">
+                  {lang === 'darija' || lang === 'ar' ? 'ملف وورد منسق وجاهز للقراءة بالهاتف أو الطباعة' : 'Fichier Word structuré avec saut de page pour chaque journée'}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => downloadMamaDietDoc(lang)}
+              className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer shrink-0"
+            >
+              <Download className="w-4 h-4 text-slate-950" />
+              <span>{lang === 'darija' || lang === 'ar' ? 'تحميل (.doc)' : 'Télécharger (.doc)'}</span>
+            </button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
